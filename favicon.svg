@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5C158"/>
+      <stop offset="50%" stop-color="#C59B27"/>
+      <stop offset="100%" stop-color="#9A7418"/>
+    </linearGradient>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1612"/>
+      <stop offset="100%" stop-color="#0D0B09"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)" stroke="url(#gold)" stroke-width="2"/>
+  <!-- Open Bible Pages -->
+  <path d="M12 44V22C12 20 19 18 32 22C45 18 52 20 52 22V44C52 42 45 40 32 44C19 40 12 42 12 44Z" stroke="url(#gold)" stroke-width="2.5" stroke-linejoin="round" fill="rgba(197,155,39,0.08)"/>
+  <path d="M32 22V44" stroke="url(#gold)" stroke-width="2"/>
+  <!-- Cross rising above the Word -->
+  <path d="M32 8V28M25 14H39" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
+</svg>
