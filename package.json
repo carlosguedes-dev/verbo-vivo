@@ -1,0 +1,17 @@
+{
+  "name": "verbo-vivo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Verbo Vivo — Plataforma Cristã Evangélica Completa: Bíblia Sagrada nas 3 versões (ACF, NVI, ARA), Central Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional Diário, Planos de Leitura, Os Cinco Solas, Harpa Cristã e Caderno de Oração.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/integrity.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}

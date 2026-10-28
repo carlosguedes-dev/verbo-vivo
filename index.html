@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verbo Vivo | Bíblia Sagrada (ACF, NVI, ARA), Tira-Dúvidas Bereano & Vida Cristã Evangélica</title>
+    <meta
+      name="description"
+      content="Plataforma Cristã Evangélica Completa: Bíblia Sagrada com os 66 livros canônicos em 3 traduções (ACF, NVI, ARA), Central Tira-Dúvidas Bereano, Refúgio Espiritual, Devocional Diário, Planos de Leitura, Os 5 Solas, Harpa Cristã e Caderno de Oração."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Top Promise Ribbon -->
+    <div class="top-scripture-ribbon">
+      <div class="container ribbon-inner">
+        <span class="ribbon-badge">SOLA SCRIPTURA • 66 LIVROS CANÔNICOS</span>
+        <p id="daily-banner-verse" class="ribbon-verse">
+          "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho." — <strong>Salmos 119:105</strong>
+        </p>
+        <button id="btn-random-promise" class="btn-ribbon-action" type="button" title="Receber um versículo bíblico de edificação">
+          ✦ Palavra para Hoje
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Header & Navigation -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="#biblia" class="brand" id="brand-home">
+          <div class="brand-emblem" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none">
+              <path d="M8 29V14C8 12.5 13 11 20 14C27 11 32 12.5 32 14V29C32 27.5 27 26 20 29C13 26 8 27.5 8 29Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M20 14V29" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M20 4V17M15.5 8.5H24.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">VERBO VIVO</span>
+            <span class="brand-subtitle">Bíblia, Sã Doutrina & Vida Cristã</span>
+          </div>
+        </a>
+
+        <nav class="main-nav" aria-label="Navegação Principal">
+          <button type="button" class="nav-tab active" data-tab="biblia">
+            <span class="nav-icon">📖</span> Bíblia Sagrada
+          </button>
+          <button type="button" class="nav-tab" data-tab="tira-duvidas">
+            <span class="nav-icon">💡</span> Tira-Dúvidas
+          </button>
+          <button type="button" class="nav-tab" data-tab="refugio">
+            <span class="nav-icon">🕊️</span> Refúgio Bíblico
+          </button>
+          <button type="button" class="nav-tab" data-tab="devocional">
+            <span class="nav-icon">🌿</span> Devocional & Planos
+          </button>
+          <button type="button" class="nav-tab" data-tab="doutrina">
+            <span class="nav-icon">🏛️</span> Doutrina & Harpa
+          </button>
+          <button type="button" class="nav-tab" data-tab="secreto">
+            <span class="nav-icon">🙏</span> No Secreto
+            <span id="badge-saved-count" class="nav-counter">0</span>
+          </button>
+        </nav>
+
+        <div class="header-actions">
+          <button type="button" id="btn-theme-toggle" class="btn-icon-only" title="Alternar entre Modo Vigília (Escuro) e Modo Pergaminho (Claro)">
+            <span id="theme-icon">☀️</span>
+            <span id="theme-label" class="theme-label-text">Pergaminho</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Sanctuary Section -->
+    <section class="hero-sanctuary">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="hero-pill">
+            <span class="pulse-dot"></span>
+            FÉ EVANGÉLICA HISTÓRICA • CRISTOCÊNTRICA • 100% BÍBLICA
+          </div>
+          <h1 class="hero-title">
+            Examinando as Escrituras, <span class="gold-gradient-text">firmados na Rocha que é Cristo.</span>
+          </h1>
+          <p class="hero-description">
+            Um santuário digital feito para o cristão estudar os <strong>66 livros da Bíblia Sagrada</strong> em três traduções consagradas (ACF, NVI e ARA), tirar dúvidas teológicas e práticas à luz da Palavra, meditar no devocional diário e cultivar uma vida de oração.
+          </p>
+          <div class="hero-cta-row">
+            <button type="button" class="btn-primary" data-goto-tab="biblia">
+              Abrir a Bíblia Sagrada
+            </button>
+            <button type="button" class="btn-secondary" data-goto-tab="tira-duvidas">
+              Tirar uma Dúvida Bíblica
+            </button>
+            <button type="button" class="btn-ghost" data-goto-tab="refugio">
+              Preciso de uma Palavra Agora
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-stats-card">
+          <div class="stats-card-header">
+            <span class="stats-tag">PANORAMA DA SUA CAMINHADA</span>
+            <span id="bible-progress-percent" class="stats-percent">0.0% da Bíblia</span>
+          </div>
+          <div class="progress-bar-track" aria-label="Progresso de leitura dos 1189 capítulos">
+            <div id="bible-progress-bar" class="progress-bar-fill" style="width: 0%"></div>
+          </div>
+          <div class="stats-metrics-grid">
+            <div class="metric-box">
+              <span class="metric-value">66</span>
+              <span class="metric-label">Livros Canônicos (39 AT + 27 NT)</span>
+            </div>
+            <div class="metric-box">
+              <span id="metric-chapters-read" class="metric-value">0 / 1189</span>
+              <span class="metric-label">Capítulos Concluídos</span>
+            </div>
+            <div class="metric-box">
+              <span id="metric-highlights-count" class="metric-value">0</span>
+              <span class="metric-label">Versículos Grifados & Notas</span>
+            </div>
+            <div class="metric-box">
+              <span id="metric-prayers-answered" class="metric-value">1</span>
+              <span class="metric-label">Orações Respondidas</span>
+            </div>
+          </div>
+          <div class="hero-quick-verse-box">
+            <p class="quick-verse-label">VERSÍCULO EM DESTAQUE</p>
+            <blockquote id="hero-featured-quote" class="quick-verse-quote">
+              "Porque a palavra de Deus é viva e eficaz, e mais penetrante do que espada alguma de dois gumes."
+            </blockquote>
+            <div class="quick-verse-footer">
+              <span id="hero-featured-ref" class="quick-verse-ref">Hebreus 4:12</span>
+              <button type="button" id="btn-open-featured-verse" class="btn-link-gold">
+                Ler no Capítulo →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Application Workspace -->
+    <main class="main-workspace container">
+      <!-- =====================================================================
+           TAB 1: BÍBLIA SAGRADA (LEITOR COMPLETO + COMPARADOR + PANORAMA + BUSCA)
+           ===================================================================== -->
+      <section id="tab-biblia" class="tab-panel active" aria-labelledby="heading-biblia">
+        <div class="bible-control-toolbar">
+          <div class="bible-selectors-group">
+            <div class="control-field">
+              <label for="select-translation">Tradução Bíblica</label>
+              <select id="select-translation" class="select-input">
+                <option value="acf">ACF — Almeida Corrigida Fiel</option>
+                <option value="nvi">NVI — Nova Versão Internacional</option>
+                <option value="aa">ARA — Almeida Revista e Atualizada</option>
+              </select>
+            </div>
+
+            <div class="control-field">
+              <label for="select-testament">Testamento</label>
+              <select id="select-testament" class="select-input">
+                <option value="ALL">Todos os 66 Livros</option>
+                <option value="AT">Antigo Testamento (39)</option>
+                <option value="NT">Novo Testamento (27)</option>
+              </select>
+            </div>
+
+            <div class="control-field">
+              <label for="select-book">Livro da Bíblia</label>
+              <select id="select-book" class="select-input"></select>
+            </div>
+
+            <div class="control-field">
+              <label for="select-chapter">Capítulo</label>
+              <select id="select-chapter" class="select-input"></select>
+            </div>
+          </div>
+
+          <div class="bible-search-and-tools">
+            <div class="bible-search-box">
+              <input
+                type="search"
+                id="input-bible-search"
+                class="search-input"
+                placeholder="Buscar palavra ou referência (ex: João 3:16, Salmos 23, graça)..."
+              />
+              <button type="button" id="btn-bible-search" class="btn-gold-sm">Buscar</button>
+            </div>
+
+            <div class="font-size-controls" aria-label="Tamanho da fonte de leitura">
+              <button type="button" id="btn-font-decrease" class="btn-tool" title="Diminuir fonte">A-</button>
+              <button type="button" id="btn-font-increase" class="btn-tool" title="Aumentar fonte">A+</button>
+              <button type="button" id="btn-toggle-overview" class="btn-tool active" title="Mostrar/Ocultar Panorama Teológico do Livro">
+                📜 Panorama do Livro
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resultados de Busca Bíblica (Oculto por padrão até pesquisar) -->
+        <div id="bible-search-results-panel" class="search-results-drawer hidden">
+          <div class="search-results-header">
+            <h3 id="search-results-title">Resultados da Pesquisa</h3>
+            <button type="button" id="btn-close-search-results" class="btn-ghost-sm">✕ Fechar Pesquisa</button>
+          </div>
+          <div id="bible-search-results-list" class="search-results-grid"></div>
+        </div>
+
+        <!-- Panorama Teológico e Cristocêntrico do Livro Atual -->
+        <aside id="book-overview-card" class="book-overview-banner">
+          <div class="overview-top-row">
+            <div>
+              <span id="overview-division" class="badge-division">Evangelhos</span>
+              <h2 id="overview-book-title" class="overview-title">Evangelho de João</h2>
+            </div>
+            <div class="overview-meta-pills">
+              <span class="meta-pill">✍️ Autor: <strong id="overview-author">Apóstolo João</strong></span>
+              <span class="meta-pill">⏳ Data: <strong id="overview-date">c. 85–90 d.C.</strong></span>
+              <span class="meta-pill">🎯 Tema: <strong id="overview-theme">Jesus Cristo, o Filho de Deus</strong></span>
+            </div>
+          </div>
+          <div class="overview-body-grid">
+            <div class="overview-col">
+              <h4>Resumo do Livro</h4>
+              <p id="overview-summary"></p>
+            </div>
+            <div class="overview-col christ-highlight-col">
+              <h4>✝️ Como Cristo é Revelado Neste Livro</h4>
+              <p id="overview-christ"></p>
+            </div>
+          </div>
+          <div class="overview-key-verse">
+            <span>Versículo-Chave (<strong id="overview-key-ref"></strong>):</span>
+            <em id="overview-key-text"></em>
+          </div>
+        </aside>
+
+        <!-- Área Principal de Leitura do Capítulo -->
+        <div class="bible-reader-layout">
+          <div class="bible-chapter-card">
+            <div class="chapter-header-bar">
+              <div>
+                <span id="reader-translation-badge" class="translation-pill">ACF</span>
+                <h2 id="heading-biblia" class="chapter-main-heading">João 1</h2>
+              </div>
+              <div class="chapter-nav-buttons">
+                <button type="button" id="btn-prev-chapter" class="btn-chapter-nav">← Cap. Anterior</button>
+                <button type="button" id="btn-mark-chapter-read" class="btn-mark-read">
+                  ✓ Marcar Capítulo Lido
+                </button>
+                <button type="button" id="btn-next-chapter" class="btn-chapter-nav">Próximo Cap. →</button>
+              </div>
+            </div>
+
+            <p class="reader-helper-hint">
+              💡 <strong>Dica de Estudo:</strong> Clique em qualquer versículo para <strong>comparar nas 3 traduções (ACF, NVI, ARA)</strong>, grifar com marca-texto, adicionar uma anotação pessoal ou copiar.
+            </p>
+
+            <!-- Lista de Versículos Renderizada com Segurança -->
+            <div id="bible-verses-container" class="verses-list"></div>
+
+            <div class="chapter-footer-bar">
+              <button type="button" id="btn-prev-chapter-bottom" class="btn-chapter-nav">← Capítulo Anterior</button>
+              <button type="button" id="btn-mark-chapter-read-bottom" class="btn-mark-read">
+                ✓ Marcar Capítulo Lido
+              </button>
+              <button type="button" id="btn-next-chapter-bottom" class="btn-chapter-nav">Próximo Capítulo →</button>
+            </div>
+          </div>
+
+          <!-- Painel Lateral de Estudo do Versículo Selecionado (Comparador ACF/NVI/ARA + Marca-Texto + Notas) -->
+          <aside id="verse-study-sidebar" class="verse-inspector-card">
+            <div class="inspector-header">
+              <span class="inspector-badge">ESTUDO & COMPARAÇÃO DE VERSÍCULO</span>
+              <h3 id="inspector-verse-ref">Selecione um versículo</h3>
+            </div>
+
+            <div id="inspector-empty-state" class="inspector-empty">
+              <p>Clique em qualquer versículo ao lado para:</p>
+              <ul>
+                <li>Comparar lado a lado nas versões <strong>ACF</strong>, <strong>NVI</strong> e <strong>ARA</strong></li>
+                <li>Destacar com 4 cores de marca-texto bíblico</li>
+                <li>Escrever suas anotações pessoais de meditação</li>
+                <li>Copiar a citação formatada para compartilhar</li>
+              </ul>
+            </div>
+
+            <div id="inspector-active-content" class="inspector-content hidden">
+              <div class="inspector-actions-row">
+                <button type="button" id="btn-copy-verse" class="btn-gold-sm">📋 Copiar Versículo</button>
+                <span id="copy-feedback" class="copy-toast hidden">Copiado!</span>
+              </div>
+
+              <div class="highlight-palette-section">
+                <span class="section-mini-label">MARCA-TEXTO DE ESTUDO</span>
+                <div class="highlight-buttons-row">
+                  <button type="button" class="btn-color-swatch swatch-gold" data-color="gold" title="Ouro: Promessas & Fé">Promessa</button>
+                  <button type="button" class="btn-color-swatch swatch-blue" data-color="blue" title="Azul: Doutrina & Teologia">Doutrina</button>
+                  <button type="button" class="btn-color-swatch swatch-green" data-color="green" title="Verde: Vida Cristã & Sabedoria">Sabedoria</button>
+                  <button type="button" class="btn-color-swatch swatch-rose" data-color="rose" title="Rosa: Louvor & Adoração">Adoração</button>
+                  <button type="button" id="btn-remove-highlight" class="btn-remove-swatch" title="Remover marcação">Limpar</button>
+                </div>
+              </div>
+
+              <div class="note-editor-section">
+                <label for="textarea-verse-note" class="section-mini-label">ANOTAÇÃO PESSOAL NO VERSÍCULO</label>
+                <textarea
+                  id="textarea-verse-note"
+                  rows="3"
+                  class="note-textarea"
+                  placeholder="Escreva o que o Senhor falou ao seu coração neste versículo..."
+                ></textarea>
+                <button type="button" id="btn-save-verse-note" class="btn-secondary-sm">
+                  Salvar Anotação no Caderno
+                </button>
+              </div>
+
+              <div class="translations-comparison-section">
+                <span class="section-mini-label">COMPARATIVO NAS 3 TRADUÇÕES EVANGÉLICAS</span>
+                <div id="inspector-translations-list" class="comparison-cards-stack"></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 2: CENTRAL TIRA-DÚVIDAS BEREANO & APOLOGÉTICA EVANGÉLICA
+           ===================================================================== -->
+      <section id="tab-tira-duvidas" class="tab-panel" aria-labelledby="heading-tira-duvidas">
+        <div class="section-intro-header">
+          <div>
+            <span class="section-eyebrow">ATOS 17:11 • EXAME BÍBLICO FIEL E ORTODOXO</span>
+            <h2 id="heading-tira-duvidas" class="section-main-title">
+              Central Tira-Dúvidas Bereano & Apologética Cristã
+            </h2>
+            <p class="section-subtitle">
+              Respostas claras, acolhedoras e 100% fundamentadas nas Sagradas Escrituras para as grandes dúvidas sobre Salvação, Vida Cristã, Doutrina, Apologética, Jovens, Família e Eternidade.
+            </p>
+          </div>
+        </div>
+
+        <div class="qa-search-hero">
+          <div class="qa-search-input-wrapper">
+            <input
+              type="search"
+              id="input-qa-search"
+              class="qa-search-input"
+              placeholder="Qual é a sua dúvida? (Ex: 'como ter certeza da salvação', 'pecado imperdoável', 'ansiedade', 'trindade', 'namoro', 'dízimo')..."
+            />
+          </div>
+          <div id="qa-categories-bar" class="qa-category-pills"></div>
+        </div>
+
+        <div id="qa-results-counter" class="qa-counter-bar"></div>
+        <div id="qa-cards-container" class="qa-cards-grid"></div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 3: REFÚGIO BÍBLICO ("PARA ONDE IR QUANDO...")
+           ===================================================================== -->
+      <section id="tab-refugio" class="tab-panel" aria-labelledby="heading-refugio">
+        <div class="section-intro-header">
+          <div>
+            <span class="section-eyebrow">SALMOS 46:1 • SOCORRO BEM PRESENTE NA ANGÚSTIA</span>
+            <h2 id="heading-refugio" class="section-main-title">
+              Refúgio Bíblico: Para Onde Ir Quando...
+            </h2>
+            <p class="section-subtitle">
+              Selecione como está o seu coração neste momento para receber direção pastoral, uma oração guiada e promessas diretas da Palavra de Deus.
+            </p>
+          </div>
+        </div>
+
+        <div id="refugio-states-grid" class="refugio-selector-grid"></div>
+        <div id="refugio-active-detail" class="refugio-detail-panel"></div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 4: DEVOCIONAL DIÁRIO & PLANOS DE LEITURA BÍBLICA
+           ===================================================================== -->
+      <section id="tab-devocional" class="tab-panel" aria-labelledby="heading-devocional">
+        <div class="section-intro-header">
+          <div>
+            <span class="section-eyebrow">MEDITAÇÃO CRISTOCÊNTRICA & CONSTÂNCIA NA PALAVRA</span>
+            <h2 id="heading-devocional" class="section-main-title">
+              Pão Diário & Planos de Leitura Bíblica
+            </h2>
+            <p class="section-subtitle">
+              Alimente sua fé diariamente com exposições bíblicas profundas e acompanhe seu progresso nos planos estruturados de leitura.
+            </p>
+          </div>
+        </div>
+
+        <div class="devotional-selector-bar" id="devotional-tabs-bar"></div>
+        <article id="devotional-active-card" class="devotional-featured-article"></article>
+
+        <hr class="section-divider" />
+
+        <div class="reading-plans-section">
+          <h3 class="subsection-title">📅 Planos de Leitura Bíblica Guiada</h3>
+          <p class="subsection-desc">
+            Marque os dias concluídos ou clique em qualquer leitura para abrir o capítulo diretamente na Bíblia Sagrada.
+          </p>
+          <div id="reading-plans-selector" class="plans-selector-row"></div>
+          <div id="reading-plan-detail" class="plan-days-list"></div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 5: SÃ DOUTRINA (5 SOLAS, CREDO, DICIONÁRIO) & HARPA CRISTÃ
+           ===================================================================== -->
+      <section id="tab-doutrina" class="tab-panel" aria-labelledby="heading-doutrina">
+        <div class="section-intro-header">
+          <div>
+            <span class="section-eyebrow">JUDAS 1:3 • A FÉ QUE UMA VEZ FOI ENTREGUE AOS SANTOS</span>
+            <h2 id="heading-doutrina" class="section-main-title">
+              Pilares da Fé Evangélica, Dicionário Teológico & Harpa Cristã
+            </h2>
+            <p class="section-subtitle">
+              Conheça os Cinco Solas da Reforma Protestante, o Credo Apostólico, os termos fundamentais da teologia bíblica e os hinos históricos que atravessam gerações.
+            </p>
+          </div>
+        </div>
+
+        <!-- Os Cinco Solas -->
+        <h3 class="subsection-title">🏛️ Os Cinco Solas da Fé Evangélica</h3>
+        <div id="cinco-solas-grid" class="solas-cards-grid"></div>
+
+        <!-- Credo Apostólico -->
+        <div class="creed-banner-card">
+          <span class="section-eyebrow">CONFISSÃO HISTÓRICA CRISTÃ</span>
+          <h3>O Credo Apostólico</h3>
+          <div id="credo-apostolico-content" class="creed-paragraphs"></div>
+        </div>
+
+        <!-- Dicionário Teológico Descomplicado -->
+        <div class="dictionary-block">
+          <div class="dictionary-header-row">
+            <div>
+              <h3 class="subsection-title">📘 Dicionário Teológico Descomplicado</h3>
+              <p class="subsection-desc">Entenda de forma clara e bíblica os termos essenciais da fé cristã.</p>
+            </div>
+            <input
+              type="search"
+              id="input-dict-search"
+              class="search-input"
+              placeholder="Filtrar termo (ex: Justificação, Graça, Redenção)..."
+            />
+          </div>
+          <div id="dictionary-terms-grid" class="dictionary-grid"></div>
+        </div>
+
+        <hr class="section-divider" />
+
+        <!-- Harpa Cristã & Hinos Históricos -->
+        <div class="hymnal-block">
+          <h3 class="subsection-title">🎵 Harpa Cristã & Hinologia Evangélica Clássica</h3>
+          <p class="subsection-desc">
+            Louvores consagrados com letras ricas em teologia bíblica para edificar o seu momento devocional e de adoração.
+          </p>
+          <div class="hymnal-layout">
+            <div id="hymns-list-sidebar" class="hymns-selector-list"></div>
+            <div id="hymn-viewer-card" class="hymn-lyrics-card"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 6: NO SECRETO (MURAL DE ORAÇÃO PESSOAL & CADERNO DE VERSÍCULOS)
+           ===================================================================== -->
+      <section id="tab-secreto" class="tab-panel" aria-labelledby="heading-secreto">
+        <div class="section-intro-header">
+          <div>
+            <span class="section-eyebrow">MATEUS 6:6 • ORA A TEU PAI QUE ESTÁ EM SECRETO</span>
+            <h2 id="heading-secreto" class="section-main-title">
+              No Secreto: Caderno de Oração & Estudos Pessoais
+            </h2>
+            <p class="section-subtitle">
+              Registre seus motivos de intercessão, celebre as orações respondidas pelo Senhor e consulte todos os versículos que você grifou ou anotou. Seus dados ficam salvos com privacidade no seu próprio navegador.
+            </p>
+          </div>
+        </div>
+
+        <div class="secreto-two-columns">
+          <!-- Coluna 1: Caderno de Oração -->
+          <div class="prayer-journal-column">
+            <div class="card-panel">
+              <h3>🙏 Novo Pedido ou Motivo de Oração</h3>
+              <form id="form-new-prayer" class="prayer-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="prayer-title">Motivo / Pessoa / Causa</label>
+                    <input
+                      type="text"
+                      id="prayer-title"
+                      required
+                      placeholder="Ex: Saúde da minha mãe, Direção profissional..."
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="prayer-category">Área</label>
+                    <select id="prayer-category">
+                      <option value="Família">Família</option>
+                      <option value="Santificação">Santificação & Vida Espiritual</option>
+                      <option value="Saúde & Consolo">Saúde & Consolo</option>
+                      <option value="Conversão">Conversão de Amigos/Parentes</option>
+                      <option value="Igreja & Missões">Igreja & Missões</option>
+                      <option value="Gratidão & Direção">Gratidão & Direção</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="prayer-desc">Oração / Detalhes</label>
+                  <textarea
+                    id="prayer-desc"
+                    rows="2"
+                    required
+                    placeholder="Derrame seu coração diante do Senhor..."
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="prayer-promise">Promessa Bíblica (Opcional)</label>
+                  <input
+                    type="text"
+                    id="prayer-promise"
+                    placeholder="Ex: Filipenses 4:6-7 / Jeremias 33:3"
+                  />
+                </div>
+                <button type="submit" class="btn-primary">Registrar no Altar de Oração</button>
+              </form>
+            </div>
+
+            <div class="prayer-lists-wrapper">
+              <h3 class="subsection-title">🔥 Clamor Contínuo &Testemunhos de Resposta</h3>
+              <div id="prayer-items-container" class="prayer-cards-stack"></div>
+            </div>
+          </div>
+
+          <!-- Coluna 2: Caderno de Versículos Grifados & Notas -->
+          <div class="saved-verses-column">
+            <div class="saved-verses-header">
+              <h3>✍️ Meu Caderno Bíblico (Grifos & Anotações)</h3>
+              <p>Todos os versículos que você destacou ou comentou durante a leitura da Bíblia aparecem aqui.</p>
+            </div>
+            <div id="saved-studies-container" class="saved-studies-stack"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer Cristocêntrico -->
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand-col">
+          <span class="footer-title">✝️ VERBO VIVO</span>
+          <p>
+            Plataforma Cristã Evangélica dedicada à exposição fiel das Sagradas Escrituras, edificação da Igreja e glória exclusiva do nosso Senhor e Salvador Jesus Cristo.
+          </p>
+          <p class="solas-motto">
+            <em>Sola Scriptura • Solus Christus • Sola Gratia • Sola Fide • Soli Deo Gloria</em>
+          </p>
+        </div>
+        <div class="footer-links-col">
+          <h4>Acesso Rápido</h4>
+          <ul>
+            <li><a href="#biblia" data-goto-tab="biblia">Bíblia Sagrada (66 Livros)</a></li>
+            <li><a href="#tira-duvidas" data-goto-tab="tira-duvidas">Tira-Dúvidas Bereano</a></li>
+            <li><a href="#refugio" data-goto-tab="refugio">Refúgio Bíblico</a></li>
+            <li><a href="#devocional" data-goto-tab="devocional">Devocional & Planos</a></li>
+            <li><a href="#doutrina" data-goto-tab="doutrina">Cinco Solas & Harpa Cristã</a></li>
+          </ul>
+        </div>
+        <div class="footer-credits-col">
+          <h4>Engenharia & Propósito</h4>
+          <p>
+            Desenvolvido com reverência, excelência técnica e amor à Palavra por
+            <a href="https://github.com/carlosguedes-dev" target="_blank" rel="noopener noreferrer"><strong>Carlos Guedes</strong></a>.
+          </p>
+          <p class="footer-scripture-seal">
+            "Porque dele e por ele, e para ele, são todas as coisas; glória, pois, a ele eternamente. Amém." — <strong>Romanos 11:36</strong>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
