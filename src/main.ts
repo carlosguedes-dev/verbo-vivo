@@ -6,7 +6,7 @@ import type {
   QACategory,
   ScriptureReference
 } from './types';
-import { BOOKS_METADATA } from './data/books-metadata';
+import { BOOKS_METADATA, BIBLE_TRANSLATIONS } from './data/books-metadata';
 import { QA_CATEGORIES } from './data/tira-duvidas';
 import { REFUGIO_BIBLICO_DATA } from './data/refugio-biblico';
 import { DEVOCIONAIS_DATA } from './data/devocionais';
@@ -22,6 +22,13 @@ import { searchQuestions } from './services/qa-engine';
 import { storageService } from './services/storage-service';
 
 const PROMISES_POOL: ScriptureReference[] = [
+  {
+    bookAbbrev: 'sl',
+    chapter: 119,
+    verse: 105,
+    label: 'Salmos 119:105',
+    quote: 'Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.'
+  },
   {
     bookAbbrev: 'hb',
     chapter: 4,
@@ -58,13 +65,6 @@ const PROMISES_POOL: ScriptureReference[] = [
     quote: 'O Senhor é o meu pastor, nada me faltará.'
   },
   {
-    bookAbbrev: 'fp',
-    chapter: 4,
-    verse: 13,
-    label: 'Filipenses 4:13',
-    quote: 'Posso todas as coisas em Cristo que me fortalece.'
-  },
-  {
     bookAbbrev: 'is',
     chapter: 41,
     verse: 10,
@@ -91,6 +91,7 @@ class VerboVivoApp {
 
   private currentQACategory: QACategory | 'TODAS' = 'TODAS';
   private currentQAQuery = '';
+  private expandedQAIds: Set<string> = new Set(['certeza-da-salvacao']);
   private activeRefugioId = REFUGIO_BIBLICO_DATA[0].id;
   private activeDevotionalId = DEVOCIONAIS_DATA[0].id;
   private activePlanId = PLANOS_LEITURA_DATA[0].id;
@@ -100,21 +101,19 @@ class VerboVivoApp {
   public async init(): Promise<void> {
     this.initTheme();
     this.bindGlobalNavigation();
-    this.bindPromiseRibbon();
-    this.updateHeroMetrics();
+    this.bindHeroPromise();
+    this.updateCounters();
 
-    // Renderiza módulos estáticos/interativos imediatamente
     this.initQASection();
     this.initRefugioSection();
     this.initDevotionalAndPlansSection();
     this.initDoutrinaAndHarpaSection();
     this.initSecretoSection();
 
-    // Carrega a Bíblia Sagrada e inicializa o leitor
     await this.initBibleReader();
   }
 
-  // ─── TEMA (VIGÍLIA ESCURO / PERGAMINHO CLARO) ────────────────────────
+  // ─── TEMA (ESCURO / CLARO) ───────────────────────────────────────────
   private initTheme(): void {
     const savedTheme = storageService.getTheme();
     this.applyTheme(savedTheme);
@@ -135,15 +134,15 @@ class VerboVivoApp {
     if (icon && label) {
       if (theme === 'dark') {
         icon.textContent = '☀️';
-        label.textContent = 'Modo Pergaminho';
+        label.textContent = 'Claro';
       } else {
         icon.textContent = '🌙';
-        label.textContent = 'Modo Vigília';
+        label.textContent = 'Escuro';
       }
     }
   }
 
-  // ─── NAVEGAÇÃO ENTRE ABAS ────────────────────────────────────────────
+  // ─── NAVEGAÇÃO ENTRE ABAS E SUBVIEWS ─────────────────────────────────
   private bindGlobalNavigation(): void {
     const navButtons = document.querySelectorAll<HTMLButtonElement>('.nav-tab');
     navButtons.forEach((btn) => {
@@ -153,15 +152,26 @@ class VerboVivoApp {
       });
     });
 
-    const gotoButtons = document.querySelectorAll<HTMLElement>('[data-goto-tab]');
-    gotoButtons.forEach((el) => {
-      el.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        const target = el.getAttribute('data-goto-tab');
-        if (target) {
-          this.switchTab(target);
-          document.querySelector('.main-workspace')?.scrollIntoView({ behavior: 'smooth' });
-        }
+    // Subviews de Devocional & Planos
+    document.querySelectorAll<HTMLButtonElement>('[data-devo-view]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const view = btn.getAttribute('data-devo-view');
+        document.querySelectorAll('[data-devo-view]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('devo-subview-meditacao')?.classList.toggle('hidden', view !== 'meditacao');
+        document.getElementById('devo-subview-planos')?.classList.toggle('hidden', view !== 'planos');
+      });
+    });
+
+    // Subviews de Doutrina, Dicionário & Harpa
+    document.querySelectorAll<HTMLButtonElement>('[data-dout-view]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const view = btn.getAttribute('data-dout-view');
+        document.querySelectorAll('[data-dout-view]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('dout-subview-solas')?.classList.toggle('hidden', view !== 'solas');
+        document.getElementById('dout-subview-dicionario')?.classList.toggle('hidden', view !== 'dicionario');
+        document.getElementById('dout-subview-harpa')?.classList.toggle('hidden', view !== 'harpa');
       });
     });
   }
@@ -175,10 +185,9 @@ class VerboVivoApp {
     });
   }
 
-  // ─── PROMESSA DO DIA & MÉTRICAS DO HERO ──────────────────────────────
-  private bindPromiseRibbon(): void {
+  // ─── PROMESSA NO HERO MINIMALISTA ────────────────────────────────────
+  private bindHeroPromise(): void {
     const btnRandom = document.getElementById('btn-random-promise');
-    const bannerVerse = document.getElementById('daily-banner-verse');
     const featuredQuote = document.getElementById('hero-featured-quote');
     const featuredRef = document.getElementById('hero-featured-ref');
     const btnOpenFeatured = document.getElementById('btn-open-featured-verse');
@@ -187,9 +196,6 @@ class VerboVivoApp {
     btnRandom?.addEventListener('click', () => {
       idx = (idx + 1) % PROMISES_POOL.length;
       this.featuredPromise = PROMISES_POOL[idx];
-      if (bannerVerse) {
-        bannerVerse.textContent = `"${this.featuredPromise.quote}" — ${this.featuredPromise.label}`;
-      }
       if (featuredQuote) featuredQuote.textContent = `"${this.featuredPromise.quote}"`;
       if (featuredRef) featuredRef.textContent = this.featuredPromise.label;
     });
@@ -203,31 +209,23 @@ class VerboVivoApp {
     });
   }
 
-  private updateHeroMetrics(): void {
+  private updateCounters(): void {
     const readChapters = storageService.getReadChapters().length;
-    const totalChapters = 1189;
-    const pct = Math.min(100, (readChapters / totalChapters) * 100).toFixed(1);
-
     const studiesCount = storageService.getVerseStudies().length;
-    const prayersAnswered = storageService.getPrayers().filter((p) => p.answered).length;
     const totalPrayers = storageService.getPrayers().length;
 
-    const elPct = document.getElementById('bible-progress-percent');
-    const elBar = document.getElementById('bible-progress-bar');
-    const elChapters = document.getElementById('metric-chapters-read');
-    const elHighlights = document.getElementById('metric-highlights-count');
-    const elPrayers = document.getElementById('metric-prayers-answered');
+    const elProgress = document.getElementById('bible-progress-label');
     const elBadge = document.getElementById('badge-saved-count');
 
-    if (elPct) elPct.textContent = `${pct}% da Bíblia`;
-    if (elBar) elBar.style.width = `${pct}%`;
-    if (elChapters) elChapters.textContent = `${readChapters} / ${totalChapters}`;
-    if (elHighlights) elHighlights.textContent = String(studiesCount);
-    if (elPrayers) elPrayers.textContent = String(prayersAnswered);
-    if (elBadge) elBadge.textContent = String(studiesCount + totalPrayers);
+    if (elProgress) {
+      elProgress.textContent = `${readChapters} de 1189 capítulos lidos`;
+    }
+    if (elBadge) {
+      elBadge.textContent = String(studiesCount + totalPrayers);
+    }
   }
 
-  // ─── TAB 1: LEITOR BÍBLICO COMPLETO ──────────────────────────────────
+  // ─── TAB 1: LEITOR BÍBLICO EDITORIAL ─────────────────────────────────
   private async initBibleReader(): Promise<void> {
     const selectTranslation = document.getElementById('select-translation') as HTMLSelectElement | null;
     const selectTestament = document.getElementById('select-testament') as HTMLSelectElement | null;
@@ -249,6 +247,7 @@ class VerboVivoApp {
       if (selectBook && selectBook.value) {
         this.currentBookAbbrev = selectBook.value;
         this.currentChapter = 1;
+        this.closeVerseInspector();
         this.populateChapterSelect();
         void this.renderCurrentChapter();
       }
@@ -257,32 +256,28 @@ class VerboVivoApp {
     selectBook?.addEventListener('change', () => {
       this.currentBookAbbrev = selectBook.value;
       this.currentChapter = 1;
-      this.selectedVerseNumber = null;
+      this.closeVerseInspector();
       this.populateChapterSelect();
       void this.renderCurrentChapter();
     });
 
     selectChapter?.addEventListener('change', () => {
       this.currentChapter = parseInt(selectChapter.value, 10) || 1;
-      this.selectedVerseNumber = null;
+      this.closeVerseInspector();
       void this.renderCurrentChapter();
     });
 
-    // Botões de navegação de capítulo e leitura concluída
     document.getElementById('btn-prev-chapter')?.addEventListener('click', () => this.stepChapter(-1));
     document.getElementById('btn-next-chapter')?.addEventListener('click', () => this.stepChapter(1));
     document.getElementById('btn-prev-chapter-bottom')?.addEventListener('click', () => this.stepChapter(-1));
     document.getElementById('btn-next-chapter-bottom')?.addEventListener('click', () => this.stepChapter(1));
 
-    const toggleReadHandler = () => {
+    document.getElementById('btn-mark-chapter-read')?.addEventListener('click', () => {
       storageService.toggleChapterRead(this.currentBookAbbrev, this.currentChapter);
       this.updateChapterReadButtons();
-      this.updateHeroMetrics();
-    };
-    document.getElementById('btn-mark-chapter-read')?.addEventListener('click', toggleReadHandler);
-    document.getElementById('btn-mark-chapter-read-bottom')?.addEventListener('click', toggleReadHandler);
+      this.updateCounters();
+    });
 
-    // Tamanho da fonte e Panorama do Livro
     document.getElementById('btn-font-decrease')?.addEventListener('click', () => {
       this.fontSize = Math.max(15, this.fontSize - 2);
       storageService.setFontSize(this.fontSize);
@@ -301,7 +296,6 @@ class VerboVivoApp {
       btnOverview.classList.toggle('active');
     });
 
-    // Busca Bíblica Global
     const inputSearch = document.getElementById('input-bible-search') as HTMLInputElement | null;
     const btnSearch = document.getElementById('btn-bible-search');
     const runSearch = () => {
@@ -315,9 +309,7 @@ class VerboVivoApp {
       document.getElementById('bible-search-results-panel')?.classList.add('hidden');
     });
 
-    // Ações do Inspetor Lateral de Versículo
     this.bindVerseInspectorEvents();
-
     await this.reloadTranslationAndRender();
   }
 
@@ -340,7 +332,7 @@ class VerboVivoApp {
     for (const book of filtered) {
       const opt = document.createElement('option');
       opt.value = book.abbrev;
-      opt.textContent = `${book.name} (${book.chapters.length} cap.)`;
+      opt.textContent = book.name;
       selectBook.appendChild(opt);
     }
 
@@ -363,7 +355,7 @@ class VerboVivoApp {
     for (let i = 1; i <= total; i++) {
       const opt = document.createElement('option');
       opt.value = String(i);
-      opt.textContent = `Capítulo ${i}`;
+      opt.textContent = `Cap. ${i}`;
       selectChapter.appendChild(opt);
     }
 
@@ -391,7 +383,7 @@ class VerboVivoApp {
       this.populateBookSelect();
     }
 
-    this.selectedVerseNumber = null;
+    this.closeVerseInspector();
     this.populateChapterSelect();
     void this.renderCurrentChapter();
   }
@@ -409,7 +401,6 @@ class VerboVivoApp {
     setEl('overview-book-title', meta.name);
     setEl('overview-author', meta.author);
     setEl('overview-date', meta.dateWritten);
-    setEl('overview-theme', meta.theme);
     setEl('overview-summary', meta.summary);
     setEl('overview-christ', meta.christConnection);
     setEl('overview-key-ref', meta.keyVerseRef);
@@ -418,16 +409,11 @@ class VerboVivoApp {
 
   private updateChapterReadButtons(): void {
     const isRead = storageService.isChapterRead(this.currentBookAbbrev, this.currentChapter);
-    const btns = [
-      document.getElementById('btn-mark-chapter-read'),
-      document.getElementById('btn-mark-chapter-read-bottom')
-    ];
-
-    btns.forEach((btn) => {
-      if (!btn) return;
+    const btn = document.getElementById('btn-mark-chapter-read');
+    if (btn) {
       btn.classList.toggle('is-read', isRead);
-      btn.textContent = isRead ? '✓ Capítulo Concluído' : '✓ Marcar Capítulo Lido';
-    });
+      btn.textContent = isRead ? '✓ Lido' : '✓ Marcar Lido';
+    }
   }
 
   private applyVerseFontSize(): void {
@@ -444,9 +430,10 @@ class VerboVivoApp {
     const book = this.booksList.find((b) => b.abbrev === this.currentBookAbbrev);
     if (!book) return;
 
+    const transMeta = BIBLE_TRANSLATIONS.find((t) => t.id === this.currentTranslation);
     const badge = document.getElementById('reader-translation-badge');
     const heading = document.getElementById('heading-biblia');
-    if (badge) badge.textContent = this.currentTranslation === 'aa' ? 'ARA' : this.currentTranslation.toUpperCase();
+    if (badge) badge.textContent = transMeta ? `${transMeta.code} • ${transMeta.name}` : 'ACF';
     if (heading) heading.textContent = `${book.name} ${this.currentChapter}`;
 
     const verses = await bibleService.getChapterVerses(
@@ -492,12 +479,16 @@ class VerboVivoApp {
       if (existingStudy?.note) {
         const noteTag = document.createElement('span');
         noteTag.className = 'verse-note-indicator';
-        noteTag.textContent = '📝 Nota';
+        noteTag.textContent = 'Nota';
         row.appendChild(noteTag);
       }
 
       row.addEventListener('click', () => {
-        void this.selectVerseForInspection(verseNumber);
+        if (this.selectedVerseNumber === verseNumber) {
+          this.closeVerseInspector();
+        } else {
+          void this.selectVerseForInspection(verseNumber);
+        }
       });
 
       container.appendChild(row);
@@ -506,6 +497,13 @@ class VerboVivoApp {
     if (this.selectedVerseNumber) {
       await this.selectVerseForInspection(this.selectedVerseNumber);
     }
+  }
+
+  private closeVerseInspector(): void {
+    this.selectedVerseNumber = null;
+    document.querySelectorAll('.verse-row').forEach((row) => row.classList.remove('selected'));
+    document.getElementById('verse-study-sidebar')?.classList.add('hidden');
+    document.getElementById('bible-reader-grid')?.classList.remove('has-inspector');
   }
 
   private async selectVerseForInspection(verseNumber: number): Promise<void> {
@@ -517,14 +515,14 @@ class VerboVivoApp {
     const book = this.booksList.find((b) => b.abbrev === this.currentBookAbbrev);
     if (!book) return;
 
-    const emptyState = document.getElementById('inspector-empty-state');
-    const activeContent = document.getElementById('inspector-active-content');
+    const sidebar = document.getElementById('verse-study-sidebar');
+    const stageGrid = document.getElementById('bible-reader-grid');
     const refTitle = document.getElementById('inspector-verse-ref');
     const noteInput = document.getElementById('textarea-verse-note') as HTMLTextAreaElement | null;
     const comparisonList = document.getElementById('inspector-translations-list');
 
-    emptyState?.classList.add('hidden');
-    activeContent?.classList.remove('hidden');
+    sidebar?.classList.remove('hidden');
+    stageGrid?.classList.add('has-inspector');
 
     if (refTitle) {
       refTitle.textContent = `${book.name} ${this.currentChapter}:${verseNumber}`;
@@ -536,7 +534,6 @@ class VerboVivoApp {
       noteInput.value = existingStudy?.note || '';
     }
 
-    // Carrega comparativo nas 3 traduções (ACF, NVI, ARA)
     const comparisons = await bibleService.compareVerseAcrossTranslations(
       this.currentBookAbbrev,
       this.currentChapter,
@@ -565,7 +562,10 @@ class VerboVivoApp {
   }
 
   private bindVerseInspectorEvents(): void {
-    // Marca-texto em 4 cores
+    document.getElementById('btn-close-inspector')?.addEventListener('click', () => {
+      this.closeVerseInspector();
+    });
+
     document.querySelectorAll<HTMLButtonElement>('.btn-color-swatch').forEach((btn) => {
       btn.addEventListener('click', async () => {
         const color = btn.getAttribute('data-color') as HighlightColor | null;
@@ -574,7 +574,6 @@ class VerboVivoApp {
       });
     });
 
-    // Limpar marcação
     document.getElementById('btn-remove-highlight')?.addEventListener('click', async () => {
       if (!this.selectedVerseNumber) return;
       const studyId = `${this.currentBookAbbrev}:${this.currentChapter}:${this.selectedVerseNumber}`;
@@ -583,10 +582,9 @@ class VerboVivoApp {
       if (noteInput) noteInput.value = '';
       await this.renderCurrentChapter();
       this.renderSavedStudiesList();
-      this.updateHeroMetrics();
+      this.updateCounters();
     });
 
-    // Salvar anotação
     document.getElementById('btn-save-verse-note')?.addEventListener('click', async () => {
       if (!this.selectedVerseNumber) return;
       const studyId = `${this.currentBookAbbrev}:${this.currentChapter}:${this.selectedVerseNumber}`;
@@ -594,7 +592,6 @@ class VerboVivoApp {
       await this.persistCurrentVerseStudy(existing?.color || 'gold');
     });
 
-    // Copiar versículo
     document.getElementById('btn-copy-verse')?.addEventListener('click', async () => {
       if (!this.selectedVerseNumber) return;
       const book = this.booksList.find((b) => b.abbrev === this.currentBookAbbrev);
@@ -612,7 +609,7 @@ class VerboVivoApp {
         toast?.classList.remove('hidden');
         setTimeout(() => toast?.classList.add('hidden'), 2000);
       } catch {
-        // Fallback silencioso
+        // Silencioso
       }
     });
   }
@@ -646,7 +643,7 @@ class VerboVivoApp {
 
     await this.renderCurrentChapter();
     this.renderSavedStudiesList();
-    this.updateHeroMetrics();
+    this.updateCounters();
   }
 
   private async executeBibleSearch(query: string): Promise<void> {
@@ -671,8 +668,8 @@ class VerboVivoApp {
 
     title.textContent =
       hits.length > 0
-        ? `Encontrados ${hits.length} versículos para "${trimmed}"`
-        : `Nenhum resultado encontrado para "${trimmed}". Tente outra palavra ou referência (ex: João 3:16).`;
+        ? `${hits.length} versículos encontrados para "${trimmed}"`
+        : `Nenhum resultado encontrado para "${trimmed}".`;
 
     for (const hit of hits) {
       const card = document.createElement('div');
@@ -724,7 +721,7 @@ class VerboVivoApp {
     }
   }
 
-  // ─── TAB 2: CENTRAL TIRA-DÚVIDAS BEREANO ─────────────────────────────
+  // ─── TAB 2: TIRA-DÚVIDAS BEREANO (ACCORDION CARDS) ───────────────────
   private initQASection(): void {
     const categoriesBar = document.getElementById('qa-categories-bar');
     const searchInput = document.getElementById('input-qa-search') as HTMLInputElement | null;
@@ -737,7 +734,7 @@ class VerboVivoApp {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `qa-cat-btn ${cat === this.currentQACategory ? 'active' : ''}`;
-        btn.textContent = cat === 'TODAS' ? 'Todas as Categorias' : cat;
+        btn.textContent = cat === 'TODAS' ? 'Todas' : cat;
         btn.addEventListener('click', () => {
           this.currentQACategory = cat;
           categoriesBar.querySelectorAll('.qa-cat-btn').forEach((b) => b.classList.remove('active'));
@@ -763,26 +760,45 @@ class VerboVivoApp {
 
     const results = searchQuestions(this.currentQAQuery, this.currentQACategory);
     if (counter) {
-      counter.textContent = `Exibindo ${results.length} ${results.length === 1 ? 'resposta fundamentada nas Escrituras' : 'respostas fundamentadas nas Escrituras'}`;
+      counter.textContent = `${results.length} ${results.length === 1 ? 'pergunta encontrada' : 'perguntas encontradas'} — clique em qualquer pergunta para ler o estudo completo`;
     }
 
     container.textContent = '';
 
     for (const qa of results) {
+      const isExpanded = this.expandedQAIds.has(qa.id) || this.currentQAQuery.trim().length > 2;
       const card = document.createElement('article');
-      card.className = 'qa-card';
+      card.className = `qa-card ${isExpanded ? 'expanded' : ''}`;
 
+      const header = document.createElement('div');
+      header.className = 'qa-card-header';
+
+      const headerLeft = document.createElement('div');
       const catBadge = document.createElement('span');
-      catBadge.className = 'qa-card-category';
+      catBadge.className = 'eyebrow-tag';
       catBadge.textContent = qa.category;
 
       const qTitle = document.createElement('h3');
       qTitle.className = 'qa-card-question';
       qTitle.textContent = qa.question;
 
-      const shortBox = document.createElement('div');
-      shortBox.className = 'qa-short-answer';
-      shortBox.textContent = `Síntese Bíblica: ${qa.shortAnswer}`;
+      const shortP = document.createElement('p');
+      shortP.className = 'qa-short-answer';
+      shortP.textContent = qa.shortAnswer;
+
+      headerLeft.appendChild(catBadge);
+      headerLeft.appendChild(qTitle);
+      headerLeft.appendChild(shortP);
+
+      const toggleIndicator = document.createElement('span');
+      toggleIndicator.className = 'qa-toggle-indicator';
+      toggleIndicator.textContent = isExpanded ? 'Fechar ↑' : 'Ler mais ↓';
+
+      header.appendChild(headerLeft);
+      header.appendChild(toggleIndicator);
+
+      const expandableBody = document.createElement('div');
+      expandableBody.className = `qa-expandable-body ${isExpanded ? '' : 'hidden'}`;
 
       const detailedDiv = document.createElement('div');
       detailedDiv.className = 'qa-detailed-paragraphs';
@@ -795,7 +811,7 @@ class VerboVivoApp {
       const practicalBox = document.createElement('div');
       practicalBox.className = 'qa-practical-box';
       const strongLabel = document.createElement('strong');
-      strongLabel.textContent = '🧭 Aplicação Pastoral Prática: ';
+      strongLabel.textContent = 'Aplicação Prática: ';
       const spanPrac = document.createElement('span');
       spanPrac.textContent = qa.practicalApplication;
       practicalBox.appendChild(strongLabel);
@@ -807,13 +823,24 @@ class VerboVivoApp {
         refsContainer.appendChild(this.createScriptureRefCard(ref));
       }
 
-      card.appendChild(catBadge);
-      card.appendChild(qTitle);
-      card.appendChild(shortBox);
-      card.appendChild(detailedDiv);
-      card.appendChild(practicalBox);
-      card.appendChild(refsContainer);
+      expandableBody.appendChild(detailedDiv);
+      expandableBody.appendChild(practicalBox);
+      expandableBody.appendChild(refsContainer);
 
+      header.addEventListener('click', () => {
+        const nowOpen = expandableBody.classList.toggle('hidden');
+        const expanded = !nowOpen;
+        card.classList.toggle('expanded', expanded);
+        toggleIndicator.textContent = expanded ? 'Fechar ↑' : 'Ler mais ↓';
+        if (expanded) {
+          this.expandedQAIds.add(qa.id);
+        } else {
+          this.expandedQAIds.delete(qa.id);
+        }
+      });
+
+      card.appendChild(header);
+      card.appendChild(expandableBody);
       container.appendChild(card);
     }
   }
@@ -835,9 +862,10 @@ class VerboVivoApp {
 
     const openBtn = document.createElement('button');
     openBtn.type = 'button';
-    openBtn.className = 'btn-link-gold';
+    openBtn.className = 'btn-inline-link';
     openBtn.textContent = 'Abrir na Bíblia →';
-    openBtn.addEventListener('click', () => {
+    openBtn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
       void this.navigateToScripture(ref.bookAbbrev, ref.chapter, ref.verse);
     });
 
@@ -848,7 +876,7 @@ class VerboVivoApp {
     return refCard;
   }
 
-  // ─── TAB 3: REFÚGIO BÍBLICO ("PARA ONDE IR QUANDO...") ───────────────
+  // ─── TAB 3: REFÚGIO BÍBLICO ──────────────────────────────────────────
   private initRefugioSection(): void {
     const grid = document.getElementById('refugio-states-grid');
     if (!grid) return;
@@ -895,7 +923,7 @@ class VerboVivoApp {
     title.textContent = item.stateTitle;
 
     const sub = document.createElement('p');
-    sub.className = 'section-subtitle';
+    sub.className = 'page-desc';
     sub.textContent = item.subtitle;
 
     const grid = document.createElement('div');
@@ -904,7 +932,7 @@ class VerboVivoApp {
     const boxWord = document.createElement('div');
     boxWord.className = 'refugio-box';
     const h4Word = document.createElement('h4');
-    h4Word.textContent = '🕊️ Palavra Pastoral ao Seu Coração';
+    h4Word.textContent = 'Palavra Pastoral';
     const pWord = document.createElement('p');
     pWord.textContent = item.pastoralWord;
     boxWord.appendChild(h4Word);
@@ -913,7 +941,7 @@ class VerboVivoApp {
     const boxPrayer = document.createElement('div');
     boxPrayer.className = 'refugio-box';
     const h4Prayer = document.createElement('h4');
-    h4Prayer.textContent = '🙏 Oração Guiada pelas Escrituras';
+    h4Prayer.textContent = 'Oração Guiada';
     const pPrayer = document.createElement('p');
     pPrayer.style.fontStyle = 'italic';
     pPrayer.textContent = `"${item.guidedPrayer}"`;
@@ -935,7 +963,7 @@ class VerboVivoApp {
     detail.appendChild(refsRow);
   }
 
-  // ─── TAB 4: DEVOCIONAL DIÁRIO & PLANOS DE LEITURA ────────────────────
+  // ─── TAB 4: DEVOCIONAL & PLANOS DE LEITURA ───────────────────────────
   private initDevotionalAndPlansSection(): void {
     const devoBar = document.getElementById('devotional-tabs-bar');
     if (devoBar) {
@@ -944,7 +972,7 @@ class VerboVivoApp {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `qa-cat-btn ${devo.id === this.activeDevotionalId ? 'active' : ''}`;
-        btn.textContent = `Meditação ${idx + 1}: ${devo.theme}`;
+        btn.textContent = `${idx + 1}. ${devo.theme}`;
         btn.addEventListener('click', () => {
           this.activeDevotionalId = devo.id;
           devoBar.querySelectorAll('.qa-cat-btn').forEach((b) => b.classList.remove('active'));
@@ -962,7 +990,7 @@ class VerboVivoApp {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `qa-cat-btn ${plan.id === this.activePlanId ? 'active' : ''}`;
-        btn.textContent = `${plan.title} (${plan.durationLabel})`;
+        btn.textContent = plan.title;
         btn.addEventListener('click', () => {
           this.activePlanId = plan.id;
           plansSelector.querySelectorAll('.qa-cat-btn').forEach((b) => b.classList.remove('active'));
@@ -985,7 +1013,7 @@ class VerboVivoApp {
     card.textContent = '';
 
     const badge = document.createElement('span');
-    badge.className = 'qa-card-category';
+    badge.className = 'eyebrow-tag';
     badge.textContent = devo.theme;
 
     const title = document.createElement('h3');
@@ -997,7 +1025,7 @@ class VerboVivoApp {
     const contextBox = document.createElement('div');
     contextBox.className = 'devo-context-box';
     const ctxStrong = document.createElement('strong');
-    ctxStrong.textContent = '📜 Contexto Bíblico e Histórico: ';
+    ctxStrong.textContent = 'Contexto Histórico: ';
     const ctxText = document.createElement('span');
     ctxText.textContent = devo.historicalContext;
     contextBox.appendChild(ctxStrong);
@@ -1014,15 +1042,16 @@ class VerboVivoApp {
     const challengeBox = document.createElement('div');
     challengeBox.className = 'qa-practical-box';
     const chStrong = document.createElement('strong');
-    chStrong.textContent = '🎯 Desafio Prático para Hoje: ';
+    chStrong.textContent = 'Prática para Hoje: ';
     const chSpan = document.createElement('span');
     chSpan.textContent = devo.practicalChallenge;
     challengeBox.appendChild(chStrong);
     challengeBox.appendChild(chSpan);
 
-    const prayerBox = document.createElement('div');
-    prayerBox.className = 'qa-short-answer';
-    prayerBox.textContent = `🙏 Oração: "${devo.prayer}"`;
+    const prayerP = document.createElement('p');
+    prayerP.style.fontStyle = 'italic';
+    prayerP.style.color = 'var(--text-secondary)';
+    prayerP.textContent = `Oração: "${devo.prayer}"`;
 
     card.appendChild(badge);
     card.appendChild(title);
@@ -1030,7 +1059,7 @@ class VerboVivoApp {
     card.appendChild(contextBox);
     card.appendChild(reflectionDiv);
     card.appendChild(challengeBox);
-    card.appendChild(prayerBox);
+    card.appendChild(prayerP);
   }
 
   private renderActiveReadingPlan(): void {
@@ -1078,7 +1107,7 @@ class VerboVivoApp {
         const chip = document.createElement('button');
         chip.type = 'button';
         chip.className = 'btn-gold-sm';
-        chip.textContent = `📖 Ler ${reading.label}`;
+        chip.textContent = `Ler ${reading.label}`;
         chip.addEventListener('click', () => {
           void this.navigateToScripture(reading.bookAbbrev, reading.chapter);
         });
@@ -1093,9 +1122,8 @@ class VerboVivoApp {
     }
   }
 
-  // ─── TAB 5: DOUTRINA (5 SOLAS, CREDO, DICIONÁRIO) & HARPA CRISTÃ ─────
+  // ─── TAB 5: DOUTRINA, DICIONÁRIO & HARPA CRISTÃ ──────────────────────
   private initDoutrinaAndHarpaSection(): void {
-    // 1. Cinco Solas
     const solasGrid = document.getElementById('cinco-solas-grid');
     if (solasGrid) {
       solasGrid.textContent = '';
@@ -1117,16 +1145,9 @@ class VerboVivoApp {
         sumP.style.marginTop = '0.5rem';
         sumP.textContent = sola.summary;
 
-        const expP = document.createElement('p');
-        expP.style.fontSize = '0.82rem';
-        expP.style.color = 'var(--text-secondary)';
-        expP.style.marginTop = '0.4rem';
-        expP.textContent = sola.explanation;
-
         headerDiv.appendChild(h4);
         headerDiv.appendChild(ptSpan);
         headerDiv.appendChild(sumP);
-        headerDiv.appendChild(expP);
 
         card.appendChild(headerDiv);
         card.appendChild(this.createScriptureRefCard(sola.keyVerse));
@@ -1134,7 +1155,6 @@ class VerboVivoApp {
       }
     }
 
-    // 2. Credo Apostólico
     const credoContainer = document.getElementById('credo-apostolico-content');
     if (credoContainer) {
       credoContainer.textContent = '';
@@ -1145,14 +1165,12 @@ class VerboVivoApp {
       });
     }
 
-    // 3. Dicionário Teológico
     const dictInput = document.getElementById('input-dict-search') as HTMLInputElement | null;
     dictInput?.addEventListener('input', () => {
       this.renderDictionaryTerms(dictInput.value);
     });
     this.renderDictionaryTerms('');
 
-    // 4. Harpa Cristã
     this.renderHymnsSidebar();
     this.renderActiveHymn();
   }
@@ -1177,22 +1195,22 @@ class VerboVivoApp {
 
       const top = document.createElement('div');
       const cat = document.createElement('span');
-      cat.className = 'qa-card-category';
+      cat.className = 'eyebrow-tag';
       cat.textContent = item.category;
 
       const title = document.createElement('h4');
       title.className = 'qa-card-question';
-      title.style.fontSize = '1.35rem';
+      title.style.fontSize = '1.3rem';
       title.textContent = item.term;
 
       const orig = document.createElement('small');
       orig.style.color = 'var(--text-muted)';
       orig.style.display = 'block';
-      orig.style.marginBottom = '0.5rem';
+      orig.style.marginBottom = '0.45rem';
       orig.textContent = item.origin;
 
       const def = document.createElement('p');
-      def.style.fontSize = '0.9rem';
+      def.style.fontSize = '0.88rem';
       def.style.color = 'var(--text-secondary)';
       def.textContent = item.definition;
 
@@ -1219,10 +1237,11 @@ class VerboVivoApp {
 
       const titleStrong = document.createElement('strong');
       titleStrong.style.display = 'block';
+      titleStrong.style.fontSize = '0.9rem';
       titleStrong.textContent = `Nº ${hymn.number} — ${hymn.title}`;
 
       const themeSmall = document.createElement('small');
-      themeSmall.style.color = 'var(--text-secondary)';
+      themeSmall.style.color = 'var(--text-muted)';
       themeSmall.textContent = hymn.theme;
 
       btn.appendChild(titleStrong);
@@ -1249,18 +1268,18 @@ class VerboVivoApp {
     viewer.textContent = '';
 
     const badge = document.createElement('span');
-    badge.className = 'qa-card-category';
-    badge.textContent = `HARPA CRISTÃ Nº ${hymn.number} • ${hymn.theme}`;
+    badge.className = 'eyebrow-tag';
+    badge.textContent = `HARPA CRISTÃ Nº ${hymn.number}`;
 
     const title = document.createElement('h3');
     title.className = 'qa-card-question';
     title.textContent = hymn.title;
 
     const authorP = document.createElement('p');
-    authorP.style.fontSize = '0.85rem';
+    authorP.style.fontSize = '0.82rem';
     authorP.style.color = 'var(--text-muted)';
     authorP.style.marginBottom = '1.25rem';
-    authorP.textContent = `Autor / Tradução: ${hymn.author}`;
+    authorP.textContent = hymn.author;
 
     viewer.appendChild(badge);
     viewer.appendChild(title);
@@ -1283,7 +1302,7 @@ class VerboVivoApp {
     viewer.appendChild(this.createScriptureRefCard(hymn.inspirationVerse));
   }
 
-  // ─── TAB 6: NO SECRETO (MURAL DE ORAÇÃO & CADERNO BÍBLICO) ───────────
+  // ─── TAB 6: ORAÇÃO & CADERNO BÍBLICO ─────────────────────────────────
   private initSecretoSection(): void {
     const form = document.getElementById('form-new-prayer') as HTMLFormElement | null;
     form?.addEventListener('submit', (ev) => {
@@ -1304,7 +1323,7 @@ class VerboVivoApp {
 
       form.reset();
       this.renderPrayerJournal();
-      this.updateHeroMetrics();
+      this.updateCounters();
     });
 
     this.renderPrayerJournal();
@@ -1327,11 +1346,11 @@ class VerboVivoApp {
 
       const leftInfo = document.createElement('div');
       const catBadge = document.createElement('span');
-      catBadge.className = 'qa-card-category';
+      catBadge.className = 'eyebrow-tag';
       catBadge.textContent = item.answered ? `✨ ORAÇÃO RESPONDIDA • ${item.category}` : item.category;
 
       const h4 = document.createElement('h4');
-      h4.style.fontSize = '1.15rem';
+      h4.style.fontSize = '1.05rem';
       h4.textContent = item.title;
 
       leftInfo.appendChild(catBadge);
@@ -1345,17 +1364,17 @@ class VerboVivoApp {
       header.appendChild(dateSpan);
 
       const descP = document.createElement('p');
-      descP.style.fontSize = '0.92rem';
+      descP.style.fontSize = '0.9rem';
       descP.style.color = 'var(--text-secondary)';
-      descP.style.marginBottom = '0.6rem';
+      descP.style.marginBottom = '0.5rem';
       descP.textContent = item.description;
 
       const promiseP = document.createElement('p');
-      promiseP.style.fontSize = '0.82rem';
-      promiseP.style.color = 'var(--gold-primary)';
+      promiseP.style.fontSize = '0.8rem';
+      promiseP.style.color = 'var(--gold)';
       promiseP.style.fontStyle = 'italic';
-      promiseP.style.marginBottom = '0.8rem';
-      promiseP.textContent = `Promessa: ${item.versePromise}`;
+      promiseP.style.marginBottom = '0.75rem';
+      promiseP.textContent = item.versePromise;
 
       const actionsRow = document.createElement('div');
       actionsRow.style.display = 'flex';
@@ -1364,11 +1383,11 @@ class VerboVivoApp {
       const btnToggle = document.createElement('button');
       btnToggle.type = 'button';
       btnToggle.className = 'btn-gold-sm';
-      btnToggle.textContent = item.answered ? 'Reabrir Intercessão' : '🙌 Marcar como Oração Respondida';
+      btnToggle.textContent = item.answered ? 'Reabrir Pedido' : 'Marcar como Respondida';
       btnToggle.addEventListener('click', () => {
         storageService.togglePrayerAnswered(item.id);
         this.renderPrayerJournal();
-        this.updateHeroMetrics();
+        this.updateCounters();
       });
 
       const btnDelete = document.createElement('button');
@@ -1378,7 +1397,7 @@ class VerboVivoApp {
       btnDelete.addEventListener('click', () => {
         storageService.deletePrayer(item.id);
         this.renderPrayerJournal();
-        this.updateHeroMetrics();
+        this.updateCounters();
       });
 
       actionsRow.appendChild(btnToggle);
@@ -1401,9 +1420,11 @@ class VerboVivoApp {
 
     if (studies.length === 0) {
       const empty = document.createElement('div');
-      empty.className = 'card-panel';
+      empty.className = 'clean-panel';
+      empty.style.color = 'var(--text-muted)';
+      empty.style.fontSize = '0.9rem';
       empty.textContent =
-        'Você ainda não grifou nem anotou versículos. Abra a aba "Bíblia Sagrada" e clique em qualquer versículo para destacá-lo em 4 cores ou escrever suas notas pessoais!';
+        'Nenhum versículo grifado ainda. Na aba "Bíblia", clique em qualquer versículo para destacar ou anotar.';
       container.appendChild(empty);
       return;
     }
@@ -1416,13 +1437,14 @@ class VerboVivoApp {
       top.className = 'prayer-card-header';
 
       const refStrong = document.createElement('strong');
-      refStrong.style.color = 'var(--gold-primary)';
+      refStrong.style.color = 'var(--gold)';
+      refStrong.style.fontSize = '0.9rem';
       refStrong.textContent = `${st.bookName} ${st.chapter}:${st.verse} (${st.translation === 'aa' ? 'ARA' : st.translation.toUpperCase()})`;
 
       const openBtn = document.createElement('button');
       openBtn.type = 'button';
-      openBtn.className = 'btn-link-gold';
-      openBtn.textContent = 'Abrir no Capítulo →';
+      openBtn.className = 'btn-inline-link';
+      openBtn.textContent = 'Abrir →';
       openBtn.addEventListener('click', () => {
         void this.navigateToScripture(st.bookAbbrev, st.chapter, st.verse);
       });
@@ -1433,7 +1455,8 @@ class VerboVivoApp {
       const quoteP = document.createElement('p');
       quoteP.style.fontFamily = "'Lora', serif";
       quoteP.style.fontStyle = 'italic';
-      quoteP.style.marginBottom = '0.5rem';
+      quoteP.style.fontSize = '0.92rem';
+      quoteP.style.marginBottom = '0.45rem';
       quoteP.textContent = `"${st.text}"`;
 
       card.appendChild(top);
@@ -1441,11 +1464,11 @@ class VerboVivoApp {
 
       if (st.note) {
         const noteBox = document.createElement('p');
-        noteBox.style.fontSize = '0.86rem';
+        noteBox.style.fontSize = '0.84rem';
         noteBox.style.background = 'var(--bg-secondary)';
-        noteBox.style.padding = '0.55rem 0.75rem';
+        noteBox.style.padding = '0.5rem 0.7rem';
         noteBox.style.borderRadius = '6px';
-        noteBox.textContent = `📝 Minha Nota: ${st.note}`;
+        noteBox.textContent = `Nota: ${st.note}`;
         card.appendChild(noteBox);
       }
 
