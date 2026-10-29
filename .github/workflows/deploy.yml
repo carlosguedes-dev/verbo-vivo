@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build Apps (Android, iOS, Windows) & Deploy Download Site
 
 on:
   push:
@@ -12,8 +12,9 @@ permissions:
   contents: write
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy Verbo Vivo
+  # ─── 1. DEPLOY PÁGINA OFICIAL DE DOWNLOAD (GITHUB PAGES) ─────────────────
+  deploy-site:
+    name: Deploy Download Site (GitHub Pages)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do repositório
@@ -28,10 +29,10 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Executar testes de integridade bíblica
+      - name: Executar testes de integridade
         run: npm test
 
-      - name: Build do projeto (Vite + TypeScript)
+      - name: Build do Site de Download e App Bundle
         run: npm run build
 
       - name: Deploy para branch gh-pages
@@ -39,3 +40,154 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+
+  # ─── 2. BUILD ANDROID (.APK) ─────────────────────────────────────────────
+  build-android:
+    name: Build Android App (.APK)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Configurar Java 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Configurar Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Instalar dependências e compilar App
+        run: |
+          npm install
+          npm run build
+          if [ ! -d "android" ]; then
+            npx cap add android
+          fi
+          npx cap sync android
+
+      - name: Compilar APK Android (Gradle)
+        working-directory: ./android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk ../Verbo-Vivo-Android.apk
+
+      - name: Upload Artifact Android (.APK)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Verbo-Vivo-Android
+          path: Verbo-Vivo-Android.apk
+
+  # ─── 3. BUILD IPHONE / IOS (.IPA) ────────────────────────────────────────
+  build-ios:
+    name: Build iPhone / iOS App (.IPA)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências e sincronizar iOS
+        run: |
+          npm install
+          npm run build
+          rm -rf ios
+          npx cap add ios
+          npx cap sync ios
+
+      - name: Compilar App iOS (Xcode Unsigned .IPA)
+        run: |
+          cd ios/App
+          if [ -f "Podfile" ]; then
+            pod install || true
+          fi
+          if [ -d "App.xcworkspace" ]; then
+            xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos -derivedDataPath build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          else
+            xcodebuild -project App.xcodeproj -scheme App -configuration Release -sdk iphoneos -derivedDataPath build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          fi
+          mkdir -p Payload
+          cp -r build/Build/Products/Release-iphoneos/App.app Payload/
+          zip -r ../../Verbo-Vivo-iOS.ipa Payload
+
+      - name: Upload Artifact iOS (.IPA)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Verbo-Vivo-iOS
+          path: Verbo-Vivo-iOS.ipa
+
+  # ─── 4. BUILD WINDOWS (.EXE INSTALADOR & PORTÁTIL) ───────────────────────
+  build-windows:
+    name: Build Windows App (.EXE)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências e compilar executáveis Windows
+        run: |
+          npm install
+          npm run dist:win
+
+      - name: Upload Artifacts Windows (.EXE)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Verbo-Vivo-Windows
+          path: |
+            release/Verbo-Vivo-Windows-Setup.exe
+            release/Verbo-Vivo-Windows-Portable.exe
+
+  # ─── 5. PUBLICAR PACOTES NO GITHUB RELEASES ──────────────────────────────
+  publish-release:
+    name: Publish Apps to GitHub Releases
+    runs-on: ubuntu-latest
+    needs: [build-android, build-ios, build-windows]
+    steps:
+      - name: Download Todos os Pacotes Compilados
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publicar Release Oficial v2.0.0
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v2.0.0
+          name: "Verbo Vivo v2.0.0 — Apps Oficiais (Android, iPhone & Windows)"
+          body: |
+            ## ✝️ Verbo Vivo v2.0.0 — Aplicativo Oficial Multiplataforma
+
+            Versões nativas oficiais do **Verbo Vivo** com as **3 traduções da Bíblia Sagrada (ACF, NVI e ARA)** completas 100% offline, Central Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional Diário, Planos de Leitura e Altar de Oração & Caderno Bíblico.
+
+            ### 📦 Arquivos para Download Direto:
+            - 🤖 **Android (`.APK`)**: `Verbo-Vivo-Android.apk`
+            - 🍎 **iPhone / iOS (`.IPA`)**: `Verbo-Vivo-iOS.ipa`
+            - 💻 **Windows Instalador (`.EXE`)**: `Verbo-Vivo-Windows-Setup.exe`
+            - 💻 **Windows Portátil (`.EXE`)**: `Verbo-Vivo-Windows-Portable.exe`
+          draft: false
+          prerelease: false
+          files: |
+            artifacts/Verbo-Vivo-Android/Verbo-Vivo-Android.apk
+            artifacts/Verbo-Vivo-iOS/Verbo-Vivo-iOS.ipa
+            artifacts/Verbo-Vivo-Windows/Verbo-Vivo-Windows-Setup.exe
+            artifacts/Verbo-Vivo-Windows/Verbo-Vivo-Windows-Portable.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

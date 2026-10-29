@@ -1,0 +1,13 @@
+{
+  "appId": "dev.carlosguedes.verbovivo",
+  "appName": "Verbo Vivo",
+  "webDir": "dist-app",
+  "backgroundColor": "#0b0d12",
+  "android": {
+    "backgroundColor": "#0b0d12"
+  },
+  "ios": {
+    "backgroundColor": "#0b0d12",
+    "contentInset": "automatic"
+  }
+}

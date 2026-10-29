@@ -1,17 +1,61 @@
 {
   "name": "verbo-vivo",
   "private": true,
-  "version": "1.0.0",
-  "description": "Verbo Vivo — Plataforma Cristã Evangélica Completa: Bíblia Sagrada nas 3 versões (ACF, NVI, ARA), Central Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional Diário, Planos de Leitura, Os Cinco Solas, Harpa Cristã e Caderno de Oração.",
+  "version": "2.0.0",
+  "description": "Verbo Vivo — Aplicativo Cristão Evangélico para Android, iPhone (iOS) e Windows: Bíblia Sagrada nas 3 versões (ACF, NVI, ARA), Central Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional Diário, Planos de Leitura e Caderno de Oração.",
+  "author": "Carlos Guedes <https://github.com/carlosguedes-dev>",
+  "license": "MIT",
   "type": "module",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && node scripts/prepare-app-bundle.mjs",
+    "build:app": "npm run build",
     "preview": "vite preview",
-    "test": "node --test tests/integrity.test.mjs"
+    "test": "node --test tests/integrity.test.mjs",
+    "electron:start": "npm run build && electron .",
+    "dist:win": "npm run build && electron-builder --win --x64",
+    "cap:sync": "npm run build && npx cap sync"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/ios": "^7.0.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^7.0.0",
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.8",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
+  },
+  "build": {
+    "appId": "dev.carlosguedes.verbovivo",
+    "productName": "Verbo Vivo",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist-app/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Verbo Vivo",
+      "artifactName": "Verbo-Vivo-Windows-Setup.exe"
+    },
+    "portable": {
+      "artifactName": "Verbo-Vivo-Windows-Portable.exe"
+    }
   }
 }

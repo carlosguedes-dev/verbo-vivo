@@ -18,8 +18,7 @@ export const DEVOCIONAIS_DATA: DevotionalItem[] = [
       'Deus não nos dá hoje a graça para o mês que vem; Ele nos concede a porção exata de graça e misericórdia para vencermos o dia de hoje. Na cruz do Calvário, Jesus garantiu que o estoque de misericórdia do Pai para os Seus filhos nunca se esgotará.',
       'Não importa quão difícil tenha sido a noite anterior: se o sol nasceu hoje, a fidelidade de Deus já chegou antes de você acordar.'
     ],
-    practicalChallenge: 'Ao iniciar seu dia hoje, entregue nominalmente ao Senhor uma culpa do passado ou uma preocupação do futuro e agradeça em voz alta por três provas da fidelidade de Deus na sua história.',
-    prayer: 'Senhor, louvado seja o Teu nome porque a Tua fidelidade é maior do que as minhas falhas e mais firme do que as circunstâncias ao meu redor. Recebo hoje as Tuas novas misericórdias e consagro cada hora deste dia para a Tua glória. Em nome de Jesus, amém.'
+    practicalChallenge: 'Ao iniciar seu dia hoje, entregue nominalmente ao Senhor uma culpa do passado ou uma preocupação do futuro e agradeça em voz alta por três provas da fidelidade de Deus na sua história.'
   },
   {
     id: 'o-bom-pastor-e-a-alma-restaurada',
@@ -38,8 +37,7 @@ export const DEVOCIONAIS_DATA: DevotionalItem[] = [
       'No Novo Testamento, Jesus toma esse Salmo para Si e declara: "Eu sou o bom Pastor; o bom Pastor dá a sua vida pelas ovelhas" (João 10:11). Um pastor comum arriscava a vida pela ovelha; Jesus entregou voluntariamente a Sua vida na cruz para nos resgatar.',
       'A expressão hebraica para "refrigera a minha alma" significa "traz a minha alma de volta ao lugar certo, restaura o meu vigor". Quando o mundo acelera e esgota suas forças, a voz mansa de Cristo convida você às águas tranquilas da comunhão com Ele.'
     ],
-    practicalChallenge: 'Separe 10 minutos hoje sem celular ou distrações para ler o Salmo 23 pausadamente, substituindo cada versículo por uma oração pessoal de confiança no cuidado de Cristo.',
-    prayer: 'Senhor Jesus, meu Bom Pastor, obrigado porque conheces as minhas ovelhas pelo nome e destes a Tua vida por mim. Restaura hoje a minha alma, guia-me pelas veredas da justiça por amor do Teu nome e livra-me de confiar na minha própria força. Amém.'
+    practicalChallenge: 'Separe 10 minutos hoje sem celular ou distrações para ler o Salmo 23 pausadamente, meditando em cada promessa do cuidado de Cristo.'
   },
   {
     id: 'a-videira-verdadeira',
@@ -58,8 +56,7 @@ export const DEVOCIONAIS_DATA: DevotionalItem[] = [
       'Na vida cristã, muitas vezes nos cansamos tentando produzir paciência, amor, santidade e impacto espiritual na força do nosso próprio braço. Jesus nos lembra com ternura e firmeza: "Sem mim nada podeis fazer".',
       'Permanecer em Cristo significa manter a sua mente imersa nas palavras dEle (João 15:7), viver em obediência amorosa e aceitar até mesmo as "podas" do Pai (João 15:2) — aqueles momentos em que Deus remove excessos da nossa vida para que possamos dar mais fruto e mais doce.'
     ],
-    practicalChallenge: 'Identifique uma área da sua rotina onde você tem tentado agir "no piloto automático" sem orar, e convide conscientemente o Senhor Jesus para governar essa tarefa hoje.',
-    prayer: 'Senhor Jesus, Tu és a Videira Verdadeira e a fonte de toda a minha vida espiritual. Perdoa-me pelas vezes em que tentei caminhar confiando na minha própria capacidade. Ensina-me a permanecer em Ti todos os dias, para que o Fruto do Espírito floresça em mim para a glória do Pai. Amém.'
+    practicalChallenge: 'Identifique uma área da sua rotina onde você tem tentado agir "no piloto automático" e convide conscientemente o Senhor Jesus para governar essa tarefa hoje.'
   },
   {
     id: 'olhando-para-jesus',
@@ -78,8 +75,7 @@ export const DEVOCIONAIS_DATA: DevotionalItem[] = [
       'E para onde o corredor deve olhar? Se você correr olhando para trás (culpa ou saudosismo), você tropeça. Se correr olhando para os lados (comparando-se com outros cristãos ou olhando para as falhas das pessoas), você desanima. Se correr olhando apenas para os próprios pés, você perde a direção.',
       'O verbo grego traduzido por "olhando para Jesus" (*aphorao*) significa desviar o olhar de todas as outras coisas para fixá-lo exclusivamente em um único ponto: Jesus, que começou a nossa fé e a levará até a linha de chegada!'
     ],
-    practicalChallenge: 'Pergunte-se hoje: há algum "peso" ou distração legítima que está roubando minha comunhão com Deus? Tire os olhos das circunstâncias e fixe-os na fidelidade de Cristo.',
-    prayer: 'Pai amado, fortalece os meus passos na jornada da fé. Ajuda-me a me despir de todo peso e pecado que tenta me desacelerar, mantendo meus olhos fixos unicamente em Jesus Cristo, o Autor e Consumador da minha fé. Em nome de Jesus, amém.'
+    practicalChallenge: 'Pergunte-se hoje: há algum "peso" ou distração legítima que está roubando minha comunhão com Deus? Tire os olhos das circunstâncias e fixe-os na fidelidade de Cristo.'
   },
   {
     id: 'mais-que-vencedores',
@@ -98,7 +94,6 @@ export const DEVOCIONAIS_DATA: DevotionalItem[] = [
       'Note que o texto não promete ausência de lutas — ele menciona tribulação, angústia, perseguição e perigo. Mas afirma que "em todas estas coisas somos mais do que vencedores, por aquele que nos amou" (v. 37).',
       'O amor de Deus por você não é um fio frágil que se rompe na primeira tempestade; é uma aliança eterna selada com o sangue do próprio Filho de Deus.'
     ],
-    practicalChallenge: 'Leia Romanos 8:31-39 em voz alta hoje e memorize os versículos 38 e 39 como um escudo para a sua mente nos dias de combate espiritual.',
-    prayer: 'Senhor meu Deus, que maravilha saber que em Cristo Jesus não há condenação no início nem separação no fim! Obrigado pelo Teu amor inabalável demonstrado na cruz do Calvário. Em Ti sou mais do que vencedor. Amém!'
+    practicalChallenge: 'Leia Romanos 8:31-39 em voz alta hoje e memorize os versículos 38 e 39 como um escudo para a sua mente nos dias de combate espiritual.'
   }
 ];

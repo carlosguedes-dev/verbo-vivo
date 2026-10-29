@@ -1143,7 +1143,7 @@ body {
 
 .refugio-pastoral-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1.15rem;
   margin: 1.15rem 0 1.35rem;
 }
@@ -1516,5 +1516,150 @@ body {
 
   .verse-study-drawer {
     position: static;
+  }
+
+  .download-platforms-grid,
+  .features-grid,
+  .install-steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── PÁGINA OFICIAL DE DOWNLOAD (MESMO DESIGN SYSTEM) ───────────────── */
+.download-platforms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.platform-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.platform-card:hover,
+.platform-card.recommended {
+  border-color: var(--gold-border);
+}
+
+.platform-card-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.platform-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.platform-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  display: grid;
+  place-items: center;
+}
+
+.platform-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.platform-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.platform-specs-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.platform-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.btn-download-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--gold);
+  color: #111;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  border-radius: 9px;
+  padding: 0.78rem 1.1rem;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-align: center;
+  transition: opacity 0.2s ease;
+}
+
+.btn-download-primary:hover {
+  opacity: 0.92;
+}
+
+.btn-download-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  background: var(--gold-soft);
+  color: var(--gold);
+  border: 1px solid var(--gold-border);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 9px;
+  padding: 0.58rem 0.95rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.install-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 960px) {
+  .download-platforms-grid,
+  .install-steps-grid {
+    grid-template-columns: 1fr;
   }
 }

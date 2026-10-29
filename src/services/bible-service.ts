@@ -1,6 +1,16 @@
 import type { BibleBook, BibleTranslationId } from '../types';
 import { BOOKS_METADATA, BIBLE_TRANSLATIONS } from '../data/books-metadata';
 
+declare global {
+  interface Window {
+    verboVivoNative?: {
+      platform?: 'windows' | 'android' | 'ios';
+      version?: string;
+      readBibleJson?: (translation: string) => Promise<BibleBook[]> | BibleBook[];
+    };
+  }
+}
+
 export interface BibleSearchResult {
   bookAbbrev: string;
   bookName: string;
@@ -32,22 +42,34 @@ class BibleService {
       return existingPromise;
     }
 
-    const baseUrl = import.meta.env.BASE_URL || '/';
-    const url = `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}data/${translation}.json`;
-
-    const promise = fetch(url)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Falha ao carregar tradução ${translation.toUpperCase()} (HTTP ${res.status})`);
+    const loadFn = async (): Promise<BibleBook[]> => {
+      if (window.verboVivoNative?.readBibleJson) {
+        try {
+          const nativeBooks = await window.verboVivoNative.readBibleJson(translation);
+          if (Array.isArray(nativeBooks) && nativeBooks.length === 66) {
+            this.cache.set(translation, nativeBooks);
+            this.loadingPromises.delete(translation);
+            return nativeBooks;
+          }
+        } catch {
+          // Fallback para fetch padrão
         }
-        return res.json() as Promise<BibleBook[]>;
-      })
-      .then((books) => {
-        this.cache.set(translation, books);
-        this.loadingPromises.delete(translation);
-        return books;
-      });
+      }
 
+      const baseUrl = import.meta.env.BASE_URL || './';
+      const url = `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}data/${translation}.json`;
+
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error(`Falha ao carregar tradução ${translation.toUpperCase()} (HTTP ${res.status})`);
+      }
+      const books = (await res.json()) as BibleBook[];
+      this.cache.set(translation, books);
+      this.loadingPromises.delete(translation);
+      return books;
+    };
+
+    const promise = loadFn();
     this.loadingPromises.set(translation, promise);
     return promise;
   }

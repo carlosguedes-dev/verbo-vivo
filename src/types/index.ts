@@ -73,7 +73,6 @@ export interface SpiritualRefuge {
   subtitle: string;
   icon: string;
   pastoralWord: string;
-  guidedPrayer: string;
   verses: ScriptureReference[];
 }
 
@@ -85,7 +84,6 @@ export interface DevotionalItem {
   historicalContext: string;
   reflection: string[];
   practicalChallenge: string;
-  prayer: string;
 }
 
 export interface ReadingPlanDay {
@@ -106,32 +104,6 @@ export interface ReadingPlan {
   durationLabel: string;
   description: string;
   days: ReadingPlanDay[];
-}
-
-export interface SolaItem {
-  latin: string;
-  portuguese: string;
-  summary: string;
-  explanation: string;
-  keyVerse: ScriptureReference;
-}
-
-export interface TheologicalTerm {
-  term: string;
-  origin: string;
-  category: string;
-  definition: string;
-  biblicalBasis: ScriptureReference;
-}
-
-export interface HymnItem {
-  number: number;
-  title: string;
-  author: string;
-  theme: string;
-  inspirationVerse: ScriptureReference;
-  stanzas: string[];
-  chorus?: string;
 }
 
 export type HighlightColor = 'gold' | 'blue' | 'green' | 'rose';

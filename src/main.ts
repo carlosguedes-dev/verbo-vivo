@@ -11,12 +11,6 @@ import { QA_CATEGORIES } from './data/tira-duvidas';
 import { REFUGIO_BIBLICO_DATA } from './data/refugio-biblico';
 import { DEVOCIONAIS_DATA } from './data/devocionais';
 import { PLANOS_LEITURA_DATA } from './data/planos-leitura';
-import {
-  CINCO_SOLAS_DATA,
-  CREDO_APOSTOLICO_DECLARACAO,
-  DICIONARIO_TEOLOGICO_DATA
-} from './data/doutrina-solas';
-import { HARPA_LOUVORES_DATA } from './data/harpa-louvores';
 import { bibleService } from './services/bible-service';
 import { searchQuestions } from './services/qa-engine';
 import { storageService } from './services/storage-service';
@@ -95,7 +89,6 @@ class VerboVivoApp {
   private activeRefugioId = REFUGIO_BIBLICO_DATA[0].id;
   private activeDevotionalId = DEVOCIONAIS_DATA[0].id;
   private activePlanId = PLANOS_LEITURA_DATA[0].id;
-  private activeHymnNumber = HARPA_LOUVORES_DATA[0].number;
   private featuredPromise: ScriptureReference = PROMISES_POOL[0];
 
   public async init(): Promise<void> {
@@ -107,7 +100,6 @@ class VerboVivoApp {
     this.initQASection();
     this.initRefugioSection();
     this.initDevotionalAndPlansSection();
-    this.initDoutrinaAndHarpaSection();
     this.initSecretoSection();
 
     await this.initBibleReader();
@@ -160,18 +152,6 @@ class VerboVivoApp {
         btn.classList.add('active');
         document.getElementById('devo-subview-meditacao')?.classList.toggle('hidden', view !== 'meditacao');
         document.getElementById('devo-subview-planos')?.classList.toggle('hidden', view !== 'planos');
-      });
-    });
-
-    // Subviews de Doutrina, Dicionário & Harpa
-    document.querySelectorAll<HTMLButtonElement>('[data-dout-view]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const view = btn.getAttribute('data-dout-view');
-        document.querySelectorAll('[data-dout-view]').forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('dout-subview-solas')?.classList.toggle('hidden', view !== 'solas');
-        document.getElementById('dout-subview-dicionario')?.classList.toggle('hidden', view !== 'dicionario');
-        document.getElementById('dout-subview-harpa')?.classList.toggle('hidden', view !== 'harpa');
       });
     });
   }
@@ -938,18 +918,7 @@ class VerboVivoApp {
     boxWord.appendChild(h4Word);
     boxWord.appendChild(pWord);
 
-    const boxPrayer = document.createElement('div');
-    boxPrayer.className = 'refugio-box';
-    const h4Prayer = document.createElement('h4');
-    h4Prayer.textContent = 'Oração Guiada';
-    const pPrayer = document.createElement('p');
-    pPrayer.style.fontStyle = 'italic';
-    pPrayer.textContent = `"${item.guidedPrayer}"`;
-    boxPrayer.appendChild(h4Prayer);
-    boxPrayer.appendChild(pPrayer);
-
     grid.appendChild(boxWord);
-    grid.appendChild(boxPrayer);
 
     const refsRow = document.createElement('div');
     refsRow.className = 'qa-refs-list';
@@ -1048,18 +1017,12 @@ class VerboVivoApp {
     challengeBox.appendChild(chStrong);
     challengeBox.appendChild(chSpan);
 
-    const prayerP = document.createElement('p');
-    prayerP.style.fontStyle = 'italic';
-    prayerP.style.color = 'var(--text-secondary)';
-    prayerP.textContent = `Oração: "${devo.prayer}"`;
-
     card.appendChild(badge);
     card.appendChild(title);
     card.appendChild(verseCard);
     card.appendChild(contextBox);
     card.appendChild(reflectionDiv);
     card.appendChild(challengeBox);
-    card.appendChild(prayerP);
   }
 
   private renderActiveReadingPlan(): void {
@@ -1122,187 +1085,7 @@ class VerboVivoApp {
     }
   }
 
-  // ─── TAB 5: DOUTRINA, DICIONÁRIO & HARPA CRISTÃ ──────────────────────
-  private initDoutrinaAndHarpaSection(): void {
-    const solasGrid = document.getElementById('cinco-solas-grid');
-    if (solasGrid) {
-      solasGrid.textContent = '';
-      for (const sola of CINCO_SOLAS_DATA) {
-        const card = document.createElement('div');
-        card.className = 'sola-card';
-
-        const headerDiv = document.createElement('div');
-        const h4 = document.createElement('h4');
-        h4.className = 'sola-latin';
-        h4.textContent = sola.latin;
-
-        const ptSpan = document.createElement('span');
-        ptSpan.className = 'sola-pt';
-        ptSpan.textContent = sola.portuguese;
-
-        const sumP = document.createElement('p');
-        sumP.style.fontSize = '0.88rem';
-        sumP.style.marginTop = '0.5rem';
-        sumP.textContent = sola.summary;
-
-        headerDiv.appendChild(h4);
-        headerDiv.appendChild(ptSpan);
-        headerDiv.appendChild(sumP);
-
-        card.appendChild(headerDiv);
-        card.appendChild(this.createScriptureRefCard(sola.keyVerse));
-        solasGrid.appendChild(card);
-      }
-    }
-
-    const credoContainer = document.getElementById('credo-apostolico-content');
-    if (credoContainer) {
-      credoContainer.textContent = '';
-      CREDO_APOSTOLICO_DECLARACAO.forEach((line) => {
-        const p = document.createElement('p');
-        p.textContent = line;
-        credoContainer.appendChild(p);
-      });
-    }
-
-    const dictInput = document.getElementById('input-dict-search') as HTMLInputElement | null;
-    dictInput?.addEventListener('input', () => {
-      this.renderDictionaryTerms(dictInput.value);
-    });
-    this.renderDictionaryTerms('');
-
-    this.renderHymnsSidebar();
-    this.renderActiveHymn();
-  }
-
-  private renderDictionaryTerms(filterQuery: string): void {
-    const grid = document.getElementById('dictionary-terms-grid');
-    if (!grid) return;
-
-    const norm = bibleService.normalizeText(filterQuery);
-    const filtered = DICIONARIO_TEOLOGICO_DATA.filter(
-      (item) =>
-        !norm ||
-        bibleService.normalizeText(item.term).includes(norm) ||
-        bibleService.normalizeText(item.definition).includes(norm) ||
-        bibleService.normalizeText(item.category).includes(norm)
-    );
-
-    grid.textContent = '';
-    for (const item of filtered) {
-      const card = document.createElement('div');
-      card.className = 'dict-card';
-
-      const top = document.createElement('div');
-      const cat = document.createElement('span');
-      cat.className = 'eyebrow-tag';
-      cat.textContent = item.category;
-
-      const title = document.createElement('h4');
-      title.className = 'qa-card-question';
-      title.style.fontSize = '1.3rem';
-      title.textContent = item.term;
-
-      const orig = document.createElement('small');
-      orig.style.color = 'var(--text-muted)';
-      orig.style.display = 'block';
-      orig.style.marginBottom = '0.45rem';
-      orig.textContent = item.origin;
-
-      const def = document.createElement('p');
-      def.style.fontSize = '0.88rem';
-      def.style.color = 'var(--text-secondary)';
-      def.textContent = item.definition;
-
-      top.appendChild(cat);
-      top.appendChild(title);
-      top.appendChild(orig);
-      top.appendChild(def);
-
-      card.appendChild(top);
-      card.appendChild(this.createScriptureRefCard(item.biblicalBasis));
-      grid.appendChild(card);
-    }
-  }
-
-  private renderHymnsSidebar(): void {
-    const sidebar = document.getElementById('hymns-list-sidebar');
-    if (!sidebar) return;
-
-    sidebar.textContent = '';
-    for (const hymn of HARPA_LOUVORES_DATA) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = `hymn-item-btn ${hymn.number === this.activeHymnNumber ? 'active' : ''}`;
-
-      const titleStrong = document.createElement('strong');
-      titleStrong.style.display = 'block';
-      titleStrong.style.fontSize = '0.9rem';
-      titleStrong.textContent = `Nº ${hymn.number} — ${hymn.title}`;
-
-      const themeSmall = document.createElement('small');
-      themeSmall.style.color = 'var(--text-muted)';
-      themeSmall.textContent = hymn.theme;
-
-      btn.appendChild(titleStrong);
-      btn.appendChild(themeSmall);
-
-      btn.addEventListener('click', () => {
-        this.activeHymnNumber = hymn.number;
-        sidebar.querySelectorAll('.hymn-item-btn').forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        this.renderActiveHymn();
-      });
-
-      sidebar.appendChild(btn);
-    }
-  }
-
-  private renderActiveHymn(): void {
-    const viewer = document.getElementById('hymn-viewer-card');
-    if (!viewer) return;
-
-    const hymn =
-      HARPA_LOUVORES_DATA.find((h) => h.number === this.activeHymnNumber) || HARPA_LOUVORES_DATA[0];
-
-    viewer.textContent = '';
-
-    const badge = document.createElement('span');
-    badge.className = 'eyebrow-tag';
-    badge.textContent = `HARPA CRISTÃ Nº ${hymn.number}`;
-
-    const title = document.createElement('h3');
-    title.className = 'qa-card-question';
-    title.textContent = hymn.title;
-
-    const authorP = document.createElement('p');
-    authorP.style.fontSize = '0.82rem';
-    authorP.style.color = 'var(--text-muted)';
-    authorP.style.marginBottom = '1.25rem';
-    authorP.textContent = hymn.author;
-
-    viewer.appendChild(badge);
-    viewer.appendChild(title);
-    viewer.appendChild(authorP);
-
-    hymn.stanzas.forEach((stanza, index) => {
-      const stDiv = document.createElement('div');
-      stDiv.className = 'hymn-stanza';
-      stDiv.textContent = `${index + 1}.\n${stanza}`;
-      viewer.appendChild(stDiv);
-
-      if (index === 0 && hymn.chorus) {
-        const chorusDiv = document.createElement('div');
-        chorusDiv.className = 'hymn-chorus-box';
-        chorusDiv.textContent = `[Coro]\n${hymn.chorus}`;
-        viewer.appendChild(chorusDiv);
-      }
-    });
-
-    viewer.appendChild(this.createScriptureRefCard(hymn.inspirationVerse));
-  }
-
-  // ─── TAB 6: ORAÇÃO & CADERNO BÍBLICO ─────────────────────────────────
+  // ─── TAB 5: ORAÇÃO & CADERNO BÍBLICO ─────────────────────────────────
   private initSecretoSection(): void {
     const form = document.getElementById('form-new-prayer') as HTMLFormElement | null;
     form?.addEventListener('submit', (ev) => {
@@ -1480,4 +1263,11 @@ class VerboVivoApp {
 document.addEventListener('DOMContentLoaded', () => {
   const app = new VerboVivoApp();
   void app.init();
+
+  if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+    const swUrl = `${import.meta.env.BASE_URL || './'}sw.js`;
+    navigator.serviceWorker.register(swUrl).catch(() => {
+      // Silencioso em ambientes locais
+    });
+  }
 });

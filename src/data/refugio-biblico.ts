@@ -7,7 +7,6 @@ export const REFUGIO_BIBLICO_DATA: SpiritualRefuge[] = [
     subtitle: 'Descansando sob o cuidado soberano do Bom Pastor',
     icon: 'shield',
     pastoralWord: 'A ansiedade tenta fazer você carregar hoje o peso de um amanhã que pertence exclusivamente a Deus. Lembre-se: o mesmo Pai que sustenta as estrelas e alimenta as aves do céu conhece você pelo nome. Você não está desamparado.',
-    guidedPrayer: 'Senhor meu Deus e meu Pai, Tu conheces a agitação do meu coração e os temores que tentam roubar a minha paz. Hoje eu escolho lançar sobre Ti toda a minha ansiedade, porque sei que tens cuidado de mim. Guarda a minha mente em Cristo Jesus e renova a minha confiança na Tua soberania. Em nome de Jesus, amém.',
     verses: [
       {
         bookAbbrev: 'fp',
@@ -38,7 +37,6 @@ export const REFUGIO_BIBLICO_DATA: SpiritualRefuge[] = [
     subtitle: 'Correndo para o trono da graça em vez de fugir de Deus',
     icon: 'cross',
     pastoralWord: 'Quando você falha, a voz do acusador diz: "Esconda-se de Deus, você não é mais digno de orar". Mas a voz do Espírito Santo diz: "Volte agora mesmo para o Pai, pois o sangue de Jesus Cristo nos purifica de todo pecado". O verdadeiro arrependimento sempre corre para a cruz!',
-    guidedPrayer: 'Pai de misericórdia, à semelhança de Davi no Salmo 51, reconheço minha falha e não escondo de Ti a minha transgressão. Peço perdão lavado pelo sangue precioso de Jesus Cristo. Cria em mim, ó Deus, um coração puro e renova em mim um espírito reto e firme. Restaura em mim a alegria da Tua salvação. Em nome de Jesus, amém.',
     verses: [
       {
         bookAbbrev: '1jo',
@@ -69,7 +67,6 @@ export const REFUGIO_BIBLICO_DATA: SpiritualRefuge[] = [
     subtitle: 'Trocando o seu fardo pesado pelo jugo suave de Cristo',
     icon: 'sun',
     pastoralWord: 'Jesus não disse "Vinde a mim todos os que estão fortes e prontos"; Ele disse: "Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei". Deus não se decepciona com a sua fraqueza humana — é exatamente na sua fraqueza que o poder dEle se aperfeiçoa.',
-    guidedPrayer: 'Senhor Jesus, Tu vês o meu cansaço físico, mental e espiritual. Atendo ao Teu convite amoroso e venho a Ti exatamente como estou. Recebo o descanso que só Tu podes dar à minha alma e peço que renoves as minhas forças como as da águia. Em Teu nome, amém.',
     verses: [
       {
         bookAbbrev: 'mt',
@@ -100,7 +97,6 @@ export const REFUGIO_BIBLICO_DATA: SpiritualRefuge[] = [
     subtitle: 'A promessa dAquele que nunca deixa nem desampara os Seus',
     icon: 'heart',
     pastoralWord: 'Mesmo nos dias em que ninguém parece notar suas lágrimas ou compreender suas lutas internas, o Deus que vê no secreto está ao seu lado. Ele gravou você nas palmas das Suas mãos e prometeu estar com você todos os dias até a consumação dos séculos.',
-    guidedPrayer: 'Senhor, Tu és o Deus que vê e que escuta o clamor silencioso do coração. Obrigado porque nunca estou verdadeiramente só, pois o Teu Espírito Santo habita em mim. Preenche cada vazio da minha alma com a doçura da Tua presença e guia-me em comunhão verdadeira com Teus filhos. Amém.',
     verses: [
       {
         bookAbbrev: 'hb',
@@ -131,7 +127,6 @@ export const REFUGIO_BIBLICO_DATA: SpiritualRefuge[] = [
     subtitle: 'O Deus de toda consolação e a esperança da Ressurreição',
     icon: 'dove',
     pastoralWord: 'Chorar não é falta de fé — o próprio Senhor Jesus chorou diante do túmulo de Lázaro (João 11:35). Mas nós não choramos como os que não têm esperança: Cristo venceu a morte e está perto dos que têm o coração quebrantado.',
-    guidedPrayer: 'Pai das misericórdias e Deus de toda consolação, abraça o meu coração quebrantado neste momento de dor. Enxuga as minhas lágrimas com a esperança viva da ressurreição de Jesus Cristo e sustenta a minha família debaixo das Tuas asas. Em nome de Jesus, amém.',
     verses: [
       {
         bookAbbrev: 'sl',
@@ -162,7 +157,6 @@ export const REFUGIO_BIBLICO_DATA: SpiritualRefuge[] = [
     subtitle: 'Confiando no Senhor de todo o coração para endireitar as veredas',
     icon: 'compass',
     pastoralWord: 'Quando estamos diante de encruzilhadas importantes — família, estudos, trabalho ou ministério —, Deus promete dar sabedoria liberalmente a quem pede com fé. Não se apoie apenas no seu próprio entendimento; entregue o seu caminho ao Senhor.',
-    guidedPrayer: 'Senhor da sabedoria, reconheço que os meus olhos são limitados, mas Tu vês o fim desde o princípio. Peço que ilumines o meu discernimento pela Tua Palavra, feches as portas que não provêm de Ti e abras o caminho que glorifica o Teu nome. Em nome de Jesus, amém.',
     verses: [
       {
         bookAbbrev: 'pv',
@@ -193,7 +187,6 @@ export const REFUGIO_BIBLICO_DATA: SpiritualRefuge[] = [
     subtitle: 'Revestindo-se da armadura de Deus e tomando o escape',
     icon: 'flame',
     pastoralWord: 'Ser tentado não é pecado — o próprio Senhor Jesus foi tentado em tudo, mas sem pecado (Hebreus 4:15). A vitória na hora da tentação está em sujeitar-se imediatamente a Deus, resistir ao inimigo com a Palavra e tomar o escape que o Senhor fielmente provê.',
-    guidedPrayer: 'Senhor Jesus, meu Sumo Sacerdote fiel, socorre-me agora mesmo nesta batalha. Sujeito minha mente, meus olhos e minha vontade ao Teu senhorio. Guarda o meu coração na pureza do Teu Espírito e livra-me do mal. Em Teu poderoso nome, amém.',
     verses: [
       {
         bookAbbrev: 'tg',
@@ -224,7 +217,6 @@ export const REFUGIO_BIBLICO_DATA: SpiritualRefuge[] = [
     subtitle: 'Lembrando de todos os benefícios do Senhor',
     icon: 'crown',
     pastoralWord: 'A gratidão é a memória do coração redimido. Quando olhamos para trás e contemplamos de onde o Senhor nos tirou, os livramentos invisíveis e a graça da salvação eterna, nossa alma transborda em louvor Àquele que é digno de toda honra!',
-    guidedPrayer: 'Bendize, ó minha alma, ao Senhor! Eu Te louvo, Pai amado, não apenas pelo que Tuas mãos me concedem, mas por Quem Tu és: Santo, Fiel, Justo e Misericordioso. Recebe a minha vida hoje como sacrifício vivo de gratidão. A Ti seja a glória para sempre, amém!',
     verses: [
       {
         bookAbbrev: 'sl',

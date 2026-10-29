@@ -1,12 +1,15 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
+import path from 'node:path';
 
 export default defineConfig({
-  // ─── BASE ───────────────────────────────────────────────────────────
-  // Configurado para publicação direta no GitHub Pages:
-  // https://carlosguedes-dev.github.io/verbo-vivo/
-  base: '/verbo-vivo/',
-
+  base: './',
   build: {
     outDir: 'dist',
-  },
-})
+    rollupOptions: {
+      input: {
+        main: path.resolve(process.cwd(), 'index.html'),
+        app: path.resolve(process.cwd(), 'app.html')
+      }
+    }
+  }
+});

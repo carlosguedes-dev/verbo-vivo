@@ -32,21 +32,21 @@ test('Bíblia Sagrada: As 3 traduções (ACF, NVI, ARA) possuem exatamente 66 li
   }
 });
 
-test('Segurança DOM: Código-fonte do cliente (src/main.ts) não utiliza innerHTML inseguro ou eval', () => {
-  const mainTs = fs.readFileSync(path.join(rootDir, 'src', 'main.ts'), 'utf8');
-  assert.equal(mainTs.includes('.innerHTML'), false, 'src/main.ts não deve usar innerHTML');
-  assert.equal(mainTs.includes('eval('), false, 'src/main.ts não deve usar eval()');
+test('Segurança DOM: Código-fonte (src/main.ts e src/download.ts) não utiliza innerHTML inseguro ou eval', () => {
+  for (const file of ['main.ts', 'download.ts']) {
+    const content = fs.readFileSync(path.join(rootDir, 'src', file), 'utf8');
+    assert.equal(content.includes('.innerHTML'), false, `src/${file} não deve usar innerHTML`);
+    assert.equal(content.includes('eval('), false, `src/${file} não deve usar eval()`);
+  }
 });
 
-test('Integridade Teológica: Módulos de Panorama, Tira-Dúvidas, Refúgio, Devocionais, Solas e Harpa estão presentes e completos', () => {
+test('Integridade do App: Módulos de Panorama, Tira-Dúvidas, Refúgio, Devocionais e Planos estão presentes e sem Oração Guiada ou Doutrina & Harpa', () => {
   const dataFiles = [
     'books-metadata.ts',
     'tira-duvidas.ts',
     'refugio-biblico.ts',
     'devocionais.ts',
-    'planos-leitura.ts',
-    'doutrina-solas.ts',
-    'harpa-louvores.ts'
+    'planos-leitura.ts'
   ];
 
   for (const file of dataFiles) {
@@ -55,4 +55,38 @@ test('Integridade Teológica: Módulos de Panorama, Tira-Dúvidas, Refúgio, Dev
     const content = fs.readFileSync(full, 'utf8');
     assert.ok(content.length > 1000, `Módulo ${file} deve conter conteúdo rico`);
   }
+
+  // Verifica remoção completa de Doutrina & Harpa e Oração Guiada
+  assert.equal(
+    fs.existsSync(path.join(rootDir, 'src', 'data', 'doutrina-solas.ts')),
+    false,
+    'doutrina-solas.ts deve ter sido removido'
+  );
+  assert.equal(
+    fs.existsSync(path.join(rootDir, 'src', 'data', 'harpa-louvores.ts')),
+    false,
+    'harpa-louvores.ts deve ter sido removido'
+  );
+
+  const refugioTs = fs.readFileSync(path.join(rootDir, 'src', 'data', 'refugio-biblico.ts'), 'utf8');
+  assert.equal(refugioTs.includes('guidedPrayer'), false, 'refugio-biblico.ts não deve conter guidedPrayer');
+
+  const appHtml = fs.readFileSync(path.join(rootDir, 'app.html'), 'utf8');
+  assert.equal(appHtml.includes('tab-doutrina'), false, 'app.html não deve conter a aba Doutrina & Harpa');
+  assert.equal(appHtml.includes('Doutrina & Harpa'), false, 'app.html não deve conter botão Doutrina & Harpa');
+  assert.equal(appHtml.toLowerCase().includes('oração guiada'), false, 'app.html não deve mencionar oração guiada');
+
+  const mainTs = fs.readFileSync(path.join(rootDir, 'src', 'main.ts'), 'utf8');
+  assert.equal(mainTs.includes('Oração Guiada'), false, 'src/main.ts não deve renderizar Oração Guiada');
+  assert.equal(mainTs.includes('guidedPrayer'), false, 'src/main.ts não deve acessar guidedPrayer');
+});
+
+test('Arquitetura Multiplataforma: Site de Download (index.html) e configurações Android, iOS e Windows estão presentes', () => {
+  const indexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+  assert.ok(indexHtml.includes('Verbo-Vivo-Android.apk'), 'index.html deve ter download para Android (.APK)');
+  assert.ok(indexHtml.includes('Verbo-Vivo-iOS.ipa'), 'index.html deve ter download para iPhone (.IPA)');
+  assert.ok(indexHtml.includes('Verbo-Vivo-Windows-Setup.exe'), 'index.html deve ter download para Windows (.EXE)');
+
+  assert.ok(fs.existsSync(path.join(rootDir, 'electron', 'main.cjs')), 'Configuração Electron Windows deve existir');
+  assert.ok(fs.existsSync(path.join(rootDir, 'capacitor.config.json')), 'Configuração Capacitor Android/iOS deve existir');
 });

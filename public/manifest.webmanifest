@@ -1,0 +1,18 @@
+{
+  "name": "Verbo Vivo — Bíblia Sagrada & Vida Cristã",
+  "short_name": "Verbo Vivo",
+  "description": "Aplicativo Cristão Evangélico: Bíblia Sagrada nas 3 traduções (ACF, NVI, ARA), Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional, Planos de Leitura e Caderno de Oração.",
+  "start_url": "./app.html",
+  "display": "standalone",
+  "background_color": "#0b0d12",
+  "theme_color": "#0b0d12",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

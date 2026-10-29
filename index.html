@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Verbo Vivo | Bíblia Sagrada, Tira-Dúvidas & Vida Cristã</title>
+    <title>Baixar Verbo Vivo | App para Android, iPhone e Windows</title>
     <meta
       name="description"
-      content="Plataforma Cristã Evangélica: Bíblia Sagrada nas 3 traduções (ACF, NVI, ARA), Central Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional, Planos de Leitura, Os 5 Solas, Harpa Cristã e Oração."
+      content="Baixe o aplicativo oficial Verbo Vivo para Android (.APK), iPhone (.IPA / iOS) e Windows (.EXE). Bíblia Sagrada offline nas 3 traduções (ACF, NVI, ARA), Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional, Planos de Leitura e Caderno de Oração."
     />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,7 +20,7 @@
     <!-- Minimalist & Noble Header -->
     <header class="site-header">
       <div class="container header-inner">
-        <a href="#biblia" class="brand" id="brand-home">
+        <a href="#downloads" class="brand" id="brand-home">
           <div class="brand-emblem" aria-hidden="true">
             <svg viewBox="0 0 40 40" fill="none">
               <path
@@ -36,16 +36,10 @@
           <span class="brand-title">Verbo Vivo</span>
         </a>
 
-        <nav class="main-nav" aria-label="Navegação Principal">
-          <button type="button" class="nav-tab active" data-tab="biblia">Bíblia</button>
-          <button type="button" class="nav-tab" data-tab="tira-duvidas">Tira-Dúvidas</button>
-          <button type="button" class="nav-tab" data-tab="refugio">Refúgio</button>
-          <button type="button" class="nav-tab" data-tab="devocional">Devocional & Planos</button>
-          <button type="button" class="nav-tab" data-tab="doutrina">Doutrina & Harpa</button>
-          <button type="button" class="nav-tab" data-tab="secreto">
-            Oração & Caderno
-            <span id="badge-saved-count" class="nav-counter">0</span>
-          </button>
+        <nav class="main-nav" aria-label="Navegação da Página de Download">
+          <button type="button" class="nav-tab active" data-section="downloads">Downloads</button>
+          <button type="button" class="nav-tab" data-section="recursos">Recursos do App</button>
+          <button type="button" class="nav-tab" data-section="instalacao">Como Instalar</button>
         </nav>
 
         <div class="header-actions">
@@ -65,9 +59,9 @@
     <!-- Serene, Centered Editorial Hero -->
     <section class="hero-minimal">
       <div class="container hero-centered">
-        <span class="hero-eyebrow">SOLA SCRIPTURA • FÉ EVANGÉLICA</span>
+        <span class="hero-eyebrow">APLICATIVO OFICIAL • ANDROID • IPHONE • WINDOWS</span>
         <h1 class="hero-title">
-          A Palavra de Deus, <span class="gold-italic">viva e suficiente.</span>
+          A Palavra de Deus, <span class="gold-italic">no seu dispositivo.</span>
         </h1>
 
         <div class="hero-verse-spotlight">
@@ -77,9 +71,7 @@
           <div class="hero-quote-meta">
             <span id="hero-featured-ref" class="hero-quote-ref">Salmos 119:105</span>
             <span class="meta-dot">•</span>
-            <button type="button" id="btn-open-featured-verse" class="btn-inline-link">
-              Ler capítulo
-            </button>
+            <span id="detected-os-badge" class="eyebrow-tag" style="margin-bottom: 0">100% OFFLINE & GRATUITO</span>
             <span class="meta-dot">•</span>
             <button type="button" id="btn-random-promise" class="btn-inline-link">
               Outra promessa ↻
@@ -89,374 +81,288 @@
       </div>
     </section>
 
-    <!-- Main Workspace -->
+    <!-- Main Download Workspace -->
     <main class="main-workspace container">
       <!-- =====================================================================
-           TAB 1: BÍBLIA SAGRADA (CLEAN EDITORIAL READER)
+           SECTION 1: DOWNLOADS (ANDROID, IPHONE, WINDOWS)
            ===================================================================== -->
-      <section id="tab-biblia" class="tab-panel active" aria-labelledby="heading-biblia">
-        <!-- Unified Sleek Reader Bar -->
-        <div class="reader-bar">
-          <div class="reader-bar-left">
-            <select id="select-testament" class="bar-select" aria-label="Filtrar Testamento">
-              <option value="ALL">66 Livros</option>
-              <option value="AT">Antigo Testamento</option>
-              <option value="NT">Novo Testamento</option>
-            </select>
-
-            <select id="select-book" class="bar-select bar-select-book" aria-label="Livro da Bíblia"></select>
-
-            <select id="select-chapter" class="bar-select bar-select-chap" aria-label="Capítulo"></select>
-
-            <select id="select-translation" class="bar-select bar-select-trans" aria-label="Tradução Bíblica">
-              <option value="acf">ACF</option>
-              <option value="nvi">NVI</option>
-              <option value="aa">ARA</option>
-            </select>
+      <section id="section-downloads" class="tab-panel active" aria-labelledby="heading-downloads">
+        <div class="page-head-split">
+          <div>
+            <span class="eyebrow-tag">VERSÃO 2.0.0 • DISTRIBUIÇÃO OFICIAL</span>
+            <h2 id="heading-downloads" class="page-title">Baixar Aplicativo Verbo Vivo</h2>
+            <p class="page-desc">
+              Escolha a versão para o seu sistema operacional. O aplicativo funciona 100% offline com as 3 traduções da Bíblia Sagrada (ACF, NVI e ARA) integradas, sem anúncios e sem distrações.
+            </p>
           </div>
+        </div>
 
-          <div class="reader-bar-right">
-            <div class="compact-search">
-              <input
-                type="search"
-                id="input-bible-search"
-                class="compact-search-input"
-                placeholder="Buscar versículo ou palavra..."
-              />
-              <button type="button" id="btn-bible-search" class="compact-search-btn" title="Pesquisar na Bíblia">
-                Buscar
+        <div class="download-platforms-grid">
+          <!-- CARD 1: ANDROID -->
+          <article id="card-platform-android" class="platform-card">
+            <div class="platform-card-top">
+              <div class="platform-header-row">
+                <div class="platform-icon-box" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                  </svg>
+                </div>
+                <span id="badge-android" class="eyebrow-tag">ANDROID 8.0+ • .APK</span>
+              </div>
+
+              <h3 class="platform-title">Android</h3>
+              <p class="platform-desc">
+                Pacote oficial instalável para celulares e tablets Android. Inclui todo o acervo bíblico nas versões ACF, NVI e ARA embarcado para leitura sem internet.
+              </p>
+
+              <ul class="platform-specs-list">
+                <li>✓ Arquivo: <strong>Verbo-Vivo-Android.apk</strong></li>
+                <li>✓ Bíblia Completa Offline (66 Livros • 3 Versões)</li>
+                <li>✓ Tira-Dúvidas, Refúgio, Devocional & Caderno</li>
+              </ul>
+            </div>
+
+            <div class="platform-actions">
+              <a
+                href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-Android.apk"
+                class="btn-download-primary"
+                download="Verbo-Vivo-Android.apk"
+              >
+                ↓ Baixar para Android (.APK)
+              </a>
+              <button type="button" class="btn-download-secondary" data-go-install="android">
+                Ver instruções de instalação
               </button>
             </div>
+          </article>
 
-            <button
-              type="button"
-              id="btn-toggle-overview"
-              class="btn-bar-tool"
-              title="Ver resumo e contexto histórico deste livro"
-            >
-              Sobre o Livro
-            </button>
+          <!-- CARD 2: IPHONE / IOS -->
+          <article id="card-platform-ios" class="platform-card">
+            <div class="platform-card-top">
+              <div class="platform-header-row">
+                <div class="platform-icon-box" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="6" y="2" width="12" height="20" rx="3"></rect>
+                    <line x1="10" y1="5" x2="14" y2="5"></line>
+                    <circle cx="12" cy="18" r="1"></circle>
+                  </svg>
+                </div>
+                <span id="badge-ios" class="eyebrow-tag">IPHONE & IPAD • IOS 15+</span>
+              </div>
 
-            <div class="font-controls" aria-label="Tamanho da fonte">
-              <button type="button" id="btn-font-decrease" class="btn-bar-tool" title="Diminuir fonte">A-</button>
-              <button type="button" id="btn-font-increase" class="btn-bar-tool" title="Aumentar fonte">A+</button>
+              <h3 class="platform-title">iPhone (iOS)</h3>
+              <p class="platform-desc">
+                Disponível como pacote nativo <strong>.IPA</strong> (para instalação via AltStore / Sideloadly) ou instalação direta na Tela de Início do iOS com suporte offline completo.
+              </p>
+
+              <ul class="platform-specs-list">
+                <li>✓ Arquivo: <strong>Verbo-Vivo-iOS.ipa</strong></li>
+                <li>✓ Instalação Direta no iOS (Sem Computador)</li>
+                <li>✓ Modo Vigília Escuro & Pergaminho Claro</li>
+              </ul>
             </div>
-          </div>
+
+            <div class="platform-actions">
+              <a
+                href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-iOS.ipa"
+                class="btn-download-primary"
+                download="Verbo-Vivo-iOS.ipa"
+              >
+                ↓ Baixar para iPhone (.IPA)
+              </a>
+              <a
+                href="./app.html"
+                class="btn-download-secondary"
+              >
+                Instalar Direto na Tela de Início (iOS)
+              </a>
+            </div>
+          </article>
+
+          <!-- CARD 3: WINDOWS -->
+          <article id="card-platform-windows" class="platform-card">
+            <div class="platform-card-top">
+              <div class="platform-header-row">
+                <div class="platform-icon-box" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                  </svg>
+                </div>
+                <span id="badge-windows" class="eyebrow-tag">WINDOWS 10 / 11 (64-BIT)</span>
+              </div>
+
+              <h3 class="platform-title">Windows</h3>
+              <p class="platform-desc">
+                Aplicativo Desktop dedicado para estudo bíblico profundo no computador, comparação simultânea de traduções, marca-texto e caderno de anotações.
+              </p>
+
+              <ul class="platform-specs-list">
+                <li>✓ Instalador: <strong>Verbo-Vivo-Windows-Setup.exe</strong></li>
+                <li>✓ Portátil: <strong>Verbo-Vivo-Windows-Portable.exe</strong></li>
+                <li>✓ Execução Nativa 100% Offline no Windows</li>
+              </ul>
+            </div>
+
+            <div class="platform-actions">
+              <a
+                href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-Windows-Setup.exe"
+                class="btn-download-primary"
+                download="Verbo-Vivo-Windows-Setup.exe"
+              >
+                ↓ Baixar Instalador Windows (.EXE)
+              </a>
+              <a
+                href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-Windows-Portable.exe"
+                class="btn-download-secondary"
+                download="Verbo-Vivo-Windows-Portable.exe"
+              >
+                Baixar Versão Portátil (Sem Instalação)
+              </a>
+            </div>
+          </article>
         </div>
 
-        <!-- Search Results Drawer (Hidden until searched) -->
-        <div id="bible-search-results-panel" class="drawer-panel hidden">
-          <div class="drawer-header">
-            <h3 id="search-results-title">Resultados da Pesquisa</h3>
-            <button type="button" id="btn-close-search-results" class="btn-close-drawer">✕ Fechar</button>
-          </div>
-          <div id="bible-search-results-list" class="search-results-grid"></div>
-        </div>
-
-        <!-- Book Overview Drawer (Hidden by default so the Bible text is immediate!) -->
-        <aside id="book-overview-card" class="drawer-panel hidden">
+        <!-- Release Notes & Integrity Banner -->
+        <aside class="drawer-panel">
           <div class="drawer-header">
             <div>
-              <span id="overview-division" class="eyebrow-tag">Evangelhos</span>
-              <h2 id="overview-book-title" class="drawer-title">Evangelho de João</h2>
+              <span class="eyebrow-tag">SEGURANÇA & CÓDIGO ABERTO</span>
+              <h3 class="drawer-title">Downloads Verificados no GitHub Releases</h3>
             </div>
             <div class="overview-meta-pills">
-              <span class="meta-pill">Autor: <strong id="overview-author"></strong></span>
-              <span class="meta-pill">Data: <strong id="overview-date"></strong></span>
+              <span class="meta-pill">Versão: <strong>2.0.0</strong></span>
+              <span class="meta-pill">Licença: <strong>MIT (Gratuito)</strong></span>
+              <span class="meta-pill">Anúncios: <strong>Zero</strong></span>
             </div>
           </div>
           <div class="overview-body-grid">
             <div class="overview-col">
-              <h4>Contexto & Mensagem</h4>
-              <p id="overview-summary"></p>
+              <h4>100% Embarcado & Privado</h4>
+              <p>
+                Todos os 66 livros canônicos, 1.189 capítulos e mais de 31.100 versículos nas 3 traduções (ACF, NVI e ARA) vêm integrados diretamente dentro do aplicativo. Seus grifos, notas e pedidos de oração ficam salvos exclusivamente no seu aparelho.
+              </p>
             </div>
             <div class="overview-col christ-box">
-              <h4>✝️ Cristo Revelado Neste Livro</h4>
-              <p id="overview-christ"></p>
+              <h4>✝️ Compromisso com a Palavra</h4>
+              <p>
+                Desenvolvido para proporcionar leitura reverente, estudo bíblico sem distrações e edificação diária no celular (Android e iPhone) ou no computador (Windows).
+              </p>
             </div>
           </div>
           <div class="overview-key-verse">
-            <strong id="overview-key-ref"></strong> — <em id="overview-key-text"></em>
+            <strong>Código-Fonte e Todas as Versões:</strong> —
+            <a
+              href="https://github.com/carlosguedes-dev/verbo-vivo/releases"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-inline-link"
+            >
+              Ver todos os arquivos de lançamento no GitHub Releases →
+            </a>
           </div>
         </aside>
+      </section>
 
-        <!-- Clean Literary Reading Area + Optional Contextual Verse Drawer -->
-        <div id="bible-reader-grid" class="bible-reader-stage">
-          <article class="scripture-page">
-            <header class="chapter-header">
-              <div class="chapter-title-group">
-                <span id="reader-translation-badge" class="chapter-trans-tag">Almeida Corrigida Fiel</span>
-                <h2 id="heading-biblia" class="chapter-heading">João 1</h2>
-              </div>
-              <div class="chapter-actions">
-                <button type="button" id="btn-prev-chapter" class="btn-chap-arrow" title="Capítulo Anterior">
-                  ← Anterior
-                </button>
-                <button type="button" id="btn-mark-chapter-read" class="btn-chap-check">
-                  ✓ Marcar Lido
-                </button>
-                <button type="button" id="btn-next-chapter" class="btn-chap-arrow" title="Próximo Capítulo">
-                  Próximo →
-                </button>
-              </div>
-            </header>
+      <!-- =====================================================================
+           SECTION 2: RECURSOS DO APP (O QUE HÁ NO VERBO VIVO)
+           ===================================================================== -->
+      <section id="section-recursos" class="tab-panel" aria-labelledby="heading-recursos">
+        <div class="page-head">
+          <span class="eyebrow-tag">POR DENTRO DO APLICATIVO</span>
+          <h2 id="heading-recursos" class="page-title">Recursos do App Verbo Vivo</h2>
+          <p class="page-desc">
+            Conheça as 5 áreas integradas no aplicativo para Android, iPhone e Windows, mantendo o design Santuário Editorial nos modos Vigília (Escuro) e Pergaminho (Claro).
+          </p>
+        </div>
 
-            <div id="bible-verses-container" class="verses-flow"></div>
-
-            <footer class="chapter-footer">
-              <button type="button" id="btn-prev-chapter-bottom" class="btn-chap-arrow">
-                ← Capítulo Anterior
-              </button>
-              <span id="bible-progress-label" class="chapter-progress-pill">0 de 1189 capítulos lidos</span>
-              <button type="button" id="btn-next-chapter-bottom" class="btn-chap-arrow">
-                Próximo Capítulo →
-              </button>
-            </footer>
+        <div class="features-grid">
+          <article class="qa-card">
+            <span class="eyebrow-tag">MÓDULO 1 • ESCRITURAS</span>
+            <h3 class="qa-card-question">Bíblia Sagrada (ACF, NVI e ARA)</h3>
+            <p class="qa-short-answer">
+              Leitura fluida dos 66 livros canônicos com comparador instantâneo lado a lado entre Almeida Corrigida Fiel, Nova Versão Internacional e Almeida Revista e Atualizada, panorama cristocêntrico de cada livro, busca global e marca-texto em 4 cores.
+            </p>
           </article>
 
-          <!-- Contextual Verse Study Panel (Only visible when a verse is clicked) -->
-          <aside id="verse-study-sidebar" class="verse-study-drawer hidden">
-            <div class="study-drawer-top">
-              <div>
-                <span class="eyebrow-tag">ESTUDO & COMPARAÇÃO</span>
-                <h3 id="inspector-verse-ref">João 1:1</h3>
-              </div>
-              <button type="button" id="btn-close-inspector" class="btn-close-drawer" title="Fechar painel">
-                ✕
-              </button>
-            </div>
+          <article class="qa-card">
+            <span class="eyebrow-tag">MÓDULO 2 • ATOS 17:11</span>
+            <h3 class="qa-card-question">Tira-Dúvidas Bereano</h3>
+            <p class="qa-short-answer">
+              Respostas claras, acolhedoras e fundamentadas nas Escrituras para dúvidas sobre Salvação & Graça, Vida Cristã, Doutrina, Apologética, Família e Eternidade, com referências bíblicas clicáveis.
+            </p>
+          </article>
 
-            <div class="study-actions-bar">
-              <button type="button" id="btn-copy-verse" class="btn-action-pill">Copiar Versículo</button>
-              <span id="copy-feedback" class="copy-toast hidden">Copiado!</span>
-            </div>
+          <article class="qa-card">
+            <span class="eyebrow-tag">MÓDULO 3 • SALMOS 46:1</span>
+            <h3 class="qa-card-question">Refúgio Bíblico</h3>
+            <p class="qa-short-answer">
+              "Para Onde Ir Quando...": socorro espiritual imediato para momentos de ansiedade, arrependimento, cansaço, solidão, luto, decisão difícil, tentação e gratidão, com palavra pastoral e promessas bíblicas.
+            </p>
+          </article>
 
-            <div class="study-block">
-              <span class="study-label">Grifar Versículo</span>
-              <div class="swatch-row">
-                <button type="button" class="btn-color-swatch swatch-gold" data-color="gold">Promessa</button>
-                <button type="button" class="btn-color-swatch swatch-blue" data-color="blue">Doutrina</button>
-                <button type="button" class="btn-color-swatch swatch-green" data-color="green">Sabedoria</button>
-                <button type="button" class="btn-color-swatch swatch-rose" data-color="rose">Adoração</button>
-                <button type="button" id="btn-remove-highlight" class="btn-clear-swatch">Limpar</button>
-              </div>
-            </div>
+          <article class="qa-card">
+            <span class="eyebrow-tag">MÓDULO 4 • CONSTÂNCIA</span>
+            <h3 class="qa-card-question">Devocional & Planos de Leitura</h3>
+            <p class="qa-short-answer">
+              Meditações diárias com contexto histórico e aplicação prática, acompanhadas de planos estruturados de leitura bíblica com marcação de progresso.
+            </p>
+          </article>
 
-            <div class="study-block">
-              <label for="textarea-verse-note" class="study-label">Anotação Pessoal</label>
-              <textarea
-                id="textarea-verse-note"
-                rows="3"
-                class="study-textarea"
-                placeholder="Escreva sua reflexão sobre este versículo..."
-              ></textarea>
-              <button type="button" id="btn-save-verse-note" class="btn-save-note">
-                Salvar no Caderno
-              </button>
-            </div>
-
-            <div class="study-block">
-              <span class="study-label">Comparativo nas 3 Traduções</span>
-              <div id="inspector-translations-list" class="comparison-stack"></div>
-            </div>
-          </aside>
+          <article class="qa-card">
+            <span class="eyebrow-tag">MÓDULO 5 • MATEUS 6:6</span>
+            <h3 class="qa-card-question">Altar de Oração & Caderno</h3>
+            <p class="qa-short-answer">
+              Registre seus motivos pessoais de oração, marque orações respondidas como testemunho de gratidão e consulte todos os seus versículos grifados e anotados.
+            </p>
+          </article>
         </div>
       </section>
 
       <!-- =====================================================================
-           TAB 2: TIRA-DÚVIDAS BEREANO (CLEAN ACCORDION CARDS)
+           SECTION 3: COMO INSTALAR EM CADA PLATAFORMA
            ===================================================================== -->
-      <section id="tab-tira-duvidas" class="tab-panel" aria-labelledby="heading-tira-duvidas">
+      <section id="section-instalacao" class="tab-panel" aria-labelledby="heading-instalacao">
         <div class="page-head">
-          <span class="eyebrow-tag">ATOS 17:11 • EXAME FIEL DAS ESCRITURAS</span>
-          <h2 id="heading-tira-duvidas" class="page-title">Tira-Dúvidas Bíblico</h2>
+          <span class="eyebrow-tag">PASSO A PASSO SIMPLES</span>
+          <h2 id="heading-instalacao" class="page-title">Como Instalar no seu Dispositivo</h2>
           <p class="page-desc">
-            Respostas claras, acolhedoras e fundamentadas na Bíblia para dúvidas sobre Salvação, Vida Cristã, Doutrina, Apologética e Eternidade.
+            Siga as instruções abaixo para instalar o Verbo Vivo no Android, iPhone ou Windows em menos de 1 minuto.
           </p>
         </div>
 
-        <div class="qa-filter-bar">
-          <input
-            type="search"
-            id="input-qa-search"
-            class="qa-search-field"
-            placeholder="Pesquisar dúvida (ex: certeza da salvação, pecado imperdoável, ansiedade, trindade, namoro, dízimo)..."
-          />
-          <div id="qa-categories-bar" class="pill-group"></div>
-        </div>
-
-        <div id="qa-results-counter" class="results-meta"></div>
-        <div id="qa-cards-container" class="qa-accordion-list"></div>
-      </section>
-
-      <!-- =====================================================================
-           TAB 3: REFÚGIO BÍBLICO ("PARA ONDE IR QUANDO...")
-           ===================================================================== -->
-      <section id="tab-refugio" class="tab-panel" aria-labelledby="heading-refugio">
-        <div class="page-head">
-          <span class="eyebrow-tag">SALMOS 46:1 • CONSOLO E DIREÇÃO</span>
-          <h2 id="heading-refugio" class="page-title">Para Onde Ir Quando...</h2>
-          <p class="page-desc">
-            Escolha como está o seu coração hoje para receber uma palavra pastoral, uma oração guiada e promessas bíblicas.
-          </p>
-        </div>
-
-        <div id="refugio-states-grid" class="refugio-pills-grid"></div>
-        <div id="refugio-active-detail" class="refugio-sanctuary-card"></div>
-      </section>
-
-      <!-- =====================================================================
-           TAB 4: DEVOCIONAL & PLANOS DE LEITURA (SEGMENTED VIEW)
-           ===================================================================== -->
-      <section id="tab-devocional" class="tab-panel" aria-labelledby="heading-devocional">
-        <div class="page-head-split">
-          <div>
-            <span class="eyebrow-tag">CONSTÂNCIA NA PALAVRA</span>
-            <h2 id="heading-devocional" class="page-title">Devocional & Planos de Leitura</h2>
-          </div>
-          <div class="subview-switcher" role="tablist">
-            <button type="button" class="subview-btn active" data-devo-view="meditacao">
-              Meditação Diária
-            </button>
-            <button type="button" class="subview-btn" data-devo-view="planos">
-              Planos de Leitura
-            </button>
-          </div>
-        </div>
-
-        <!-- Subview A: Meditação Diária -->
-        <div id="devo-subview-meditacao" class="subview-panel">
-          <div id="devotional-tabs-bar" class="pill-group"></div>
-          <article id="devotional-active-card" class="editorial-card"></article>
-        </div>
-
-        <!-- Subview B: Planos de Leitura -->
-        <div id="devo-subview-planos" class="subview-panel hidden">
-          <div id="reading-plans-selector" class="pill-group"></div>
-          <div id="reading-plan-detail" class="plan-days-grid"></div>
-        </div>
-      </section>
-
-      <!-- =====================================================================
-           TAB 5: SÃ DOUTRINA & HARPA CRISTÃ (SEGMENTED VIEW)
-           ===================================================================== -->
-      <section id="tab-doutrina" class="tab-panel" aria-labelledby="heading-doutrina">
-        <div class="page-head-split">
-          <div>
-            <span class="eyebrow-tag">JUDAS 1:3 • FUNDAMENTOS DA FÉ</span>
-            <h2 id="heading-doutrina" class="page-title">Sã Doutrina & Harpa Cristã</h2>
-          </div>
-          <div class="subview-switcher" role="tablist">
-            <button type="button" class="subview-btn active" data-dout-view="solas">
-              Os 5 Solas & Credo
-            </button>
-            <button type="button" class="subview-btn" data-dout-view="dicionario">
-              Dicionário Teológico
-            </button>
-            <button type="button" class="subview-btn" data-dout-view="harpa">
-              Harpa Cristã
-            </button>
-          </div>
-        </div>
-
-        <!-- Subview 1: Cinco Solas & Credo Apostólico -->
-        <div id="dout-subview-solas" class="subview-panel">
-          <div id="cinco-solas-grid" class="solas-grid"></div>
-          <div class="creed-card">
-            <span class="eyebrow-tag">CONFISSÃO HISTÓRICA CRISTÃ</span>
-            <h3>O Credo Apostólico</h3>
-            <div id="credo-apostolico-content" class="creed-text"></div>
-          </div>
-        </div>
-
-        <!-- Subview 2: Dicionário Teológico -->
-        <div id="dout-subview-dicionario" class="subview-panel hidden">
-          <div class="dict-filter-bar">
-            <input
-              type="search"
-              id="input-dict-search"
-              class="qa-search-field"
-              placeholder="Filtrar termo teológico (ex: Justificação, Regeneração, Graça, Redenção, Paracleto)..."
-            />
-          </div>
-          <div id="dictionary-terms-grid" class="dictionary-grid"></div>
-        </div>
-
-        <!-- Subview 3: Harpa Cristã -->
-        <div id="dout-subview-harpa" class="subview-panel hidden">
-          <div class="hymnal-split">
-            <div id="hymns-list-sidebar" class="hymns-list"></div>
-            <div id="hymn-viewer-card" class="editorial-card"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =====================================================================
-           TAB 6: ORAÇÃO & CADERNO BÍBLICO
-           ===================================================================== -->
-      <section id="tab-secreto" class="tab-panel" aria-labelledby="heading-secreto">
-        <div class="page-head">
-          <span class="eyebrow-tag">MATEUS 6:6 • VIDA DEVOCIONAL PESSOAL</span>
-          <h2 id="heading-secreto" class="page-title">Altar de Oração & Caderno Bíblico</h2>
-          <p class="page-desc">
-            Seus motivos de oração e os versículos que você grifou ficam salvos de forma privada no seu navegador.
-          </p>
-        </div>
-
-        <div class="secreto-grid">
-          <div class="prayer-column">
-            <div class="clean-panel">
-              <h3 class="panel-heading">Novo Motivo de Oração</h3>
-              <form id="form-new-prayer" class="prayer-form">
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="prayer-title">Motivo ou Pessoa</label>
-                    <input
-                      type="text"
-                      id="prayer-title"
-                      required
-                      placeholder="Ex: Saúde da família, Direção..."
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="prayer-category">Categoria</label>
-                    <select id="prayer-category">
-                      <option value="Família">Família</option>
-                      <option value="Santificação">Vida Espiritual</option>
-                      <option value="Saúde & Consolo">Saúde & Consolo</option>
-                      <option value="Conversão">Conversão</option>
-                      <option value="Igreja & Missões">Igreja & Missões</option>
-                      <option value="Gratidão & Direção">Gratidão & Direção</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="prayer-desc">Sua Oração</label>
-                  <textarea
-                    id="prayer-desc"
-                    rows="2"
-                    required
-                    placeholder="Escreva seu pedido diante do Senhor..."
-                  ></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="prayer-promise">Versículo de Promessa (Opcional)</label>
-                  <input
-                    type="text"
-                    id="prayer-promise"
-                    placeholder="Ex: Filipenses 4:6-7"
-                  />
-                </div>
-                <button type="submit" class="btn-gold">Registrar Oração</button>
-              </form>
-            </div>
-
-            <div id="prayer-items-container" class="stack-list"></div>
+        <div class="install-steps-grid">
+          <div class="clean-panel">
+            <span class="eyebrow-tag">PASSO A PASSO • ANDROID</span>
+            <h3 class="panel-heading">Instalando no Android (.APK)</h3>
+            <ol class="platform-specs-list" style="padding-left: 1.1rem; list-style: decimal">
+              <li>Toque no botão <strong>Baixar para Android (.APK)</strong> para transferir o arquivo <code>Verbo-Vivo-Android.apk</code>.</li>
+              <li>Abra o arquivo baixado na barra de notificações ou na pasta <em>Downloads</em> do seu celular.</li>
+              <li>Caso o Android solicite permissão para instalar do navegador, confirme e toque em <strong>Instalar</strong>.</li>
+              <li>Pronto! O ícone do <strong>Verbo Vivo</strong> aparecerá na sua gaveta de aplicativos funcionando 100% offline.</li>
+            </ol>
           </div>
 
-          <div class="notes-column">
-            <h3 class="panel-heading">Versículos Grifados & Notas</h3>
-            <div id="saved-studies-container" class="stack-list"></div>
+          <div class="clean-panel">
+            <span class="eyebrow-tag">PASSO A PASSO • IPHONE & IPAD</span>
+            <h3 class="panel-heading">Instalando no iPhone (iOS)</h3>
+            <ol class="platform-specs-list" style="padding-left: 1.1rem; list-style: decimal">
+              <li><strong>Opção 1 (Direto no Safari):</strong> Toque em <em>Instalar Direto na Tela de Início (iOS)</em>, toque no ícone <strong>Compartilhar</strong> do Safari e selecione <strong>Adicionar à Tela de Início</strong>.</li>
+              <li><strong>Opção 2 (Arquivo .IPA):</strong> Baixe o arquivo <code>Verbo-Vivo-iOS.ipa</code> no botão principal e instale no seu iPhone usando o <em>AltStore</em> ou <em>Sideloadly</em>.</li>
+              <li>Abra o <strong>Verbo Vivo</strong> na tela inicial do seu iPhone em tela cheia e offline.</li>
+            </ol>
+          </div>
+
+          <div class="clean-panel">
+            <span class="eyebrow-tag">PASSO A PASSO • WINDOWS 10 / 11</span>
+            <h3 class="panel-heading">Instalando no Windows (.EXE)</h3>
+            <ol class="platform-specs-list" style="padding-left: 1.1rem; list-style: decimal">
+              <li>Clique em <strong>Baixar Instalador Windows (.EXE)</strong> ou escolha a <strong>Versão Portátil</strong>.</li>
+              <li>Execute o arquivo <code>Verbo-Vivo-Windows-Setup.exe</code> (se o Windows SmartScreen exibir um aviso de editor independente, clique em <em>Mais informações → Executar assim mesmo</em>).</li>
+              <li>O aplicativo criará um atalho na sua Área de Trabalho e no Menu Iniciar pronto para uso offline.</li>
+            </ol>
           </div>
         </div>
       </section>
@@ -467,7 +373,7 @@
       <div class="container footer-row">
         <div>
           <strong class="footer-brand">Verbo Vivo</strong>
-          <span class="footer-motto">Sola Scriptura • Solus Christus • Sola Gratia • Sola Fide • Soli Deo Gloria</span>
+          <span class="footer-motto">Hebreus 4:12 • Aplicativo Oficial para Android, iPhone e Windows</span>
         </div>
         <div class="footer-right">
           Desenvolvido por
@@ -476,6 +382,6 @@
       </div>
     </footer>
 
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/download.ts"></script>
   </body>
 </html>

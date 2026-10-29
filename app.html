@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Verbo Vivo" />
+    <meta name="theme-color" content="#0b0d12" />
+    <title>Verbo Vivo | Bíblia Sagrada, Tira-Dúvidas & Vida Cristã</title>
+    <meta
+      name="description"
+      content="Aplicativo Cristão Evangélico Verbo Vivo: Bíblia Sagrada nas 3 traduções (ACF, NVI, ARA), Central Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional, Planos de Leitura e Caderno de Oração."
+    />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Minimalist & Noble Header -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="#biblia" class="brand" id="brand-home">
+          <div class="brand-emblem" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none">
+              <path
+                d="M8 29V14C8 12.5 13 11 20 14C27 11 32 12.5 32 14V29C32 27.5 27 26 20 29C13 26 8 27.5 8 29Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+              <path d="M20 14V29" stroke="currentColor" stroke-width="1.6" />
+              <path d="M20 5V16M16 9H24" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </div>
+          <span class="brand-title">Verbo Vivo</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Navegação Principal">
+          <button type="button" class="nav-tab active" data-tab="biblia">Bíblia</button>
+          <button type="button" class="nav-tab" data-tab="tira-duvidas">Tira-Dúvidas</button>
+          <button type="button" class="nav-tab" data-tab="refugio">Refúgio</button>
+          <button type="button" class="nav-tab" data-tab="devocional">Devocional & Planos</button>
+          <button type="button" class="nav-tab" data-tab="secreto">
+            Oração & Caderno
+            <span id="badge-saved-count" class="nav-counter">0</span>
+          </button>
+        </nav>
+
+        <div class="header-actions">
+          <button
+            type="button"
+            id="btn-theme-toggle"
+            class="btn-theme"
+            title="Alternar entre Modo Escuro e Modo Claro"
+          >
+            <span id="theme-icon">☀️</span>
+            <span id="theme-label" class="theme-label-text">Claro</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Serene, Centered Editorial Hero -->
+    <section class="hero-minimal">
+      <div class="container hero-centered">
+        <span class="hero-eyebrow">ESCRITURAS SAGRADAS • FÉ EVANGÉLICA</span>
+        <h1 class="hero-title">
+          A Palavra de Deus, <span class="gold-italic">viva e suficiente.</span>
+        </h1>
+
+        <div class="hero-verse-spotlight">
+          <blockquote id="hero-featured-quote" class="hero-quote-text">
+            "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."
+          </blockquote>
+          <div class="hero-quote-meta">
+            <span id="hero-featured-ref" class="hero-quote-ref">Salmos 119:105</span>
+            <span class="meta-dot">•</span>
+            <button type="button" id="btn-open-featured-verse" class="btn-inline-link">
+              Ler capítulo
+            </button>
+            <span class="meta-dot">•</span>
+            <button type="button" id="btn-random-promise" class="btn-inline-link">
+              Outra promessa ↻
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Workspace -->
+    <main class="main-workspace container">
+      <!-- =====================================================================
+           TAB 1: BÍBLIA SAGRADA (CLEAN EDITORIAL READER)
+           ===================================================================== -->
+      <section id="tab-biblia" class="tab-panel active" aria-labelledby="heading-biblia">
+        <!-- Unified Sleek Reader Bar -->
+        <div class="reader-bar">
+          <div class="reader-bar-left">
+            <select id="select-testament" class="bar-select" aria-label="Filtrar Testamento">
+              <option value="ALL">66 Livros</option>
+              <option value="AT">Antigo Testamento</option>
+              <option value="NT">Novo Testamento</option>
+            </select>
+
+            <select id="select-book" class="bar-select bar-select-book" aria-label="Livro da Bíblia"></select>
+
+            <select id="select-chapter" class="bar-select bar-select-chap" aria-label="Capítulo"></select>
+
+            <select id="select-translation" class="bar-select bar-select-trans" aria-label="Tradução Bíblica">
+              <option value="acf">ACF</option>
+              <option value="nvi">NVI</option>
+              <option value="aa">ARA</option>
+            </select>
+          </div>
+
+          <div class="reader-bar-right">
+            <div class="compact-search">
+              <input
+                type="search"
+                id="input-bible-search"
+                class="compact-search-input"
+                placeholder="Buscar versículo ou palavra..."
+              />
+              <button type="button" id="btn-bible-search" class="compact-search-btn" title="Pesquisar na Bíblia">
+                Buscar
+              </button>
+            </div>
+
+            <button
+              type="button"
+              id="btn-toggle-overview"
+              class="btn-bar-tool"
+              title="Ver resumo e contexto histórico deste livro"
+            >
+              Sobre o Livro
+            </button>
+
+            <div class="font-controls" aria-label="Tamanho da fonte">
+              <button type="button" id="btn-font-decrease" class="btn-bar-tool" title="Diminuir fonte">A-</button>
+              <button type="button" id="btn-font-increase" class="btn-bar-tool" title="Aumentar fonte">A+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Results Drawer (Hidden until searched) -->
+        <div id="bible-search-results-panel" class="drawer-panel hidden">
+          <div class="drawer-header">
+            <h3 id="search-results-title">Resultados da Pesquisa</h3>
+            <button type="button" id="btn-close-search-results" class="btn-close-drawer">✕ Fechar</button>
+          </div>
+          <div id="bible-search-results-list" class="search-results-grid"></div>
+        </div>
+
+        <!-- Book Overview Drawer (Hidden by default so the Bible text is immediate!) -->
+        <aside id="book-overview-card" class="drawer-panel hidden">
+          <div class="drawer-header">
+            <div>
+              <span id="overview-division" class="eyebrow-tag">Evangelhos</span>
+              <h2 id="overview-book-title" class="drawer-title">Evangelho de João</h2>
+            </div>
+            <div class="overview-meta-pills">
+              <span class="meta-pill">Autor: <strong id="overview-author"></strong></span>
+              <span class="meta-pill">Data: <strong id="overview-date"></strong></span>
+            </div>
+          </div>
+          <div class="overview-body-grid">
+            <div class="overview-col">
+              <h4>Contexto & Mensagem</h4>
+              <p id="overview-summary"></p>
+            </div>
+            <div class="overview-col christ-box">
+              <h4>✝️ Cristo Revelado Neste Livro</h4>
+              <p id="overview-christ"></p>
+            </div>
+          </div>
+          <div class="overview-key-verse">
+            <strong id="overview-key-ref"></strong> — <em id="overview-key-text"></em>
+          </div>
+        </aside>
+
+        <!-- Clean Literary Reading Area + Optional Contextual Verse Drawer -->
+        <div id="bible-reader-grid" class="bible-reader-stage">
+          <article class="scripture-page">
+            <header class="chapter-header">
+              <div class="chapter-title-group">
+                <span id="reader-translation-badge" class="chapter-trans-tag">Almeida Corrigida Fiel</span>
+                <h2 id="heading-biblia" class="chapter-heading">João 1</h2>
+              </div>
+              <div class="chapter-actions">
+                <button type="button" id="btn-prev-chapter" class="btn-chap-arrow" title="Capítulo Anterior">
+                  ← Anterior
+                </button>
+                <button type="button" id="btn-mark-chapter-read" class="btn-chap-check">
+                  ✓ Marcar Lido
+                </button>
+                <button type="button" id="btn-next-chapter" class="btn-chap-arrow" title="Próximo Capítulo">
+                  Próximo →
+                </button>
+              </div>
+            </header>
+
+            <div id="bible-verses-container" class="verses-flow"></div>
+
+            <footer class="chapter-footer">
+              <button type="button" id="btn-prev-chapter-bottom" class="btn-chap-arrow">
+                ← Capítulo Anterior
+              </button>
+              <span id="bible-progress-label" class="chapter-progress-pill">0 de 1189 capítulos lidos</span>
+              <button type="button" id="btn-next-chapter-bottom" class="btn-chap-arrow">
+                Próximo Capítulo →
+              </button>
+            </footer>
+          </article>
+
+          <!-- Contextual Verse Study Panel (Only visible when a verse is clicked) -->
+          <aside id="verse-study-sidebar" class="verse-study-drawer hidden">
+            <div class="study-drawer-top">
+              <div>
+                <span class="eyebrow-tag">ESTUDO & COMPARAÇÃO</span>
+                <h3 id="inspector-verse-ref">João 1:1</h3>
+              </div>
+              <button type="button" id="btn-close-inspector" class="btn-close-drawer" title="Fechar painel">
+                ✕
+              </button>
+            </div>
+
+            <div class="study-actions-bar">
+              <button type="button" id="btn-copy-verse" class="btn-action-pill">Copiar Versículo</button>
+              <span id="copy-feedback" class="copy-toast hidden">Copiado!</span>
+            </div>
+
+            <div class="study-block">
+              <span class="study-label">Grifar Versículo</span>
+              <div class="swatch-row">
+                <button type="button" class="btn-color-swatch swatch-gold" data-color="gold">Promessa</button>
+                <button type="button" class="btn-color-swatch swatch-blue" data-color="blue">Doutrina</button>
+                <button type="button" class="btn-color-swatch swatch-green" data-color="green">Sabedoria</button>
+                <button type="button" class="btn-color-swatch swatch-rose" data-color="rose">Adoração</button>
+                <button type="button" id="btn-remove-highlight" class="btn-clear-swatch">Limpar</button>
+              </div>
+            </div>
+
+            <div class="study-block">
+              <label for="textarea-verse-note" class="study-label">Anotação Pessoal</label>
+              <textarea
+                id="textarea-verse-note"
+                rows="3"
+                class="study-textarea"
+                placeholder="Escreva sua reflexão sobre este versículo..."
+              ></textarea>
+              <button type="button" id="btn-save-verse-note" class="btn-save-note">
+                Salvar no Caderno
+              </button>
+            </div>
+
+            <div class="study-block">
+              <span class="study-label">Comparativo nas 3 Traduções</span>
+              <div id="inspector-translations-list" class="comparison-stack"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 2: TIRA-DÚVIDAS BEREANO (CLEAN ACCORDION CARDS)
+           ===================================================================== -->
+      <section id="tab-tira-duvidas" class="tab-panel" aria-labelledby="heading-tira-duvidas">
+        <div class="page-head">
+          <span class="eyebrow-tag">ATOS 17:11 • EXAME FIEL DAS ESCRITURAS</span>
+          <h2 id="heading-tira-duvidas" class="page-title">Tira-Dúvidas Bíblico</h2>
+          <p class="page-desc">
+            Respostas claras, acolhedoras e fundamentadas na Bíblia para dúvidas sobre Salvação, Vida Cristã, Doutrina, Apologética e Eternidade.
+          </p>
+        </div>
+
+        <div class="qa-filter-bar">
+          <input
+            type="search"
+            id="input-qa-search"
+            class="qa-search-field"
+            placeholder="Pesquisar dúvida (ex: certeza da salvação, pecado imperdoável, ansiedade, trindade, namoro, dízimo)..."
+          />
+          <div id="qa-categories-bar" class="pill-group"></div>
+        </div>
+
+        <div id="qa-results-counter" class="results-meta"></div>
+        <div id="qa-cards-container" class="qa-accordion-list"></div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 3: REFÚGIO BÍBLICO ("PARA ONDE IR QUANDO...")
+           ===================================================================== -->
+      <section id="tab-refugio" class="tab-panel" aria-labelledby="heading-refugio">
+        <div class="page-head">
+          <span class="eyebrow-tag">SALMOS 46:1 • CONSOLO E DIREÇÃO</span>
+          <h2 id="heading-refugio" class="page-title">Para Onde Ir Quando...</h2>
+          <p class="page-desc">
+            Escolha como está o seu coração hoje para receber uma palavra pastoral e promessas bíblicas.
+          </p>
+        </div>
+
+        <div id="refugio-states-grid" class="refugio-pills-grid"></div>
+        <div id="refugio-active-detail" class="refugio-sanctuary-card"></div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 4: DEVOCIONAL & PLANOS DE LEITURA (SEGMENTED VIEW)
+           ===================================================================== -->
+      <section id="tab-devocional" class="tab-panel" aria-labelledby="heading-devocional">
+        <div class="page-head-split">
+          <div>
+            <span class="eyebrow-tag">CONSTÂNCIA NA PALAVRA</span>
+            <h2 id="heading-devocional" class="page-title">Devocional & Planos de Leitura</h2>
+          </div>
+          <div class="subview-switcher" role="tablist">
+            <button type="button" class="subview-btn active" data-devo-view="meditacao">
+              Meditação Diária
+            </button>
+            <button type="button" class="subview-btn" data-devo-view="planos">
+              Planos de Leitura
+            </button>
+          </div>
+        </div>
+
+        <!-- Subview A: Meditação Diária -->
+        <div id="devo-subview-meditacao" class="subview-panel">
+          <div id="devotional-tabs-bar" class="pill-group"></div>
+          <article id="devotional-active-card" class="editorial-card"></article>
+        </div>
+
+        <!-- Subview B: Planos de Leitura -->
+        <div id="devo-subview-planos" class="subview-panel hidden">
+          <div id="reading-plans-selector" class="pill-group"></div>
+          <div id="reading-plan-detail" class="plan-days-grid"></div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 5: ORAÇÃO & CADERNO BÍBLICO
+           ===================================================================== -->
+      <section id="tab-secreto" class="tab-panel" aria-labelledby="heading-secreto">
+        <div class="page-head">
+          <span class="eyebrow-tag">MATEUS 6:6 • VIDA DEVOCIONAL PESSOAL</span>
+          <h2 id="heading-secreto" class="page-title">Altar de Oração & Caderno Bíblico</h2>
+          <p class="page-desc">
+            Seus motivos de oração e os versículos que você grifou ficam salvos de forma privada no seu dispositivo.
+          </p>
+        </div>
+
+        <div class="secreto-grid">
+          <div class="prayer-column">
+            <div class="clean-panel">
+              <h3 class="panel-heading">Novo Motivo de Oração</h3>
+              <form id="form-new-prayer" class="prayer-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="prayer-title">Motivo ou Pessoa</label>
+                    <input
+                      type="text"
+                      id="prayer-title"
+                      required
+                      placeholder="Ex: Saúde da família, Direção..."
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="prayer-category">Categoria</label>
+                    <select id="prayer-category">
+                      <option value="Família">Família</option>
+                      <option value="Santificação">Vida Espiritual</option>
+                      <option value="Saúde & Consolo">Saúde & Consolo</option>
+                      <option value="Conversão">Conversão</option>
+                      <option value="Igreja & Missões">Igreja & Missões</option>
+                      <option value="Gratidão & Direção">Gratidão & Direção</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="prayer-desc">Sua Oração</label>
+                  <textarea
+                    id="prayer-desc"
+                    rows="2"
+                    required
+                    placeholder="Escreva seu pedido diante do Senhor..."
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="prayer-promise">Versículo de Promessa (Opcional)</label>
+                  <input
+                    type="text"
+                    id="prayer-promise"
+                    placeholder="Ex: Filipenses 4:6-7"
+                  />
+                </div>
+                <button type="submit" class="btn-gold">Registrar Oração</button>
+              </form>
+            </div>
+
+            <div id="prayer-items-container" class="stack-list"></div>
+          </div>
+
+          <div class="notes-column">
+            <h3 class="panel-heading">Versículos Grifados & Notas</h3>
+            <div id="saved-studies-container" class="stack-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <div>
+          <strong class="footer-brand">Verbo Vivo</strong>
+          <span class="footer-motto">Hebreus 4:12 • A Palavra de Deus é viva e eficaz</span>
+        </div>
+        <div class="footer-right">
+          Desenvolvido por
+          <a href="https://github.com/carlosguedes-dev" target="_blank" rel="noopener noreferrer">Carlos Guedes</a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
