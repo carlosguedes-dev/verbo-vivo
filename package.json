@@ -15,7 +15,8 @@
     "test": "node --test tests/integrity.test.mjs",
     "electron:start": "npm run build && electron .",
     "dist:win": "npm run build && electron-builder --win --x64 --publish never",
-    "cap:sync": "npm run build && npx cap sync"
+    "cap:sync": "npm run build && npx cap sync && node scripts/apply-native-icons.mjs",
+    "icons:apply": "node scripts/apply-native-icons.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^7.0.0",
@@ -32,6 +33,7 @@
   "build": {
     "appId": "dev.carlosguedes.verbovivo",
     "productName": "Verbo Vivo",
+    "icon": "build/icon.ico",
     "directories": {
       "output": "release"
     },
@@ -41,6 +43,7 @@
       "package.json"
     ],
     "win": {
+      "icon": "build/icon.ico",
       "target": [
         "nsis",
         "portable"
@@ -52,6 +55,9 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Verbo Vivo",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
       "artifactName": "Verbo-Vivo-Windows-Setup.exe"
     },
     "portable": {

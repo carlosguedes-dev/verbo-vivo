@@ -1,7 +1,11 @@
-const CACHE_NAME = 'verbo-vivo-offline-v2';
+const CACHE_NAME = 'verbo-vivo-offline-v2.1';
 const CORE_ASSETS = [
   './app.html',
   './favicon.svg',
+  './favicon.ico',
+  './icon-192.png',
+  './icon-512.png',
+  './apple-touch-icon.png',
   './manifest.webmanifest',
   './data/acf.json',
   './data/nvi.json',

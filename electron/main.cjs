@@ -3,12 +3,14 @@ const path = require('node:path');
 const fs = require('node:fs');
 
 function createMainWindow() {
+  const iconPath = path.join(__dirname, process.platform === 'win32' ? 'icon.ico' : 'icon.png');
   const win = new BrowserWindow({
     width: 1280,
     height: 860,
     minWidth: 900,
     minHeight: 640,
     title: 'Verbo Vivo — Bíblia Sagrada, Tira-Dúvidas & Vida Cristã',
+    icon: fs.existsSync(iconPath) ? iconPath : undefined,
     backgroundColor: '#0b0d12',
     autoHideMenuBar: true,
     webPreferences: {

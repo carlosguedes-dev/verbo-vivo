@@ -68,6 +68,7 @@ jobs:
           rm -rf android
           npx cap add android
           npx cap sync android
+          node scripts/apply-native-icons.mjs
 
       - name: Compilar APK Android (Gradle)
         working-directory: ./android
@@ -103,6 +104,7 @@ jobs:
           rm -rf ios
           npx cap add ios
           npx cap sync ios
+          node scripts/apply-native-icons.mjs
 
       - name: Compilar App iOS (Xcode Unsigned .IPA)
         run: |

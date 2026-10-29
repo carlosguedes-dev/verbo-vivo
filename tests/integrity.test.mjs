@@ -90,3 +90,44 @@ test('Arquitetura Multiplataforma: Site de Download (index.html) e configuraçõ
   assert.ok(fs.existsSync(path.join(rootDir, 'electron', 'main.cjs')), 'Configuração Electron Windows deve existir');
   assert.ok(fs.existsSync(path.join(rootDir, 'capacitor.config.json')), 'Configuração Capacitor Android/iOS deve existir');
 });
+
+test('Ícones Multiplataforma e Open Graph Image (OG) no Site de Download estão presentes e configurados', () => {
+  const requiredPublicAssets = [
+    'favicon.svg',
+    'favicon.ico',
+    'favicon-16x16.png',
+    'favicon-32x32.png',
+    'apple-touch-icon.png',
+    'icon-192.png',
+    'icon-512.png',
+    'icon-maskable-512.png',
+    'icon-1024.png',
+    'og-image.png',
+    'og-image.svg'
+  ];
+
+  for (const asset of requiredPublicAssets) {
+    const p = path.join(rootDir, 'public', asset);
+    assert.ok(fs.existsSync(p), `public/${asset} deve existir`);
+    assert.ok(fs.statSync(p).size > 200, `public/${asset} não pode estar vazio`);
+  }
+
+  assert.ok(fs.existsSync(path.join(rootDir, 'build', 'icon.ico')), 'build/icon.ico deve existir para o Windows .EXE');
+  assert.ok(fs.existsSync(path.join(rootDir, 'electron', 'icon.ico')), 'electron/icon.ico deve existir');
+  assert.ok(
+    fs.existsSync(path.join(rootDir, 'resources', 'native-icons', 'ios', 'AppIcon-512@2x.png')),
+    'Ícone nativo iOS 1024x1024 deve existir'
+  );
+  assert.ok(
+    fs.existsSync(path.join(rootDir, 'resources', 'native-icons', 'android', 'mipmap-xxxhdpi', 'ic_launcher.png')),
+    'Ícone nativo Android mipmap-xxxhdpi deve existir'
+  );
+
+  const indexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+  assert.ok(indexHtml.includes('property="og:image"'), 'index.html deve ter meta og:image');
+  assert.ok(indexHtml.includes('og-image.png'), 'index.html deve apontar para og-image.png');
+  assert.ok(indexHtml.includes('property="og:image:width" content="1200"'), 'index.html deve definir largura 1200 da OG image');
+  assert.ok(indexHtml.includes('property="og:image:height" content="630"'), 'index.html deve definir altura 630 da OG image');
+  assert.ok(indexHtml.includes('name="twitter:card" content="summary_large_image"'), 'index.html deve ter twitter:card summary_large_image');
+  assert.ok(indexHtml.includes('name="twitter:image"'), 'index.html deve ter twitter:image');
+});
