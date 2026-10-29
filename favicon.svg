@@ -1,19 +1,224 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%" fill="none">
   <defs>
-    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#E5C158"/>
-      <stop offset="50%" stop-color="#C59B27"/>
-      <stop offset="100%" stop-color="#9A7418"/>
+    <!-- Deep Sanctuary Obsidian Background -->
+    <linearGradient id="bg-sanctuary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#161C2B"/>
+      <stop offset="45%" stop-color="#0C0F17"/>
+      <stop offset="100%" stop-color="#06080C"/>
     </linearGradient>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1A1612"/>
-      <stop offset="100%" stop-color="#0D0B09"/>
+
+    <!-- Sacred Radial Gold Aura -->
+    <radialGradient id="sacred-aura" cx="50%" cy="38%" r="54%">
+      <stop offset="0%" stop-color="#F5DC8B" stop-opacity="0.32"/>
+      <stop offset="42%" stop-color="#D4AF37" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#0B0D12" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Bottom Vignette Depth -->
+    <linearGradient id="vignette" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="70%" stop-color="#000000" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
     </linearGradient>
+
+    <!-- Primary Imperial Gold Metallic Gradient -->
+    <linearGradient id="gold-imperial" x1="15%" y1="5%" x2="85%" y2="95%">
+      <stop offset="0%" stop-color="#FFF2BE"/>
+      <stop offset="22%" stop-color="#F1D27A"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="78%" stop-color="#AA821C"/>
+      <stop offset="100%" stop-color="#76560B"/>
+    </linearGradient>
+
+    <!-- Vertical Luminous Gold for the Cross -->
+    <linearGradient id="gold-cross" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#FFF7D6"/>
+      <stop offset="28%" stop-color="#F5D97E"/>
+      <stop offset="65%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#9A7112"/>
+    </linearGradient>
+
+    <!-- Left Page Parchment-Gold Surface -->
+    <linearGradient id="page-left" x1="0%" y1="20%" x2="100%" y2="60%">
+      <stop offset="0%" stop-color="#26221C"/>
+      <stop offset="55%" stop-color="#1E1B18"/>
+      <stop offset="88%" stop-color="#161412"/>
+      <stop offset="100%" stop-color="#0E0D0C"/>
+    </linearGradient>
+
+    <!-- Right Page Parchment-Gold Surface -->
+    <linearGradient id="page-right" x1="100%" y1="20%" x2="0%" y2="60%">
+      <stop offset="0%" stop-color="#26221C"/>
+      <stop offset="55%" stop-color="#1E1B18"/>
+      <stop offset="88%" stop-color="#161412"/>
+      <stop offset="100%" stop-color="#0E0D0C"/>
+    </linearGradient>
+
+    <!-- Parchment Cream Fill for Upper Open Pages -->
+    <linearGradient id="parchment-left" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF4E4"/>
+      <stop offset="65%" stop-color="#EBDDC0"/>
+      <stop offset="100%" stop-color="#C8B082"/>
+    </linearGradient>
+
+    <linearGradient id="parchment-right" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FAF4E4"/>
+      <stop offset="65%" stop-color="#EBDDC0"/>
+      <stop offset="100%" stop-color="#C8B082"/>
+    </linearGradient>
+
+    <!-- Crimson Royal Bookmark Ribbon -->
+    <linearGradient id="crimson-ribbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C93B4E"/>
+      <stop offset="55%" stop-color="#9E2435"/>
+      <stop offset="100%" stop-color="#691320"/>
+    </linearGradient>
+
+    <!-- Soft Drop Shadow for Emblem Elements -->
+    <filter id="drop-shadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.65"/>
+    </filter>
+
+    <filter id="cross-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#F5D97E" flood-opacity="0.42"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
   </defs>
-  <rect width="64" height="64" rx="14" fill="url(#bg)" stroke="url(#gold)" stroke-width="2"/>
-  <!-- Open Bible Pages -->
-  <path d="M12 44V22C12 20 19 18 32 22C45 18 52 20 52 22V44C52 42 45 40 32 44C19 40 12 42 12 44Z" stroke="url(#gold)" stroke-width="2.5" stroke-linejoin="round" fill="rgba(197,155,39,0.08)"/>
-  <path d="M32 22V44" stroke="url(#gold)" stroke-width="2"/>
-  <!-- Cross rising above the Word -->
-  <path d="M32 8V28M25 14H39" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 1. Outer Rounded App Icon Base -->
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="url(#bg-sanctuary)"/>
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="url(#sacred-aura)"/>
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="url(#vignette)"/>
+
+  <!-- 2. Outer Beveled Gold Border & Inner Sanctuary Filigree Frame -->
+  <rect x="10" y="10" width="492" height="492" rx="110" stroke="url(#gold-imperial)" stroke-width="6" stroke-opacity="0.85"/>
+  <rect x="28" y="28" width="456" height="456" rx="94" stroke="url(#gold-imperial)" stroke-width="1.8" stroke-opacity="0.32"/>
+
+  <!-- Subtle Corner Architectural Accents -->
+  <g stroke="url(#gold-imperial)" stroke-opacity="0.45" stroke-width="2" stroke-linecap="round">
+    <path d="M56 76 C56 64 64 56 76 56"/>
+    <path d="M456 76 C456 64 448 56 436 56"/>
+    <path d="M56 436 C56 448 64 456 76 456"/>
+    <path d="M456 436 C456 448 448 456 436 456"/>
+  </g>
+
+  <!-- 3. Sacred Halo & Light Rays Behind the Cross -->
+  <g opacity="0.85">
+    <!-- Outer Sacred Halo Ring -->
+    <circle cx="256" cy="186" r="104" stroke="url(#gold-imperial)" stroke-width="1.6" stroke-opacity="0.3" stroke-dasharray="6 6"/>
+    <circle cx="256" cy="186" r="82" stroke="url(#gold-imperial)" stroke-width="2.2" stroke-opacity="0.45"/>
+
+    <!-- Radiant Rays of the Living Word -->
+    <g stroke="url(#gold-imperial)" stroke-linecap="round" opacity="0.55">
+      <line x1="256" y1="48" x2="256" y2="66" stroke-width="3"/>
+      <line x1="158" y1="88" x2="172" y2="102" stroke-width="2.6"/>
+      <line x1="354" y1="88" x2="340" y2="102" stroke-width="2.6"/>
+      <line x1="118" y1="186" x2="136" y2="186" stroke-width="2.6"/>
+      <line x1="394" y1="186" x2="376" y2="186" stroke-width="2.6"/>
+      <line x1="186" y1="65" x2="194" y2="79" stroke-width="2"/>
+      <line x1="326" y1="65" x2="318" y2="79" stroke-width="2"/>
+      <line x1="136" y1="134" x2="150" y2="140" stroke-width="2"/>
+      <line x1="376" y1="134" x2="362" y2="140" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- 4. Sculpted Open Holy Bible (Sola Scriptura) -->
+  <g filter="url(#drop-shadow)">
+    <!-- Leather & Gold Hardcover Base -->
+    <path
+      d="M84 374 V236 C84 226 92 218 102 216 C148 208 206 216 256 242 C306 216 364 208 410 216 C420 218 428 226 428 236 V374 C428 384 419 392 409 390 C360 380 306 386 256 412 C206 386 152 380 103 390 C93 392 84 384 84 374 Z"
+      fill="#10131C"
+      stroke="url(#gold-imperial)"
+      stroke-width="6"
+      stroke-linejoin="round"
+    />
+
+    <!-- Lower Gold Page Block Thickness (Left & Right) -->
+    <path
+      d="M96 362 V226 C144 214 204 222 256 250 V394 C204 366 144 358 96 362 Z"
+      fill="url(#page-left)"
+      stroke="url(#gold-imperial)"
+      stroke-width="4"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M416 362 V226 C368 214 308 222 256 250 V394 C308 366 368 358 416 362 Z"
+      fill="url(#page-right)"
+      stroke="url(#gold-imperial)"
+      stroke-width="4"
+      stroke-linejoin="round"
+    />
+
+    <!-- Upper Illuminated Parchment Pages (Left & Right) -->
+    <path
+      d="M104 344 V212 C150 196 206 204 256 236 V374 C206 342 150 334 104 344 Z"
+      fill="url(#parchment-left)"
+      stroke="url(#gold-imperial)"
+      stroke-width="4.5"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M408 344 V212 C362 196 306 204 256 236 V374 C306 342 362 334 408 344 Z"
+      fill="url(#parchment-right)"
+      stroke="url(#gold-imperial)"
+      stroke-width="4.5"
+      stroke-linejoin="round"
+    />
+
+    <!-- Gilded Page Fanning Lines (Bottom Edge Detail) -->
+    <path
+      d="M100 353 C148 344 204 352 256 384 C308 352 364 344 412 353"
+      stroke="url(#gold-imperial)"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      opacity="0.85"
+    />
+
+    <!-- Subtle Engraved Scripture Lines on Left Page -->
+    <g stroke="#7A5B18" stroke-width="3.2" stroke-linecap="round" opacity="0.42">
+      <path d="M128 242 C162 235 198 240 228 256"/>
+      <path d="M128 266 C162 259 198 264 228 280"/>
+      <path d="M128 290 C162 283 198 288 228 304"/>
+      <path d="M128 314 C162 307 192 311 216 323"/>
+    </g>
+
+    <!-- Subtle Engraved Scripture Lines on Right Page -->
+    <g stroke="#7A5B18" stroke-width="3.2" stroke-linecap="round" opacity="0.42">
+      <path d="M384 242 C350 235 314 240 284 256"/>
+      <path d="M384 266 C350 259 314 264 284 280"/>
+      <path d="M384 290 C350 283 314 288 284 304"/>
+      <path d="M384 314 C350 307 320 311 296 323"/>
+    </g>
+
+    <!-- Center Spine Binding & Gold Clasp -->
+    <line x1="256" y1="234" x2="256" y2="404" stroke="url(#gold-imperial)" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Crimson & Gold Bookmark Ribbon Hanging Below Spine -->
+    <path
+      d="M244 396 L244 446 L256 434 L268 446 L268 396 Z"
+      fill="url(#crimson-ribbon)"
+      stroke="url(#gold-imperial)"
+      stroke-width="2.5"
+      stroke-linejoin="round"
+    />
+    <!-- Spine Ornamental Boss -->
+    <circle cx="256" cy="394" r="9" fill="url(#gold-imperial)"/>
+  </g>
+
+  <!-- 5. The Calvary Cross Rising from the Word (3D Beveled Imperial Gold) -->
+  <g filter="url(#cross-glow)">
+    <!-- Outer Beveled Cross Silhouette -->
+    <path
+      d="M241 82 C241 75.4 246.4 70 253 70 H259 C265.6 70 271 75.4 271 82 V136 H318 C324.6 136 330 141.4 330 148 V154 C330 160.6 324.6 166 318 166 H271 V264 C271 271 264 276 256 276 C248 276 241 271 241 264 V166 H194 C187.4 166 182 160.6 182 154 V148 C182 141.4 187.4 136 194 136 H241 V82 Z"
+      fill="url(#gold-cross)"
+      stroke="#FFF7D6"
+      stroke-width="2"
+      stroke-linejoin="round"
+    />
+    <!-- Inner 3D Facet Spine Highlight -->
+    <line x1="256" y1="80" x2="256" y2="264" stroke="#FFFDF5" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+    <line x1="194" y1="151" x2="318" y2="151" stroke="#FFFDF5" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+    <!-- Center Cross Medallion -->
+    <circle cx="256" cy="151" r="10" fill="#FFF7D6" stroke="#AA821C" stroke-width="2.5"/>
+  </g>
 </svg>
