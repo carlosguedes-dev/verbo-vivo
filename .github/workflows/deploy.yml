@@ -158,30 +158,47 @@ jobs:
   publish-release:
     name: Publish Apps to GitHub Releases
     runs-on: ubuntu-latest
-    needs: [build-android, build-ios, build-windows]
+    needs: [deploy-site, build-android, build-ios, build-windows]
     steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Ler versão de package.json
+        id: pkg
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Download Todos os Pacotes Compilados
         uses: actions/download-artifact@v4
         with:
           path: artifacts
 
-      - name: Publicar Release Oficial v2.0.0
+      - name: Publicar Release Oficial
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v2.0.0
-          name: "Verbo Vivo v2.0.0 — Apps Oficiais (Android, iPhone & Windows)"
+          tag_name: ${{ steps.pkg.outputs.tag }}
+          name: "Verbo Vivo ${{ steps.pkg.outputs.tag }} — Dicionário Bíblico, Repaginação Visual & Apps Oficiais"
           body: |
-            ## ✝️ Verbo Vivo v2.0.0 — Aplicativo Oficial Multiplataforma
+            ## Verbo Vivo ${{ steps.pkg.outputs.tag }} — Aplicativo Oficial Multiplataforma
 
-            Versões nativas oficiais do **Verbo Vivo** com as **3 traduções da Bíblia Sagrada (ACF, NVI e ARA)** completas 100% offline, Central Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional Diário, Planos de Leitura e Altar de Oração & Caderno Bíblico.
+            Nova versão do **Verbo Vivo** para **Android**, **iPhone (iOS)** e **Windows**, com as 3 traduções da Bíblia Sagrada (**ACF, NVI e ARA**) 100% offline.
 
-            ### 📦 Arquivos para Download Direto:
-            - 🤖 **Android (`.APK`)**: `Verbo-Vivo-Android.apk`
-            - 🍎 **iPhone / iOS (`.IPA`)**: `Verbo-Vivo-iOS.ipa`
-            - 💻 **Windows Instalador (`.EXE`)**: `Verbo-Vivo-Windows-Setup.exe`
-            - 💻 **Windows Portátil (`.EXE`)**: `Verbo-Vivo-Windows-Portable.exe`
+            ### Principais novidades da versão ${{ steps.pkg.outputs.tag }}
+            - **Novo Dicionário Bíblico Temático (211 temas, A–Z)**: pesquise o que a Bíblia diz sobre aborto, amor, casamento, família, ansiedade, dinheiro, perdão, salvação, ética e vida diária — respondido **exclusivamente com versículos das Escrituras**, carregados diretamente na tradução escolhida (ACF, NVI ou ARA).
+            - **Refúgio nas Escrituras**: agora totalmente focado nos versículos bíblicos (sem palavra pastoral), ampliado para 12 momentos da vida.
+            - **Foco nas Escrituras**: removidas as seções de Oração, Devocional e Planos de Leitura; preservadas suas **Marcações e Anotações** pessoais de estudo.
+            - **Repaginação visual e correções multiplataforma**: navegação inferior nativa no celular com suporte a áreas seguras (iOS/Android), seletor visual de livros e capítulos, painel de estudo em gaveta deslizável no mobile, troca global de tradução no topo e correção de bugs de busca, cópia e paginação.
+
+            ### Arquivos para Download Direto
+            - **Android (`.APK`)**: `Verbo-Vivo-Android.apk`
+            - **iPhone / iOS (`.IPA`)**: `Verbo-Vivo-iOS.ipa`
+            - **Windows Instalador (`.EXE`)**: `Verbo-Vivo-Windows-Setup.exe`
+            - **Windows Portátil (`.EXE`)**: `Verbo-Vivo-Windows-Portable.exe`
           draft: false
           prerelease: false
+          make_latest: true
           files: |
             artifacts/Verbo-Vivo-Android/Verbo-Vivo-Android.apk
             artifacts/Verbo-Vivo-iOS/Verbo-Vivo-iOS.ipa

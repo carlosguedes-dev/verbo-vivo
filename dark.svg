@@ -6,85 +6,71 @@
       .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
     </style>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0D12"/>
-      <stop offset="50%" stop-color="#131722"/>
-      <stop offset="100%" stop-color="#0E1118"/>
+      <stop offset="0%" stop-color="#111317"/>
+      <stop offset="50%" stop-color="#171A21"/>
+      <stop offset="100%" stop-color="#111317"/>
     </linearGradient>
     <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#E5C158"/>
-      <stop offset="50%" stop-color="#D4AF37"/>
-      <stop offset="100%" stop-color="#F3D77D"/>
+      <stop offset="0%" stop-color="#DFB963"/>
+      <stop offset="50%" stop-color="#CFA84E"/>
+      <stop offset="100%" stop-color="#E7CA82"/>
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="35%" r="55%">
-      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.16"/>
-      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
-    </radialGradient>
   </defs>
 
-  <rect width="1180" height="420" rx="22" fill="url(#bg)" stroke="#D4AF37" stroke-opacity="0.35" stroke-width="2"/>
-  <rect width="1180" height="420" rx="22" fill="url(#glow)"/>
+  <rect width="1180" height="420" rx="20" fill="url(#bg)" stroke="#CFA84E" stroke-opacity="0.32" stroke-width="1.5"/>
 
   <!-- Emblem Cross & Open Bible -->
-  <g transform="translate(547, 42)">
-    <rect x="0" y="0" width="86" height="86" rx="20" fill="#0D111A" stroke="url(#gold)" stroke-width="2.4"/>
+  <g transform="translate(547, 40)">
+    <rect x="0" y="0" width="86" height="86" rx="20" fill="#0F1218" stroke="url(#gold)" stroke-width="2.2"/>
     <rect x="4" y="4" width="78" height="78" rx="16" stroke="url(#gold)" stroke-width="0.8" stroke-opacity="0.35" fill="none"/>
     <circle cx="43" cy="31" r="16" stroke="url(#gold)" stroke-width="1.1" stroke-opacity="0.45" fill="none"/>
-    <g stroke="url(#gold)" stroke-width="1.2" stroke-linecap="round" opacity="0.6">
-      <line x1="43" y1="9" x2="43" y2="12"/>
-      <line x1="26" y1="16" x2="29" y2="19"/>
-      <line x1="60" y1="16" x2="57" y2="19"/>
-    </g>
     <path d="M14 63 V39 C24 36 34 38 43 43 C52 38 62 36 72 39 V63 C62 60 52 62 43 67 C34 62 24 60 14 63 Z" fill="#121622" stroke="url(#gold)" stroke-width="2"/>
     <path d="M18 58 V36 C26 33 35 35 43 40 V62 C35 57 26 55 18 58 Z" fill="#F2E6CC" stroke="url(#gold)" stroke-width="1.6"/>
     <path d="M68 58 V36 C60 33 51 35 43 40 V62 C51 57 60 55 68 58 Z" fill="#F2E6CC" stroke="url(#gold)" stroke-width="1.6"/>
     <line x1="43" y1="39" x2="43" y2="66" stroke="url(#gold)" stroke-width="2.2"/>
-    <path d="M40 65 L40 75 L43 72 L46 75 L46 65 Z" fill="#B52B3D" stroke="url(#gold)" stroke-width="0.8"/>
+    <path d="M40 65 L40 75 L43 72 L46 75 L46 65 Z" fill="#9E2D3B" stroke="url(#gold)" stroke-width="0.8"/>
     <path d="M40.2 13 H45.8 V23 H55 V28.2 H45.8 V45 H40.2 V28.2 H31 V23 H40.2 Z" fill="url(#gold)" stroke="#FFF7D6" stroke-width="0.6"/>
-    <circle cx="43" cy="25.6" r="2.2" fill="#FFF7D6"/>
   </g>
 
-  <!-- Eyebrow Pill -->
-  <g transform="translate(590, 162)" text-anchor="middle">
-    <rect x="-220" y="-16" width="440" height="26" rx="13" fill="rgba(212,175,55,0.12)" stroke="rgba(212,175,55,0.4)"/>
-    <text y="2" fill="#E5C158" font-size="11.5" font-weight="700" letter-spacing="2" class="mono">
-      SOLA SCRIPTURA • 66 LIVROS CANÔNICOS • FÉ EVANGÉLICA
-    </text>
-  </g>
+  <!-- Eyebrow -->
+  <text x="590" y="160" text-anchor="middle" fill="#CFA84E" font-size="11.5" font-weight="700" letter-spacing="2.4" class="mono">
+    SOLA SCRIPTURA • 66 LIVROS CANÔNICOS • VERSÃO 3.0.0
+  </text>
 
   <!-- Main Title -->
-  <text x="590" y="228" text-anchor="middle" fill="#F7F3EA" font-size="50" font-weight="700" class="serif">
+  <text x="590" y="222" text-anchor="middle" fill="#F2EFE7" font-size="52" font-weight="700" class="serif">
     VERBO VIVO
   </text>
-  <text x="590" y="264" text-anchor="middle" fill="#D4AF37" font-size="20" font-style="italic" class="serif">
-    Bíblia Sagrada (ACF, NVI, ARA) • Central Tira-Dúvidas Bereano • Refúgio &amp; Vida Cristã
+  <text x="590" y="258" text-anchor="middle" fill="#CFA84E" font-size="20" font-style="italic" class="serif">
+    Bíblia Sagrada (ACF, NVI, ARA) • Dicionário Bíblico por Temas • Refúgio nas Escrituras
   </text>
 
   <!-- Scripture Quote -->
-  <text x="590" y="308" text-anchor="middle" fill="#B9B2A3" font-size="15" class="sans">
+  <text x="590" y="302" text-anchor="middle" fill="#B7B0A2" font-size="15" class="sans">
     "Porque a palavra de Deus é viva e eficaz, e mais penetrante do que espada alguma de dois gumes." — Hebreus 4:12
   </text>
 
   <!-- Feature Pills -->
-  <g transform="translate(590, 362)" text-anchor="middle" class="mono" font-size="12" font-weight="600">
+  <g transform="translate(590, 358)" text-anchor="middle" class="sans" font-size="12.5" font-weight="600">
     <g transform="translate(-390, 0)">
-      <rect x="-85" y="-16" width="170" height="30" rx="8" fill="#171C28" stroke="rgba(212,175,55,0.35)"/>
-      <text y="4" fill="#F4F0E8">📖 31.102 Versículos</text>
+      <rect x="-86" y="-17" width="172" height="32" rx="8" fill="#1B1F27" stroke="rgba(207,168,78,0.32)"/>
+      <text y="4" fill="#F2EFE7">ACF • NVI • ARA</text>
     </g>
     <g transform="translate(-195, 0)">
-      <rect x="-85" y="-16" width="170" height="30" rx="8" fill="#171C28" stroke="rgba(212,175,55,0.35)"/>
-      <text y="4" fill="#F4F0E8">⚖️ ACF • NVI • ARA</text>
+      <rect x="-86" y="-17" width="172" height="32" rx="8" fill="#1B1F27" stroke="rgba(207,168,78,0.32)"/>
+      <text y="4" fill="#F2EFE7">211 Temas Bíblicos</text>
     </g>
     <g transform="translate(0, 0)">
-      <rect x="-90" y="-16" width="180" height="30" rx="8" fill="#171C28" stroke="rgba(212,175,55,0.35)"/>
-      <text y="4" fill="#F4F0E8">💡 Tira-Dúvidas Bíblico</text>
+      <rect x="-86" y="-17" width="172" height="32" rx="8" fill="#1B1F27" stroke="rgba(207,168,78,0.32)"/>
+      <text y="4" fill="#F2EFE7">Refúgio na Palavra</text>
     </g>
     <g transform="translate(195, 0)">
-      <rect x="-85" y="-16" width="170" height="30" rx="8" fill="#171C28" stroke="rgba(212,175,55,0.35)"/>
-      <text y="4" fill="#F4F0E8">📱 Android • iOS • Win</text>
+      <rect x="-86" y="-17" width="172" height="32" rx="8" fill="#1B1F27" stroke="rgba(207,168,78,0.32)"/>
+      <text y="4" fill="#F2EFE7">Tira-Dúvidas</text>
     </g>
     <g transform="translate(390, 0)">
-      <rect x="-85" y="-16" width="170" height="30" rx="8" fill="#171C28" stroke="rgba(212,175,55,0.35)"/>
-      <text y="4" fill="#F4F0E8">🙏 Altar de Oração</text>
+      <rect x="-86" y="-17" width="172" height="32" rx="8" fill="#1B1F27" stroke="rgba(207,168,78,0.32)"/>
+      <text y="4" fill="#F2EFE7">Android • iOS • Win</text>
     </g>
   </g>
 </svg>

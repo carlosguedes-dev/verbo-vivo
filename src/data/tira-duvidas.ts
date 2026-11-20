@@ -35,6 +35,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
         bookAbbrev: 'ef',
         chapter: 2,
         verse: 8,
+        verseEnd: 9,
         label: 'Efésios 2:8-9',
         quote: 'Porque pela graça sois salvos, por meio da fé; e isto não vem de vós, é dom de Deus. Não vem das obras, para que ninguém se glorie.'
       },
@@ -55,7 +56,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
     detailedExplanation: [
       'Em Mateus 12:22-32, os fariseus viram Jesus expulsar demônios e curar um cego e mudo pelo poder do Espírito Santo. Mesmo diante da evidência inegável de que Jesus era o Messias, com o coração totalmente endurecido pelo orgulho, eles disseram que Jesus fazia aquilo pelo poder de Belzebu (Satanás).',
       'Portanto, a blasfêmia contra o Espírito Santo não é um pensamento intrusivo involuntário, nem uma palavra impensada dita num momento de fraqueza da qual a pessoa se arrepende. Trata-se de uma apostasia e dureza permanente de coração que recusa o único meio de perdão: o testemunho do Espírito Santo acerca de Jesus Cristo.',
-      'Como ensinavam os pastores reformados e puritanos: o próprio fato de uma pessoa estar preocupada, quebrantada, temerosa de ter ofendido a Deus e desejosa de arrependimento e comunhão com Cristo é a prova cabal de que o Espírito Santo ainda está agindo no coração dela!'
+      'Como ensinaram gerações de pastores e estudiosos bíblicos, o próprio fato de alguém estar quebrantado, temeroso de ter ofendido a Deus e desejoso de arrependimento e comunhão com Cristo demonstra que o coração não está endurecido contra o Espírito Santo.'
     ],
     practicalApplication: 'Rejeite os pensamentos obsessivos de condenação que tentam afastar você da oração. Aproxime-se do trono da graça com confiança: Jesus prometeu que "o que vem a mim de maneira nenhuma o lançarei fora" (João 6:37).',
     keywords: ['blasfêmia', 'imperdoável', 'espírito santo', 'pecado sem perdão', 'pensamentos ruins', 'intrusivos', 'medo de não ter perdão', 'mateus 12'],
@@ -174,6 +175,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
         bookAbbrev: 'gl',
         chapter: 5,
         verse: 16,
+        verseEnd: 17,
         label: 'Gálatas 5:16-17',
         quote: 'Digo, porém: Andai em Espírito, e não cumprireis a concupiscência da carne.'
       },
@@ -210,6 +212,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
         bookAbbrev: 'fp',
         chapter: 4,
         verse: 6,
+        verseEnd: 7,
         label: 'Filipenses 4:6-7',
         quote: 'Não estejais inquietos por coisa alguma; antes as vossas petições sejam em tudo conhecidas diante de Deus pela oração e súplica, com ação de graças. E a paz de Deus, que excede todo o entendimento, guardará os vossos corações.'
       },
@@ -308,7 +311,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
     shortAnswer: 'Perdoar é uma decisão de fé e obediência que entrega a dívida e a justiça nas mãos de Deus, libertando o seu coração do ódio; porém, perdão bíblico não significa aprovar o erro nem se expor novamente a abusos.',
     detailedExplanation: [
       'Na parábola do credor incompassivo (Mateus 18:21-35), Jesus mostra a base do perdão cristão: nós fomos perdoados por Deus de uma dívida impagável (dez mil talentos); por isso, somos chamados a liberar aqueles que nos ofenderam (Efésios 4:32). O perdão não começa como um sentimento espontâneo, mas como um ato de vontade diante de Deus: "Senhor, eu abro mão do direito de me vingar e entrego essa causa ao Teu justo juízo" (Romanos 12:19).',
-      'É fundamental distinguir entre **perdão** e **reconciliação/confiança**: o perdão depende apenas de você e de Deus (Marcos 11:25), mas a restauração da convivência e da confiança exige arrependimento genuíno, mudança de conduta e segurança (Lucas 17:3; Provérbios 22:3).',
+      'É fundamental distinguir entre perdão e reconciliação ou confiança: o perdão depende apenas de você e de Deus (Marcos 11:25), mas a restauração da convivência e da confiança exige arrependimento genuíno, mudança de conduta e segurança (Lucas 17:3; Provérbios 22:3).',
       'Se alguém praticou violência, abuso ou traição contínua sem arrependimento, perdoar significa não desejar o mal nem alimentar amargura, mas estabelecer limites sábios (e até acionar a justiça civil, que é instituída por Deus segundo Romanos 13:1-4) é totalmente bíblico.'
     ],
     practicalApplication: 'Sempre que a lembrança da ofensa voltar trazendo dor, ore pela pessoa e reafirme diante de Deus sua decisão de perdoar. Peça ao Espírito Santo que cure as feridas da sua memória com o bálsamo do amor de Cristo.',
@@ -325,6 +328,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
         bookAbbrev: 'rm',
         chapter: 12,
         verse: 18,
+        verseEnd: 19,
         label: 'Romanos 12:18-19',
         quote: 'Se for possível, quanto estiver em vós, tende paz com todos os homens. Não vos vingueis a vós mesmos, amados, mas dai lugar à ira, porque está escrito: Minha é a vingança; eu recompensarei, diz o Senhor.'
       },
@@ -407,6 +411,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
         bookAbbrev: '2tm',
         chapter: 3,
         verse: 16,
+        verseEnd: 17,
         label: '2 Timóteo 3:16-17',
         quote: 'Toda a Escritura é divinamente inspirada, e proveitosa para ensinar, para redarguir, para corrigir, para instruir em justiça; para que o homem de Deus seja perfeito, e perfeitamente instruído para toda a boa obra.'
       }
@@ -530,7 +535,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
     detailedExplanation: [
       'Deus criou um mundo perfeito ("muito bom", Gênesis 1:31) e dotou os seres humanos da capacidade real de amar e escolher, pois o amor verdadeiro não pode ser programado à força como em robôs. Quando a humanidade escolheu rebelar-se contra Deus (Gênesis 3), toda a criação foi afetada pela corrupção moral e natural (Romanos 8:20-22).',
       'Se Deus destruísse instantaneamente toda fonte de mal no mundo hoje às 23h59, quem de nós sobreviveria às 00h00? A paciência de Deus em ainda não ter encerrado a história com o Juízo Final é, na verdade, a Sua misericórdia dando tempo para que pecadores se arrependam e sejam salvos (2 Pedro 3:9).',
-      'Mais do que oferecer uma explicação filosófica fria, o Cristianismo oferece a **Cruz de Cristo**: o nosso Deus conhece a dor da traição, da injustiça, do luto e da morte. Além disso, Ele é tão soberano que transforma até o sofrimento em instrumento de maturidade e bem eterno para os que O amam (Romanos 8:28; Gênesis 50:20).'
+      'Mais do que oferecer uma explicação filosófica abstrata, o Evangelho apresenta a cruz de Cristo: Deus conhece a dor da traição, da injustiça, do luto e da morte. Além disso, Ele é soberano para transformar até o sofrimento em instrumento de maturidade e bem eterno para os que O amam (Romanos 8:28; Gênesis 50:20).'
     ],
     practicalApplication: 'Nos dias de dor, não se afaste de Deus tentando carregar o fardo sozinho. Olhe para as cicatrizes de Jesus ressurreto: elas provam que o amor de Deus por você é real e que o sofrimento tem prazo de validade.',
     keywords: ['sofrimento', 'mal', 'por que deus permite', 'tragédia', 'doença', 'injustiça', 'luto', 'jó', 'teodiceia'],
@@ -564,8 +569,8 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
     question: 'A Bíblia foi alterada ou adulterada ao longo dos séculos? Podemos confiar nos textos atuais?',
     shortAnswer: 'Não foi adulterada. A Bíblia Sagrada é, de longe, o documento mais bem atestado e preservado de toda a Antiguidade, comprovado por milhares de manuscritos antigos, pelos Manuscritos do Mar Morto e pela arqueologia.',
     detailedExplanation: [
-      'Para comparar: obras clássicas da história antiga (como as de Platão, Aristóteles ou Júlio César) possuem entre 10 e 200 cópias manuscritas sobreviventes, datadas de 800 a 1.200 anos depois dos originais. Já o **Novo Testamento** possui mais de **5.800 manuscritos gregos** antigos e mais de 18.000 em outras línguas antigas (latim, siríaco, copta), com fragmentos (como o Papiro P52 de João) datados de poucas décadas após a escrita original!',
-      'Quanto ao **Antigo Testamento**, em 1947 foram descobertos os **Manuscritos do Mar Morto** nas cavernas de Qumran (incluindo o Grande Rolo de Isaías completo, datado de c. 125 a.C. — mil anos mais antigo que os manuscritos massoréticos usados até então). Ao compararem os textos, os estudiosos comprovaram que a mensagem bíblica permaneceu intacta ao longo de mais de um milênio!',
+      'Para comparar: obras clássicas da história antiga (como as de Platão, Aristóteles ou Júlio César) possuem entre 10 e 200 cópias manuscritas sobreviventes, datadas de 800 a 1.200 anos depois dos originais. Já o Novo Testamento possui mais de 5.800 manuscritos gregos antigos e mais de 18.000 em outras línguas antigas (latim, siríaco, copta), com fragmentos (como o Papiro P52 de João) datados de poucas décadas após a escrita original.',
+      'Quanto ao Antigo Testamento, em 1947 foram descobertos os Manuscritos do Mar Morto nas cavernas de Qumran (incluindo o Grande Rolo de Isaías completo, datado de cerca de 125 a.C. — mil anos mais antigo que os manuscritos massoréticos usados até então). Ao compararem os textos, os estudiosos comprovaram a preservação fiel da mensagem bíblica ao longo de mais de um milênio.',
       'Como não existia um único centro controlador dos manuscritos (já que no século I e II as cópias já estavam espalhadas pela Palestina, Síria, Turquia, Grécia, Egito e Roma), seria historicamente impossível alguém "recolher e adulterar" a Bíblia sem que milhares de comunidades denunciassem imediatamente.'
     ],
     practicalApplication: 'Leia sua Bíblia com plena confiança intelectual e espiritual: você tem em mãos a mesma Palavra de Deus sobre a qual Jesus afirmou: "Passará o céu e a terra, mas as minhas palavras não hão de passar" (Mateus 24:35).',
@@ -630,7 +635,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
     shortAnswer: 'De forma alguma são inimigas! Deus é o Autor tanto das Escrituras (revelação especial) quanto das leis da natureza (revelação geral). Os próprios fundadores da ciência moderna (Newton, Kepler, Pascal, Boyle, Faraday) eram cristãos devotos.',
     detailedExplanation: [
       'A ciência moderna nasceu historicamente em solo cristão porque os cientistas criam que o universo não é fruto do caos irracional, mas obra de um Criador racional, ordeiro e legislador — portanto, a natureza possui leis matemáticas constantes que podem ser investigadas!',
-      'O Salmo 19:1-2 declara: "Os céus declaram a glória de Deus e o firmamento anuncia a obra das suas mãos". Enquanto a **Ciência** investiga o *como* os mecanismos físicos e biológicos operam, a **Bíblia** revela *Quem* os criou e *por que* existimos.',
+      'O Salmo 19:1-2 declara: "Os céus declaram a glória de Deus e o firmamento anuncia a obra das suas mãos". Enquanto a Ciência investiga como os mecanismos físicos e biológicos operam, as Escrituras revelam Quem os criou e o propósito da existência.',
       'Estudar medicina, engenharia, programação, física ou história com excelência para servir ao próximo e desvendar a ordem da criação é uma forma legítima de cumprir o mandato cultural e amar a Deus "de todo o teu entendimento" (Mateus 22:37).'
     ],
     practicalApplication: 'Estude e trabalhe com excelência intelectual sem medo de perguntas difíceis: toda verdade científica genuína aponta para a sabedoria multiforme do nosso Criador (Romanos 1:20).',
@@ -654,6 +659,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
         bookAbbrev: 'cl',
         chapter: 1,
         verse: 16,
+        verseEnd: 17,
         label: 'Colossenses 1:16-17',
         quote: 'Porque nele foram criadas todas as coisas que há nos céus e na terra... e todas as coisas subsistem por ele.'
       }
@@ -685,6 +691,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
         bookAbbrev: '1ts',
         chapter: 4,
         verse: 3,
+        verseEnd: 4,
         label: '1 Tessalonicenses 4:3-4',
         quote: 'Porque esta é a vontade de Deus, a vossa santificação; que vos abstenhais da prostituição; que cada um de vós saiba possuir o seu vaso em santificação e honra.'
       },
@@ -705,9 +712,9 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
     detailedExplanation: [
       'A Bíblia distingue entre coisas que são intrinsecamente pecaminosas em qualquer contexto (idolatria, imoralidade, mentira, blasfêmia) e áreas de cultura, arte, esporte e lazer que devem ser avaliadas com sabedoria espiritual (Filipenses 1:9-10). Apreciar boa música instrumental ou poética, praticar esportes ou se divertir em jogos de forma equilibrada faz parte da graça comum de Deus.',
       'Contudo, o apóstolo Paulo estabelece quatro filtros práticos infalíveis para o cristão avaliar qualquer entretenimento:',
-      '1. **O Filtro da Edificação (1 Coríntios 10:23)**: Isso edifica minha mente ou desperta desejos carnais, violência, sensualidade e zombaria contra Deus? (Filipenses 4:8; Salmos 101:3).',
-      '2. **O Filtro do Domínio Próprio (1 Coríntios 6:12)**: Isso é um lazer saudável ou está se tornando um vício que rouba meu tempo de oração, leitura bíblica, estudo, trabalho e família? (Efésios 5:15-16).',
-      '3. **O Filtro da Consciência e do Testemunho (Romanos 14:22-23; 1 Coríntios 10:31)**: Eu conseguiria assistir, ouvir ou jogar isso com a consciência tranquila na presença de Jesus, fazendo tudo para a glória de Deus?'
+      '1. Edificação (1 Coríntios 10:23): isto edifica a mente ou desperta desejos carnais, violência, sensualidade e zombaria contra Deus? (Filipenses 4:8; Salmos 101:3).',
+      '2. Domínio Próprio (1 Coríntios 6:12): isto é um lazer saudável ou está se tornando um vício que consome o tempo de leitura bíblica, estudo, trabalho e família? (Efésios 5:15-16).',
+      '3. Consciência e Testemunho (Romanos 14:22-23; 1 Coríntios 10:31): é possível assistir, ouvir ou praticar isso com consciência limpa diante de Cristo, fazendo tudo para a glória de Deus?'
     ],
     practicalApplication: 'Seja honesto consigo mesmo diante de Deus: se determinado conteúdo esfria seu desejo de orar, polui seus pensamentos ou domina seu tempo, tenha a coragem espiritual de cortá-lo.',
     keywords: ['música secular', 'jogos', 'videogame', 'filmes', 'séries', 'pecado', 'pode ou não pode', 'liberdade cristã', 'entretenimento'],
@@ -742,8 +749,8 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
     shortAnswer: 'Na Bíblia, contribuir para a obra de Deus e o sustento da igreja e dos necessitados nunca é uma "barganha financeira" com Deus, mas um ato voluntário de adoração, mordomia fiel, generosidade e gratidão com alegria (2 Coríntios 9:7).',
     detailedExplanation: [
       'Muito antes da Lei de Moisés, Abraão (Gênesis 14:20) e Jacó (Gênesis 28:22) já praticavam o princípio do dízimo como reconhecimento grato de que tudo vem das mãos de Deus. Em Mateus 23:23, Jesus repreendeu a hipocrisia dos fariseus, mas afirmou sobre o dízimo e a justiça/misericórdia: "deveis, porém, fazer estas coisas, e não omitir aquelas".',
-      'No Novo Testamento (1 Coríntios 9:13-14; 16:1-2; 2 Coríntios 8 e 9), a contribuição cristã é elevada do legalismo frio para o princípio da **graça generosa**: contribuímos para o sustento do ministério da Palavra, manutenção da igreja local, envio de missionários e socorro aos irmãos necessitados.',
-      'A sã doutrina evangélica rejeita veementemente a "Teologia da Prosperidade" (que transforma o evangelho em comércio de compra de bênçãos) e ensina a **Mordomia Cristã**: tudo o que temos pertence ao Senhor, e damos "cada um segundo propôs no seu coração; não com tristeza, ou por necessidade; porque Deus ama ao que dá com alegria" (2 Coríntios 9:7).'
+      'No Novo Testamento (1 Coríntios 9:13-14; 16:1-2; 2 Coríntios 8 e 9), a contribuição cristã é fundamentada no princípio da graça generosa: contribuímos para o sustento do ministério da Palavra, manutenção da igreja local, envio de missionários e socorro aos necessitados.',
+      'A sã doutrina bíblica rejeita a ideia de barganha financeira com Deus e ensina a mordomia fiel: tudo o que temos pertence ao Senhor, e damos "cada um segundo propôs no seu coração; não com tristeza, ou por necessidade; porque Deus ama ao que dá com alegria" (2 Coríntios 9:7).'
     ],
     practicalApplication: 'Organize suas finanças com sabedoria (Provérbios 21:5), honre ao Senhor com as primícias da sua renda em sua igreja local onde você é alimentado espiritualmente, e seja generoso para socorrer quem precisa.',
     keywords: ['dízimo', 'oferta', 'dinheiro', 'finanças', 'contribuir', 'prosperidade', 'mordomia', 'igreja'],
@@ -778,7 +785,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
     shortAnswer: 'Embora a salvação seja pela fé em Cristo, o Novo Testamento desconhece a ideia de um "cristão isolado". A Igreja é o Corpo de Cristo e a família da fé; congregar é mandamento bíblico e proteção espiritual.',
     detailedExplanation: [
       'Muitas pessoas se afastam da comunhão por terem sofrido decepções com líderes falhos ou escândalos. Essa dor é compreensível, mas abandonar a comunhão do Corpo de Cristo por causa dos erros dos homens é como desistir de comer alimentos saudáveis porque um restaurante serviu comida estragada.',
-      'No Novo Testamento, a palavra "igreja" (*ekklesia*) significa "assembleia dos chamados para fora" — por definição, é impossível ser "assembleia" sozinho. Existem mais de 50 mandamentos recíprocos ("uns aos outros") no Novo Testamento: amai-vos uns aos outros, suportai-vos uns aos outros, exortai-vos uns aos outros, levai as cargas uns dos outros (Gálatas 6:2) — nenhum deles pode ser cumprido isolado diante de uma tela.',
+      'No Novo Testamento, a palavra "igreja" (ekklesia) significa "assembleia dos chamados para fora" — por definição, não se é assembleia sozinho. Há dezenas de mandamentos recíprocos ("uns aos outros") no Novo Testamento: amai-vos uns aos outros, suportai-vos uns aos outros, exortai-vos uns aos outros, levai as cargas uns dos outros (Gálatas 6:2) — todos vividos em comunhão real.',
       'Hebreus 10:24-25 nos adverte diretamente: "Não deixando a nossa congregação, como é costume de alguns, antes admoestando-nos uns aos outros". Uma brasa tirada da lareira e deixada sozinha no chão esfria rapidamente; juntas, as brasas mantêm o fogo aceso.'
     ],
     practicalApplication: 'Se você se feriu em algum lugar no passado, peça a Deus direção para encontrar uma igreja local bíblica, séria, cristocêntrica e acolhedora, onde a Palavra de Deus seja pregada fielmente e você possa servir e ser cuidado.',
@@ -787,7 +794,8 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
       {
         bookAbbrev: 'hb',
         chapter: 10,
-        verse: 25,
+        verse: 24,
+        verseEnd: 25,
         label: 'Hebreus 10:24-25',
         quote: 'Não deixando a nossa congregação, como é costume de alguns, antes admoestando-nos uns aos outros; e tanto mais, quanto vedes que se vai aproximando aquele dia.'
       },
@@ -826,6 +834,7 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
         bookAbbrev: '1ts',
         chapter: 4,
         verse: 16,
+        verseEnd: 17,
         label: '1 Tessalonicenses 4:16-17',
         quote: 'Porque o mesmo Senhor descerá do céu com alarido, e com voz de arcanjo, e com a trombeta de Deus; e os que morreram em Cristo ressuscitarão primeiro.'
       },
@@ -851,8 +860,8 @@ export const TIRA_DUVIDAS_DATA: QuestionAnswer[] = [
     question: 'Os cristãos salvos ainda passarão por algum julgamento? O que é o Tribunal de Cristo?',
     shortAnswer: 'Os salvos em Cristo jamais serão julgados para condenação eterna (Romanos 8:1; João 5:24), mas comparecerão perante o Tribunal de Cristo (Bema) para avaliação de fidelidade e recebimento de galardões.',
     detailedExplanation: [
-      'A Bíblia diferencia claramente o julgamento da **condenação eterna** (o Grande Trono Branco em Apocalipse 20:11-15, destinado aos que rejeitaram a graça de Deus) do **Tribunal de Cristo** (2 Coríntios 5:10; Romanos 14:10; 1 Coríntios 3:11-15), destinado exclusivamente aos crentes salvos.',
-      'A palavra grega usada por Paulo para "Tribunal" (*Bema*) referia-se à plataforma onde o juiz dos jogos olímpicos antigos entregava as coroas de louros aos atletas que completaram a corrida segundo as regras. Não se trata de decidir se o crente entra ou não no céu (pois essa entrada já foi garantida pelo sangue de Jesus, João 5:24), mas de avaliar a qualidade e motivação das obras feitas sobre o fundamento que é Cristo.',
+      'A Bíblia diferencia claramente o julgamento da condenação eterna (o Grande Trono Branco em Apocalipse 20:11-15, destinado aos que rejeitaram a graça de Deus) do Tribunal de Cristo (2 Coríntios 5:10; Romanos 14:10; 1 Coríntios 3:11-15), destinado aos crentes salvos.',
+      'A palavra grega usada por Paulo para "Tribunal" (Bema) referia-se à plataforma onde o juiz dos jogos antigos entregava as coroas aos atletas que completaram a corrida segundo as regras. Não se trata de decidir se o crente entra ou não no céu (pois essa entrada já foi garantida pelo sangue de Jesus, João 5:24), mas de avaliar a qualidade e motivação das obras feitas sobre o fundamento que é Cristo.',
       'Em 1 Coríntios 3:12-15, as obras feitas para a glória de Deus ("ouro, prata, pedras preciosas") receberão galardão eterno, enquanto o que foi feito por vaidade carnal ("madeira, feno, palha") será queimado, "mas o tal será salvo".'
     ],
     practicalApplication: 'Sirva ao Senhor no secreto — mesmo quando ninguém na terra vê ou aplaude — sabendo que o Senhor vê cada copo de água fria dado em Seu nome e recompensará cada gesto de amor sincero (Mateus 10:42).',

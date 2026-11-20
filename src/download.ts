@@ -59,8 +59,7 @@ class VerboVivoDownloadPage {
     const savedTheme = storageService.getTheme();
     this.applyTheme(savedTheme);
 
-    const btnTheme = document.getElementById('btn-theme-toggle');
-    btnTheme?.addEventListener('click', () => {
+    document.getElementById('btn-theme-toggle')?.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
       const next = current === 'dark' ? 'light' : 'dark';
       this.applyTheme(next);
@@ -70,22 +69,26 @@ class VerboVivoDownloadPage {
 
   private applyTheme(theme: 'light' | 'dark'): void {
     document.documentElement.setAttribute('data-theme', theme);
-    const icon = document.getElementById('theme-icon');
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIcon = document.getElementById('theme-icon-moon');
     const label = document.getElementById('theme-label');
-    if (icon && label) {
-      if (theme === 'dark') {
-        icon.textContent = '☀️';
-        label.textContent = 'Claro';
-      } else {
-        icon.textContent = '🌙';
-        label.textContent = 'Escuro';
-      }
+    const metaTheme = document.getElementById('meta-theme-color');
+
+    if (theme === 'dark') {
+      sunIcon?.classList.remove('hidden');
+      moonIcon?.classList.add('hidden');
+      if (label) label.textContent = 'Claro';
+      metaTheme?.setAttribute('content', '#111317');
+    } else {
+      sunIcon?.classList.add('hidden');
+      moonIcon?.classList.remove('hidden');
+      if (label) label.textContent = 'Escuro';
+      metaTheme?.setAttribute('content', '#f7f3ea');
     }
   }
 
   private initNavigation(): void {
-    const navButtons = document.querySelectorAll<HTMLButtonElement>('[data-section]');
-    navButtons.forEach((btn) => {
+    document.querySelectorAll<HTMLButtonElement>('[data-section]').forEach((btn) => {
       btn.addEventListener('click', () => {
         const target = btn.getAttribute('data-section');
         if (target) this.switchSection(target);
@@ -95,7 +98,14 @@ class VerboVivoDownloadPage {
     document.querySelectorAll<HTMLButtonElement>('[data-go-install]').forEach((btn) => {
       btn.addEventListener('click', () => {
         this.switchSection('instalacao');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
+    });
+
+    document.getElementById('brand-home')?.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      this.switchSection('downloads');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
@@ -129,18 +139,18 @@ class VerboVivoDownloadPage {
     if (/android/.test(ua)) {
       document.getElementById('card-platform-android')?.classList.add('recommended');
       const b = document.getElementById('badge-android');
-      if (b) b.textContent = '★ RECOMENDADO PARA SEU ANDROID • .APK';
-      if (badgeEl) badgeEl.textContent = 'VERSÃO ANDROID DETECTADA';
+      if (b) b.textContent = 'Recomendado para seu Android • .APK';
+      if (badgeEl) badgeEl.textContent = 'Versão Android detectada • 100% Offline';
     } else if (/iphone|ipad|ipod/.test(ua)) {
       document.getElementById('card-platform-ios')?.classList.add('recommended');
       const b = document.getElementById('badge-ios');
-      if (b) b.textContent = '★ RECOMENDADO PARA SEU IPHONE • IOS';
-      if (badgeEl) badgeEl.textContent = 'VERSÃO IPHONE / IOS DETECTADA';
+      if (b) b.textContent = 'Recomendado para seu iPhone • iOS';
+      if (badgeEl) badgeEl.textContent = 'Versão iPhone / iOS detectada • 100% Offline';
     } else if (/win/.test(ua)) {
       document.getElementById('card-platform-windows')?.classList.add('recommended');
       const b = document.getElementById('badge-windows');
-      if (b) b.textContent = '★ RECOMENDADO PARA SEU WINDOWS • .EXE';
-      if (badgeEl) badgeEl.textContent = 'VERSÃO WINDOWS DETECTADA';
+      if (b) b.textContent = 'Recomendado para seu Windows • .EXE';
+      if (badgeEl) badgeEl.textContent = 'Versão Windows detectada • 100% Offline';
     }
   }
 }

@@ -2,107 +2,179 @@ import './style.css';
 import type {
   BibleBook,
   BibleTranslationId,
+  BiblicalDivision,
+  DictionaryCategory,
   HighlightColor,
   QACategory,
-  ScriptureReference
+  ResolvedPassage,
+  VersePassageRef
 } from './types';
 import { BOOKS_METADATA, BIBLE_TRANSLATIONS } from './data/books-metadata';
+import { DICTIONARY_CATEGORIES, POPULAR_DICTIONARY_TOPICS } from './data/dicionario-biblico';
 import { QA_CATEGORIES } from './data/tira-duvidas';
 import { REFUGIO_BIBLICO_DATA } from './data/refugio-biblico';
-import { DEVOCIONAIS_DATA } from './data/devocionais';
-import { PLANOS_LEITURA_DATA } from './data/planos-leitura';
 import { bibleService } from './services/bible-service';
+import {
+  getAvailableLetters,
+  getSortedDictionaryEntries,
+  searchDictionary
+} from './services/dictionary-engine';
 import { searchQuestions } from './services/qa-engine';
 import { storageService } from './services/storage-service';
 
-const PROMISES_POOL: ScriptureReference[] = [
-  {
-    bookAbbrev: 'sl',
-    chapter: 119,
-    verse: 105,
-    label: 'Salmos 119:105',
-    quote: 'Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.'
-  },
-  {
-    bookAbbrev: 'hb',
-    chapter: 4,
-    verse: 12,
-    label: 'Hebreus 4:12',
-    quote: 'Porque a palavra de Deus é viva e eficaz, e mais penetrante do que espada alguma de dois gumes.'
-  },
-  {
-    bookAbbrev: 'jo',
-    chapter: 3,
-    verse: 16,
-    label: 'João 3:16',
-    quote: 'Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.'
-  },
-  {
-    bookAbbrev: 'rm',
-    chapter: 8,
-    verse: 28,
-    label: 'Romanos 8:28',
-    quote: 'E sabemos que todas as coisas contribuem juntamente para o bem daqueles que amam a Deus.'
-  },
-  {
-    bookAbbrev: 'js',
-    chapter: 1,
-    verse: 9,
-    label: 'Josué 1:9',
-    quote: 'Esforça-te, e tem bom ânimo; não pasmes, nem te espantes; porque o Senhor teu Deus é contigo, por onde quer que andares.'
-  },
-  {
-    bookAbbrev: 'sl',
-    chapter: 23,
-    verse: 1,
-    label: 'Salmos 23:1',
-    quote: 'O Senhor é o meu pastor, nada me faltará.'
-  },
-  {
-    bookAbbrev: 'is',
-    chapter: 41,
-    verse: 10,
-    label: 'Isaías 41:10',
-    quote: 'Não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus; eu te fortaleço, e te ajudo.'
-  },
-  {
-    bookAbbrev: 'lm',
-    chapter: 3,
-    verse: 22,
-    label: 'Lamentações 3:22-23',
-    quote: 'As misericórdias do Senhor são a causa de não sermos consumidos... novas são cada manhã; grande é a tua fidelidade.'
-  }
+const FEATURED_PASSAGES: VersePassageRef[] = [
+  { bookAbbrev: 'sl', chapter: 119, verseStart: 105 },
+  { bookAbbrev: 'hb', chapter: 4, verseStart: 12 },
+  { bookAbbrev: 'jo', chapter: 3, verseStart: 16 },
+  { bookAbbrev: 'rm', chapter: 8, verseStart: 28 },
+  { bookAbbrev: 'js', chapter: 1, verseStart: 9 },
+  { bookAbbrev: 'sl', chapter: 23, verseStart: 1 },
+  { bookAbbrev: 'is', chapter: 41, verseStart: 10 },
+  { bookAbbrev: 'lm', chapter: 3, verseStart: 22, verseEnd: 23 },
+  { bookAbbrev: 'fp', chapter: 4, verseStart: 6, verseEnd: 7 },
+  { bookAbbrev: 'pv', chapter: 3, verseStart: 5, verseEnd: 6 }
 ];
 
+const DIVISION_ORDER: BiblicalDivision[] = [
+  'Pentateuco (Lei)',
+  'Históricos (AT)',
+  'Poéticos e Sapienciais',
+  'Profetas Maiores',
+  'Profetas Menores',
+  'Evangelhos',
+  'Histórico (NT)',
+  'Cartas Paulinas',
+  'Cartas Gerais',
+  'Profético (Apocalipse)'
+];
+
+const HIGHLIGHT_LABELS: Record<HighlightColor, string> = {
+  gold: 'Promessa',
+  blue: 'Doutrina',
+  green: 'Sabedoria',
+  rose: 'Adoração'
+};
+
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+async function copyTextSafe(text: string): Promise<boolean> {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    // Segue para fallback compatível com WebView / contextos locais
+  }
+
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', 'true');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    ta.style.pointerEvents = 'none';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
+function getTranslationCode(id: BibleTranslationId): string {
+  return id === 'aa' ? 'ARA' : id.toUpperCase();
+}
+
+function cleanQuoteText(raw: string): string {
+  const trimmed = raw.trim();
+  if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+    return trimmed;
+  }
+  return `"${trimmed.replace(/^"+/, '')}"`;
+}
+
 class VerboVivoApp {
+  private currentTab = 'biblia';
   private currentTranslation: BibleTranslationId = storageService.getTranslation();
-  private currentTestamentFilter: 'ALL' | 'AT' | 'NT' = 'ALL';
   private currentBookAbbrev: string = storageService.getLastLocation().bookAbbrev;
   private currentChapter: number = storageService.getLastLocation().chapter;
   private selectedVerseNumber: number | null = null;
   private fontSize: number = storageService.getFontSize();
   private booksList: BibleBook[] = [];
 
+  // Book Picker modal state
+  private pickerTestament: 'ALL' | 'AT' | 'NT' = 'ALL';
+  private pickerFilterQuery = '';
+  private pickerPendingBookAbbrev: string | null = null;
+
+  // Featured verse state
+  private featuredIdx = 0;
+
+  // Dictionary state
+  private currentDictCategory: DictionaryCategory | 'TODAS' = 'TODAS';
+  private currentDictLetter: string | 'TODAS' = 'TODAS';
+  private currentDictQuery = '';
+  private activeDictEntryId: string = POPULAR_DICTIONARY_TOPICS[0];
+
+  // Refúgio state
+  private activeRefugioId: string = REFUGIO_BIBLICO_DATA[0].id;
+
+  // Tira-Dúvidas state
   private currentQACategory: QACategory | 'TODAS' = 'TODAS';
   private currentQAQuery = '';
   private expandedQAIds: Set<string> = new Set(['certeza-da-salvacao']);
-  private activeRefugioId = REFUGIO_BIBLICO_DATA[0].id;
-  private activeDevotionalId = DEVOCIONAIS_DATA[0].id;
-  private activePlanId = PLANOS_LEITURA_DATA[0].id;
-  private featuredPromise: ScriptureReference = PROMISES_POOL[0];
+
+  // Marcações state
+  private currentStudyFilter: 'ALL' | 'NOTES' | HighlightColor = 'ALL';
+  private currentStudyQuery = '';
+
+  // Render sequence tokens (evita condições de corrida em renderizações assíncronas)
+  private chapterRenderSeq = 0;
+  private dictRenderSeq = 0;
+  private refugioRenderSeq = 0;
+  private qaRenderSeq = 0;
 
   public async init(): Promise<void> {
     this.initTheme();
     this.bindGlobalNavigation();
-    this.bindHeroPromise();
+    this.bindGlobalTranslationSwitcher();
+    this.bindKeyboardShortcuts();
     this.updateCounters();
 
-    this.initQASection();
-    this.initRefugioSection();
-    this.initDevotionalAndPlansSection();
-    this.initSecretoSection();
+    // Carrega tradução inicial antes de renderizar os módulos orientados a versículos
+    this.booksList = await bibleService.loadTranslation(this.currentTranslation);
+    this.validateInitialLocation();
 
-    await this.initBibleReader();
+    this.initBibleReader();
+    this.initBookPickerModal();
+    this.initFeaturedVerseRibbon();
+    this.initDictionarySection();
+    this.initRefugioSection();
+    this.initQASection();
+    this.initMarcacoesSection();
+
+    await Promise.all([
+      this.renderCurrentChapter(),
+      this.renderFeaturedVerse(),
+      this.renderActiveDictionaryEntry(),
+      this.renderActiveRefugio(),
+      this.renderQACards()
+    ]);
+  }
+
+  private validateInitialLocation(): void {
+    const found = this.booksList.find((b) => b.abbrev === this.currentBookAbbrev);
+    if (!found) {
+      this.currentBookAbbrev = 'jo';
+      this.currentChapter = 1;
+      return;
+    }
+    if (this.currentChapter < 1 || this.currentChapter > found.chapters.length) {
+      this.currentChapter = 1;
+    }
   }
 
   // ─── TEMA (ESCURO / CLARO) ───────────────────────────────────────────
@@ -110,8 +182,7 @@ class VerboVivoApp {
     const savedTheme = storageService.getTheme();
     this.applyTheme(savedTheme);
 
-    const btnTheme = document.getElementById('btn-theme-toggle');
-    btnTheme?.addEventListener('click', () => {
+    document.getElementById('btn-theme-toggle')?.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
       const next = current === 'dark' ? 'light' : 'dark';
       this.applyTheme(next);
@@ -121,132 +192,157 @@ class VerboVivoApp {
 
   private applyTheme(theme: 'light' | 'dark'): void {
     document.documentElement.setAttribute('data-theme', theme);
-    const icon = document.getElementById('theme-icon');
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIcon = document.getElementById('theme-icon-moon');
     const label = document.getElementById('theme-label');
-    if (icon && label) {
-      if (theme === 'dark') {
-        icon.textContent = '☀️';
-        label.textContent = 'Claro';
-      } else {
-        icon.textContent = '🌙';
-        label.textContent = 'Escuro';
-      }
+    const metaTheme = document.getElementById('meta-theme-color');
+
+    if (theme === 'dark') {
+      sunIcon?.classList.remove('hidden');
+      moonIcon?.classList.add('hidden');
+      if (label) label.textContent = 'Claro';
+      metaTheme?.setAttribute('content', '#111317');
+    } else {
+      sunIcon?.classList.add('hidden');
+      moonIcon?.classList.remove('hidden');
+      if (label) label.textContent = 'Escuro';
+      metaTheme?.setAttribute('content', '#f7f3ea');
     }
   }
 
-  // ─── NAVEGAÇÃO ENTRE ABAS E SUBVIEWS ─────────────────────────────────
+  // ─── NAVEGAÇÃO GLOBAL (DESKTOP + MOBILE BOTTOM BAR) ──────────────────
   private bindGlobalNavigation(): void {
-    const navButtons = document.querySelectorAll<HTMLButtonElement>('.nav-tab');
-    navButtons.forEach((btn) => {
+    const allNavTriggers = document.querySelectorAll<HTMLButtonElement>('[data-tab]');
+    allNavTriggers.forEach((btn) => {
       btn.addEventListener('click', () => {
         const target = btn.getAttribute('data-tab');
         if (target) this.switchTab(target);
       });
     });
 
-    // Subviews de Devocional & Planos
-    document.querySelectorAll<HTMLButtonElement>('[data-devo-view]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const view = btn.getAttribute('data-devo-view');
-        document.querySelectorAll('[data-devo-view]').forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('devo-subview-meditacao')?.classList.toggle('hidden', view !== 'meditacao');
-        document.getElementById('devo-subview-planos')?.classList.toggle('hidden', view !== 'planos');
-      });
+    document.getElementById('brand-home')?.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      this.switchTab('biblia');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
   public switchTab(tabId: string): void {
-    document.querySelectorAll('.nav-tab').forEach((btn) => {
-      btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+    this.currentTab = tabId;
+    document.querySelectorAll<HTMLElement>('[data-tab]').forEach((btn) => {
+      const isActive = btn.getAttribute('data-tab') === tabId;
+      btn.classList.toggle('active', isActive);
+      if (isActive) {
+        btn.setAttribute('aria-current', 'page');
+      } else {
+        btn.removeAttribute('aria-current');
+      }
     });
     document.querySelectorAll('.tab-panel').forEach((panel) => {
       panel.classList.toggle('active', panel.id === `tab-${tabId}`);
     });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // ─── PROMESSA NO HERO MINIMALISTA ────────────────────────────────────
-  private bindHeroPromise(): void {
-    const btnRandom = document.getElementById('btn-random-promise');
-    const featuredQuote = document.getElementById('hero-featured-quote');
-    const featuredRef = document.getElementById('hero-featured-ref');
-    const btnOpenFeatured = document.getElementById('btn-open-featured-verse');
+  // ─── SELETOR GLOBAL DE TRADUÇÃO (ACF | NVI | ARA) ────────────────────
+  private bindGlobalTranslationSwitcher(): void {
+    const pills = document.querySelectorAll<HTMLButtonElement>('[data-translation]');
+    const syncActivePill = () => {
+      pills.forEach((btn) => {
+        const isCurrent = btn.getAttribute('data-translation') === this.currentTranslation;
+        btn.classList.toggle('active', isCurrent);
+        btn.setAttribute('aria-pressed', String(isCurrent));
+      });
+    };
 
-    let idx = 0;
-    btnRandom?.addEventListener('click', () => {
-      idx = (idx + 1) % PROMISES_POOL.length;
-      this.featuredPromise = PROMISES_POOL[idx];
-      if (featuredQuote) featuredQuote.textContent = `"${this.featuredPromise.quote}"`;
-      if (featuredRef) featuredRef.textContent = this.featuredPromise.label;
+    syncActivePill();
+
+    pills.forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const next = btn.getAttribute('data-translation') as BibleTranslationId | null;
+        if (!next || next === this.currentTranslation) return;
+        this.currentTranslation = next;
+        storageService.setTranslation(next);
+        syncActivePill();
+
+        this.booksList = await bibleService.loadTranslation(this.currentTranslation);
+        await Promise.all([
+          this.renderCurrentChapter(),
+          this.renderFeaturedVerse(),
+          this.renderActiveDictionaryEntry(),
+          this.renderActiveRefugio(),
+          this.renderQACards()
+        ]);
+      });
     });
+  }
 
-    btnOpenFeatured?.addEventListener('click', () => {
-      void this.navigateToScripture(
-        this.featuredPromise.bookAbbrev,
-        this.featuredPromise.chapter,
-        this.featuredPromise.verse
-      );
+  // ─── ATALHOS DE TECLADO (DESKTOP) ────────────────────────────────────
+  private bindKeyboardShortcuts(): void {
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') {
+        this.closeBookPicker();
+        this.closeVerseInspector();
+        document.getElementById('bible-search-results-panel')?.classList.add('hidden');
+        return;
+      }
+
+      if (this.currentTab === 'biblia' && ev.altKey) {
+        if (ev.key === 'ArrowLeft') {
+          ev.preventDefault();
+          this.stepChapter(-1);
+        } else if (ev.key === 'ArrowRight') {
+          ev.preventDefault();
+          this.stepChapter(1);
+        }
+      }
     });
   }
 
   private updateCounters(): void {
     const readChapters = storageService.getReadChapters().length;
     const studiesCount = storageService.getVerseStudies().length;
-    const totalPrayers = storageService.getPrayers().length;
 
     const elProgress = document.getElementById('bible-progress-label');
-    const elBadge = document.getElementById('badge-saved-count');
-
     if (elProgress) {
-      elProgress.textContent = `${readChapters} de 1189 capítulos lidos`;
+      elProgress.textContent = `${readChapters} de 1.189 lidos`;
     }
-    if (elBadge) {
-      elBadge.textContent = String(studiesCount + totalPrayers);
-    }
+
+    const desktopBadge = document.getElementById('badge-saved-count');
+    const mobileBadge = document.getElementById('mobile-badge-saved-count');
+    [desktopBadge, mobileBadge].forEach((badge) => {
+      if (!badge) return;
+      badge.textContent = String(studiesCount);
+      badge.classList.toggle('hidden', studiesCount === 0);
+    });
+  }
+
+  // ─── FAIXA DISCRETA DE VERSÍCULO EM DESTAQUE ─────────────────────────
+  private initFeaturedVerseRibbon(): void {
+    document.getElementById('btn-random-promise')?.addEventListener('click', () => {
+      this.featuredIdx = (this.featuredIdx + 1) % FEATURED_PASSAGES.length;
+      void this.renderFeaturedVerse();
+    });
+
+    document.getElementById('btn-open-featured-verse')?.addEventListener('click', () => {
+      const ref = FEATURED_PASSAGES[this.featuredIdx];
+      void this.navigateToScripture(ref.bookAbbrev, ref.chapter, ref.verseStart);
+    });
+  }
+
+  private async renderFeaturedVerse(): Promise<void> {
+    const ref = FEATURED_PASSAGES[this.featuredIdx];
+    const resolved = await bibleService.resolvePassage(this.currentTranslation, ref);
+    if (!resolved) return;
+
+    const quoteEl = document.getElementById('hero-featured-quote');
+    const refEl = document.getElementById('hero-featured-ref');
+    if (quoteEl) quoteEl.textContent = cleanQuoteText(resolved.text);
+    if (refEl) refEl.textContent = `${resolved.label} (${getTranslationCode(this.currentTranslation)})`;
   }
 
   // ─── TAB 1: LEITOR BÍBLICO EDITORIAL ─────────────────────────────────
-  private async initBibleReader(): Promise<void> {
-    const selectTranslation = document.getElementById('select-translation') as HTMLSelectElement | null;
-    const selectTestament = document.getElementById('select-testament') as HTMLSelectElement | null;
-    const selectBook = document.getElementById('select-book') as HTMLSelectElement | null;
-    const selectChapter = document.getElementById('select-chapter') as HTMLSelectElement | null;
-
-    if (selectTranslation) {
-      selectTranslation.value = this.currentTranslation;
-      selectTranslation.addEventListener('change', async () => {
-        this.currentTranslation = selectTranslation.value as BibleTranslationId;
-        storageService.setTranslation(this.currentTranslation);
-        await this.reloadTranslationAndRender();
-      });
-    }
-
-    selectTestament?.addEventListener('change', () => {
-      this.currentTestamentFilter = selectTestament.value as 'ALL' | 'AT' | 'NT';
-      this.populateBookSelect();
-      if (selectBook && selectBook.value) {
-        this.currentBookAbbrev = selectBook.value;
-        this.currentChapter = 1;
-        this.closeVerseInspector();
-        this.populateChapterSelect();
-        void this.renderCurrentChapter();
-      }
-    });
-
-    selectBook?.addEventListener('change', () => {
-      this.currentBookAbbrev = selectBook.value;
-      this.currentChapter = 1;
-      this.closeVerseInspector();
-      this.populateChapterSelect();
-      void this.renderCurrentChapter();
-    });
-
-    selectChapter?.addEventListener('change', () => {
-      this.currentChapter = parseInt(selectChapter.value, 10) || 1;
-      this.closeVerseInspector();
-      void this.renderCurrentChapter();
-    });
-
+  private initBibleReader(): void {
     document.getElementById('btn-prev-chapter')?.addEventListener('click', () => this.stepChapter(-1));
     document.getElementById('btn-next-chapter')?.addEventListener('click', () => this.stepChapter(1));
     document.getElementById('btn-prev-chapter-bottom')?.addEventListener('click', () => this.stepChapter(-1));
@@ -254,7 +350,7 @@ class VerboVivoApp {
 
     document.getElementById('btn-mark-chapter-read')?.addEventListener('click', () => {
       storageService.toggleChapterRead(this.currentBookAbbrev, this.currentChapter);
-      this.updateChapterReadButtons();
+      this.updateChapterReadButton();
       this.updateCounters();
     });
 
@@ -263,6 +359,7 @@ class VerboVivoApp {
       storageService.setFontSize(this.fontSize);
       this.applyVerseFontSize();
     });
+
     document.getElementById('btn-font-increase')?.addEventListener('click', () => {
       this.fontSize = Math.min(27, this.fontSize + 2);
       storageService.setFontSize(this.fontSize);
@@ -271,10 +368,15 @@ class VerboVivoApp {
 
     const btnOverview = document.getElementById('btn-toggle-overview');
     const overviewCard = document.getElementById('book-overview-card');
-    btnOverview?.addEventListener('click', () => {
-      overviewCard?.classList.toggle('hidden');
-      btnOverview.classList.toggle('active');
-    });
+    const toggleOverview = (forceClose = false) => {
+      if (!overviewCard) return;
+      const shouldHide = forceClose ? true : !overviewCard.classList.contains('hidden');
+      overviewCard.classList.toggle('hidden', shouldHide);
+      btnOverview?.classList.toggle('active', !shouldHide);
+    };
+
+    btnOverview?.addEventListener('click', () => toggleOverview(false));
+    document.getElementById('btn-close-overview')?.addEventListener('click', () => toggleOverview(true));
 
     const inputSearch = document.getElementById('input-bible-search') as HTMLInputElement | null;
     const btnSearch = document.getElementById('btn-bible-search');
@@ -290,57 +392,167 @@ class VerboVivoApp {
     });
 
     this.bindVerseInspectorEvents();
-    await this.reloadTranslationAndRender();
   }
 
-  private async reloadTranslationAndRender(): Promise<void> {
-    this.booksList = await bibleService.loadTranslation(this.currentTranslation);
-    this.populateBookSelect();
-    this.populateChapterSelect();
-    await this.renderCurrentChapter();
+  // ─── MODAL VISUAL DE LIVROS E CAPÍTULOS ──────────────────────────────
+  private initBookPickerModal(): void {
+    const trigger = document.getElementById('btn-open-book-picker');
+    const modal = document.getElementById('book-picker-modal');
+    const closeBtn = document.getElementById('btn-close-book-picker');
+    const filterInput = document.getElementById('input-picker-book-filter') as HTMLInputElement | null;
+    const backBtn = document.getElementById('btn-picker-back-books');
+
+    trigger?.addEventListener('click', () => this.openBookPicker());
+    closeBtn?.addEventListener('click', () => this.closeBookPicker());
+    modal?.addEventListener('click', (ev) => {
+      if (ev.target === modal) this.closeBookPicker();
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-picker-testament]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        this.pickerTestament = (btn.getAttribute('data-picker-testament') as 'ALL' | 'AT' | 'NT') || 'ALL';
+        document.querySelectorAll('[data-picker-testament]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.showPickerBooksView();
+      });
+    });
+
+    filterInput?.addEventListener('input', () => {
+      this.pickerFilterQuery = filterInput.value;
+      this.showPickerBooksView();
+    });
+
+    backBtn?.addEventListener('click', () => {
+      this.pickerPendingBookAbbrev = null;
+      this.showPickerBooksView();
+    });
   }
 
-  private populateBookSelect(): void {
-    const selectBook = document.getElementById('select-book') as HTMLSelectElement | null;
-    if (!selectBook) return;
+  private openBookPicker(): void {
+    const modal = document.getElementById('book-picker-modal');
+    const trigger = document.getElementById('btn-open-book-picker');
+    const filterInput = document.getElementById('input-picker-book-filter') as HTMLInputElement | null;
 
-    const filtered = this.booksList.filter(
-      (b) => this.currentTestamentFilter === 'ALL' || b.testament === this.currentTestamentFilter
-    );
+    this.pickerPendingBookAbbrev = null;
+    this.pickerFilterQuery = '';
+    if (filterInput) filterInput.value = '';
 
-    selectBook.textContent = '';
-    for (const book of filtered) {
-      const opt = document.createElement('option');
-      opt.value = book.abbrev;
-      opt.textContent = book.name;
-      selectBook.appendChild(opt);
+    this.showPickerBooksView();
+    modal?.classList.remove('hidden');
+    trigger?.setAttribute('aria-expanded', 'true');
+  }
+
+  private closeBookPicker(): void {
+    document.getElementById('book-picker-modal')?.classList.add('hidden');
+    document.getElementById('btn-open-book-picker')?.setAttribute('aria-expanded', 'false');
+  }
+
+  private showPickerBooksView(): void {
+    const booksView = document.getElementById('picker-books-view');
+    const chaptersView = document.getElementById('picker-chapters-view');
+    const subtitle = document.getElementById('book-picker-subtitle');
+    if (!booksView || !chaptersView) return;
+
+    booksView.classList.remove('hidden');
+    chaptersView.classList.add('hidden');
+    if (subtitle) subtitle.textContent = 'Selecione um livro das Escrituras e depois o capítulo.';
+
+    const normQuery = bibleService.normalizeText(this.pickerFilterQuery);
+    const filtered = this.booksList.filter((book) => {
+      if (this.pickerTestament !== 'ALL' && book.testament !== this.pickerTestament) return false;
+      if (!normQuery) return true;
+      return (
+        bibleService.normalizeText(book.name).includes(normQuery) ||
+        bibleService.normalizeText(book.abbrev).includes(normQuery)
+      );
+    });
+
+    booksView.textContent = '';
+
+    if (filtered.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'results-meta';
+      empty.textContent = 'Nenhum livro encontrado com esse filtro.';
+      booksView.appendChild(empty);
+      return;
     }
 
-    if (filtered.some((b) => b.abbrev === this.currentBookAbbrev)) {
-      selectBook.value = this.currentBookAbbrev;
-    } else if (filtered.length > 0) {
-      this.currentBookAbbrev = filtered[0].abbrev;
-      selectBook.value = this.currentBookAbbrev;
+    for (const division of DIVISION_ORDER) {
+      const groupBooks = filtered.filter((b) => BOOKS_METADATA[b.abbrev]?.division === division);
+      if (groupBooks.length === 0) continue;
+
+      const groupEl = document.createElement('div');
+      groupEl.className = 'picker-division-group';
+
+      const heading = document.createElement('div');
+      heading.className = 'picker-division-title';
+      heading.textContent = division;
+
+      const grid = document.createElement('div');
+      grid.className = 'picker-books-grid';
+
+      for (const book of groupBooks) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `picker-book-btn ${book.abbrev === this.currentBookAbbrev ? 'current' : ''}`;
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = book.name;
+
+        const countSpan = document.createElement('span');
+        countSpan.className = 'picker-book-chaps';
+        countSpan.textContent = String(book.chapters.length);
+
+        btn.appendChild(nameSpan);
+        btn.appendChild(countSpan);
+
+        btn.addEventListener('click', () => {
+          if (book.chapters.length === 1) {
+            this.closeBookPicker();
+            void this.navigateToScripture(book.abbrev, 1);
+          } else {
+            this.showPickerChaptersView(book);
+          }
+        });
+
+        grid.appendChild(btn);
+      }
+
+      groupEl.appendChild(heading);
+      groupEl.appendChild(grid);
+      booksView.appendChild(groupEl);
     }
   }
 
-  private populateChapterSelect(): void {
-    const selectChapter = document.getElementById('select-chapter') as HTMLSelectElement | null;
-    if (!selectChapter) return;
+  private showPickerChaptersView(book: BibleBook): void {
+    const booksView = document.getElementById('picker-books-view');
+    const chaptersView = document.getElementById('picker-chapters-view');
+    const bookNameEl = document.getElementById('picker-selected-book-name');
+    const grid = document.getElementById('picker-chapters-grid');
+    const subtitle = document.getElementById('book-picker-subtitle');
+    if (!booksView || !chaptersView || !grid) return;
 
-    const book = this.booksList.find((b) => b.abbrev === this.currentBookAbbrev);
-    const total = book ? book.chapters.length : 1;
+    this.pickerPendingBookAbbrev = book.abbrev;
+    booksView.classList.add('hidden');
+    chaptersView.classList.remove('hidden');
 
-    selectChapter.textContent = '';
-    for (let i = 1; i <= total; i++) {
-      const opt = document.createElement('option');
-      opt.value = String(i);
-      opt.textContent = `Cap. ${i}`;
-      selectChapter.appendChild(opt);
+    if (bookNameEl) bookNameEl.textContent = `${book.name} (${book.chapters.length} capítulos)`;
+    if (subtitle) subtitle.textContent = `Escolha o capítulo de ${book.name}.`;
+
+    grid.textContent = '';
+    for (let ch = 1; ch <= book.chapters.length; ch++) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const isCurrent = book.abbrev === this.currentBookAbbrev && ch === this.currentChapter;
+      btn.className = `picker-chap-btn ${isCurrent ? 'current' : ''}`;
+      btn.textContent = String(ch);
+      btn.addEventListener('click', () => {
+        const targetAbbrev = this.pickerPendingBookAbbrev || book.abbrev;
+        this.closeBookPicker();
+        void this.navigateToScripture(targetAbbrev, ch);
+      });
+      grid.appendChild(btn);
     }
-
-    if (this.currentChapter > total) this.currentChapter = 1;
-    selectChapter.value = String(this.currentChapter);
   }
 
   private stepChapter(delta: number): void {
@@ -355,17 +567,18 @@ class VerboVivoApp {
     } else if (delta > 0 && bookIdx + 1 < this.booksList.length) {
       this.currentBookAbbrev = this.booksList[bookIdx + 1].abbrev;
       this.currentChapter = 1;
-      this.populateBookSelect();
     } else if (delta < 0 && bookIdx - 1 >= 0) {
       const prevBook = this.booksList[bookIdx - 1];
       this.currentBookAbbrev = prevBook.abbrev;
       this.currentChapter = prevBook.chapters.length;
-      this.populateBookSelect();
+    } else {
+      return;
     }
 
     this.closeVerseInspector();
-    this.populateChapterSelect();
-    void this.renderCurrentChapter();
+    void this.renderCurrentChapter().then(() => {
+      document.getElementById('heading-biblia')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   }
 
   private renderBookOverview(): void {
@@ -384,15 +597,15 @@ class VerboVivoApp {
     setEl('overview-summary', meta.summary);
     setEl('overview-christ', meta.christConnection);
     setEl('overview-key-ref', meta.keyVerseRef);
-    setEl('overview-key-text', `"${meta.keyVerseText}"`);
+    setEl('overview-key-text', cleanQuoteText(meta.keyVerseText));
   }
 
-  private updateChapterReadButtons(): void {
+  private updateChapterReadButton(): void {
     const isRead = storageService.isChapterRead(this.currentBookAbbrev, this.currentChapter);
     const btn = document.getElementById('btn-mark-chapter-read');
     if (btn) {
       btn.classList.toggle('is-read', isRead);
-      btn.textContent = isRead ? '✓ Lido' : '✓ Marcar Lido';
+      btn.textContent = isRead ? 'Capítulo lido' : 'Marcar como lido';
     }
   }
 
@@ -403,9 +616,10 @@ class VerboVivoApp {
   }
 
   private async renderCurrentChapter(): Promise<void> {
+    const seq = ++this.chapterRenderSeq;
     storageService.setLastLocation(this.currentBookAbbrev, this.currentChapter);
     this.renderBookOverview();
-    this.updateChapterReadButtons();
+    this.updateChapterReadButton();
 
     const book = this.booksList.find((b) => b.abbrev === this.currentBookAbbrev);
     if (!book) return;
@@ -413,20 +627,24 @@ class VerboVivoApp {
     const transMeta = BIBLE_TRANSLATIONS.find((t) => t.id === this.currentTranslation);
     const badge = document.getElementById('reader-translation-badge');
     const heading = document.getElementById('heading-biblia');
+    const pickerLabel = document.getElementById('picker-current-label');
+
     if (badge) badge.textContent = transMeta ? `${transMeta.code} • ${transMeta.name}` : 'ACF';
     if (heading) heading.textContent = `${book.name} ${this.currentChapter}`;
+    if (pickerLabel) pickerLabel.textContent = `${book.name} ${this.currentChapter}`;
 
     const verses = await bibleService.getChapterVerses(
       this.currentTranslation,
       this.currentBookAbbrev,
       this.currentChapter
     );
+    if (seq !== this.chapterRenderSeq) return;
 
     const container = document.getElementById('bible-verses-container');
     if (!container) return;
-    container.textContent = '';
 
     const savedStudies = storageService.getVerseStudies();
+    const frag = document.createDocumentFragment();
 
     verses.forEach((verseText, idx) => {
       const verseNumber = idx + 1;
@@ -437,6 +655,8 @@ class VerboVivoApp {
       row.className = 'verse-row';
       row.id = `verse-row-${verseNumber}`;
       row.style.fontSize = `${this.fontSize}px`;
+      row.setAttribute('role', 'button');
+      row.setAttribute('tabindex', '0');
 
       if (existingStudy) {
         row.classList.add(`hl-${existingStudy.color}`);
@@ -463,16 +683,26 @@ class VerboVivoApp {
         row.appendChild(noteTag);
       }
 
-      row.addEventListener('click', () => {
+      const activateVerse = () => {
         if (this.selectedVerseNumber === verseNumber) {
           this.closeVerseInspector();
         } else {
           void this.selectVerseForInspection(verseNumber);
         }
+      };
+
+      row.addEventListener('click', activateVerse);
+      row.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          activateVerse();
+        }
       });
 
-      container.appendChild(row);
+      frag.appendChild(row);
     });
+
+    container.replaceChildren(frag);
 
     if (this.selectedVerseNumber) {
       await this.selectVerseForInspection(this.selectedVerseNumber);
@@ -483,6 +713,7 @@ class VerboVivoApp {
     this.selectedVerseNumber = null;
     document.querySelectorAll('.verse-row').forEach((row) => row.classList.remove('selected'));
     document.getElementById('verse-study-sidebar')?.classList.add('hidden');
+    document.getElementById('study-backdrop')?.classList.add('hidden');
     document.getElementById('bible-reader-grid')?.classList.remove('has-inspector');
   }
 
@@ -496,12 +727,14 @@ class VerboVivoApp {
     if (!book) return;
 
     const sidebar = document.getElementById('verse-study-sidebar');
+    const backdrop = document.getElementById('study-backdrop');
     const stageGrid = document.getElementById('bible-reader-grid');
     const refTitle = document.getElementById('inspector-verse-ref');
     const noteInput = document.getElementById('textarea-verse-note') as HTMLTextAreaElement | null;
     const comparisonList = document.getElementById('inspector-translations-list');
 
     sidebar?.classList.remove('hidden');
+    backdrop?.classList.remove('hidden');
     stageGrid?.classList.add('has-inspector');
 
     if (refTitle) {
@@ -542,9 +775,8 @@ class VerboVivoApp {
   }
 
   private bindVerseInspectorEvents(): void {
-    document.getElementById('btn-close-inspector')?.addEventListener('click', () => {
-      this.closeVerseInspector();
-    });
+    document.getElementById('btn-close-inspector')?.addEventListener('click', () => this.closeVerseInspector());
+    document.getElementById('study-backdrop')?.addEventListener('click', () => this.closeVerseInspector());
 
     document.querySelectorAll<HTMLButtonElement>('.btn-color-swatch').forEach((btn) => {
       btn.addEventListener('click', async () => {
@@ -570,6 +802,9 @@ class VerboVivoApp {
       const studyId = `${this.currentBookAbbrev}:${this.currentChapter}:${this.selectedVerseNumber}`;
       const existing = storageService.getVerseStudyById(studyId);
       await this.persistCurrentVerseStudy(existing?.color || 'gold');
+      const feedback = document.getElementById('note-saved-feedback');
+      feedback?.classList.remove('hidden');
+      setTimeout(() => feedback?.classList.add('hidden'), 1800);
     });
 
     document.getElementById('btn-copy-verse')?.addEventListener('click', async () => {
@@ -582,14 +817,12 @@ class VerboVivoApp {
         this.currentChapter
       );
       const text = verses[this.selectedVerseNumber - 1] || '';
-      const formatted = `"${text}" — ${book.name} ${this.currentChapter}:${this.selectedVerseNumber} (${this.currentTranslation === 'aa' ? 'ARA' : this.currentTranslation.toUpperCase()})`;
-      try {
-        await navigator.clipboard.writeText(formatted);
+      const formatted = `${cleanQuoteText(text)} — ${book.name} ${this.currentChapter}:${this.selectedVerseNumber} (${getTranslationCode(this.currentTranslation)})`;
+      const ok = await copyTextSafe(formatted);
+      if (ok) {
         const toast = document.getElementById('copy-feedback');
         toast?.classList.remove('hidden');
         setTimeout(() => toast?.classList.add('hidden'), 2000);
-      } catch {
-        // Silencioso
       }
     });
   }
@@ -639,20 +872,16 @@ class VerboVivoApp {
     title.textContent = `Pesquisando por "${trimmed}"...`;
     list.textContent = '';
 
-    const hits = await bibleService.searchBible(
-      this.currentTranslation,
-      trimmed,
-      this.currentTestamentFilter,
-      60
-    );
+    const hits = await bibleService.searchBible(this.currentTranslation, trimmed, 'ALL', 60);
 
     title.textContent =
       hits.length > 0
-        ? `${hits.length} versículos encontrados para "${trimmed}"`
+        ? `${hits.length} ${hits.length === 1 ? 'versículo encontrado' : 'versículos encontrados'} para "${trimmed}"`
         : `Nenhum resultado encontrado para "${trimmed}".`;
 
     for (const hit of hits) {
-      const card = document.createElement('div');
+      const card = document.createElement('button');
+      card.type = 'button';
       card.className = 'search-hit-card';
 
       const refSpan = document.createElement('span');
@@ -675,188 +904,370 @@ class VerboVivoApp {
     }
   }
 
-  public async navigateToScripture(
-    bookAbbrev: string,
-    chapter: number,
-    verse?: number
-  ): Promise<void> {
+  public async navigateToScripture(bookAbbrev: string, chapter: number, verse?: number): Promise<void> {
     this.switchTab('biblia');
-    this.currentTestamentFilter = 'ALL';
-    const selectTestament = document.getElementById('select-testament') as HTMLSelectElement | null;
-    if (selectTestament) selectTestament.value = 'ALL';
-
     this.currentBookAbbrev = bookAbbrev;
     this.currentChapter = chapter;
     this.selectedVerseNumber = verse || null;
 
-    this.populateBookSelect();
-    this.populateChapterSelect();
     await this.renderCurrentChapter();
 
     if (verse) {
       const row = document.getElementById(`verse-row-${verse}`);
       row?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      document.getElementById('heading-biblia')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('heading-biblia')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
-  // ─── TAB 2: TIRA-DÚVIDAS BEREANO (ACCORDION CARDS) ───────────────────
-  private initQASection(): void {
-    const categoriesBar = document.getElementById('qa-categories-bar');
-    const searchInput = document.getElementById('input-qa-search') as HTMLInputElement | null;
-
-    if (categoriesBar) {
-      const allCats: ('TODAS' | QACategory)[] = ['TODAS', ...QA_CATEGORIES];
-      categoriesBar.textContent = '';
-
-      allCats.forEach((cat) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `qa-cat-btn ${cat === this.currentQACategory ? 'active' : ''}`;
-        btn.textContent = cat === 'TODAS' ? 'Todas' : cat;
-        btn.addEventListener('click', () => {
-          this.currentQACategory = cat;
-          categoriesBar.querySelectorAll('.qa-cat-btn').forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
-          this.renderQACards();
-        });
-        categoriesBar.appendChild(btn);
-      });
-    }
-
-    searchInput?.addEventListener('input', () => {
-      this.currentQAQuery = searchInput.value;
-      this.renderQACards();
-    });
-
-    this.renderQACards();
-  }
-
-  private renderQACards(): void {
-    const container = document.getElementById('qa-cards-container');
-    const counter = document.getElementById('qa-results-counter');
-    if (!container) return;
-
-    const results = searchQuestions(this.currentQAQuery, this.currentQACategory);
-    if (counter) {
-      counter.textContent = `${results.length} ${results.length === 1 ? 'pergunta encontrada' : 'perguntas encontradas'} — clique em qualquer pergunta para ler o estudo completo`;
-    }
-
-    container.textContent = '';
-
-    for (const qa of results) {
-      const isExpanded = this.expandedQAIds.has(qa.id) || this.currentQAQuery.trim().length > 2;
-      const card = document.createElement('article');
-      card.className = `qa-card ${isExpanded ? 'expanded' : ''}`;
-
-      const header = document.createElement('div');
-      header.className = 'qa-card-header';
-
-      const headerLeft = document.createElement('div');
-      const catBadge = document.createElement('span');
-      catBadge.className = 'eyebrow-tag';
-      catBadge.textContent = qa.category;
-
-      const qTitle = document.createElement('h3');
-      qTitle.className = 'qa-card-question';
-      qTitle.textContent = qa.question;
-
-      const shortP = document.createElement('p');
-      shortP.className = 'qa-short-answer';
-      shortP.textContent = qa.shortAnswer;
-
-      headerLeft.appendChild(catBadge);
-      headerLeft.appendChild(qTitle);
-      headerLeft.appendChild(shortP);
-
-      const toggleIndicator = document.createElement('span');
-      toggleIndicator.className = 'qa-toggle-indicator';
-      toggleIndicator.textContent = isExpanded ? 'Fechar ↑' : 'Ler mais ↓';
-
-      header.appendChild(headerLeft);
-      header.appendChild(toggleIndicator);
-
-      const expandableBody = document.createElement('div');
-      expandableBody.className = `qa-expandable-body ${isExpanded ? '' : 'hidden'}`;
-
-      const detailedDiv = document.createElement('div');
-      detailedDiv.className = 'qa-detailed-paragraphs';
-      qa.detailedExplanation.forEach((para) => {
-        const p = document.createElement('p');
-        p.textContent = para;
-        detailedDiv.appendChild(p);
-      });
-
-      const practicalBox = document.createElement('div');
-      practicalBox.className = 'qa-practical-box';
-      const strongLabel = document.createElement('strong');
-      strongLabel.textContent = 'Aplicação Prática: ';
-      const spanPrac = document.createElement('span');
-      spanPrac.textContent = qa.practicalApplication;
-      practicalBox.appendChild(strongLabel);
-      practicalBox.appendChild(spanPrac);
-
-      const refsContainer = document.createElement('div');
-      refsContainer.className = 'qa-refs-list';
-      for (const ref of qa.references) {
-        refsContainer.appendChild(this.createScriptureRefCard(ref));
-      }
-
-      expandableBody.appendChild(detailedDiv);
-      expandableBody.appendChild(practicalBox);
-      expandableBody.appendChild(refsContainer);
-
-      header.addEventListener('click', () => {
-        const nowOpen = expandableBody.classList.toggle('hidden');
-        const expanded = !nowOpen;
-        card.classList.toggle('expanded', expanded);
-        toggleIndicator.textContent = expanded ? 'Fechar ↑' : 'Ler mais ↓';
-        if (expanded) {
-          this.expandedQAIds.add(qa.id);
-        } else {
-          this.expandedQAIds.delete(qa.id);
-        }
-      });
-
-      card.appendChild(header);
-      card.appendChild(expandableBody);
-      container.appendChild(card);
-    }
-  }
-
-  private createScriptureRefCard(ref: ScriptureReference): HTMLElement {
-    const refCard = document.createElement('div');
-    refCard.className = 'scripture-ref-card';
+  // ─── COMPONENTE REUTILIZÁVEL DE PASSAGEM BÍBLICA VERBATIM ────────────
+  private createResolvedPassageCard(passage: ResolvedPassage): HTMLElement {
+    const card = document.createElement('div');
+    card.className = 'scripture-passage-card';
 
     const quoteP = document.createElement('p');
-    quoteP.className = 'scripture-ref-quote';
-    quoteP.textContent = `"${ref.quote}"`;
+    quoteP.className = 'scripture-passage-text';
+    quoteP.textContent = cleanQuoteText(passage.text);
 
     const footer = document.createElement('div');
-    footer.className = 'scripture-ref-footer';
+    footer.className = 'scripture-passage-footer';
 
-    const labelSpan = document.createElement('span');
-    labelSpan.className = 'scripture-ref-label';
-    labelSpan.textContent = ref.label;
+    const refSpan = document.createElement('span');
+    refSpan.className = 'scripture-passage-ref';
+    refSpan.textContent = `${passage.label} (${getTranslationCode(this.currentTranslation)})`;
+
+    const actions = document.createElement('div');
+    actions.className = 'passage-card-actions';
+
+    const copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'btn-passage-action';
+    copyBtn.textContent = 'Copiar';
+    copyBtn.addEventListener('click', async (ev) => {
+      ev.stopPropagation();
+      const formatted = `${cleanQuoteText(passage.text)} — ${passage.label} (${getTranslationCode(this.currentTranslation)})`;
+      const ok = await copyTextSafe(formatted);
+      if (ok) {
+        copyBtn.textContent = 'Copiado';
+        setTimeout(() => {
+          copyBtn.textContent = 'Copiar';
+        }, 1600);
+      }
+    });
 
     const openBtn = document.createElement('button');
     openBtn.type = 'button';
-    openBtn.className = 'btn-inline-link';
-    openBtn.textContent = 'Abrir na Bíblia →';
+    openBtn.className = 'btn-passage-action btn-passage-open';
+    openBtn.textContent = 'Ler na Bíblia →';
     openBtn.addEventListener('click', (ev) => {
       ev.stopPropagation();
-      void this.navigateToScripture(ref.bookAbbrev, ref.chapter, ref.verse);
+      void this.navigateToScripture(passage.bookAbbrev, passage.chapter, passage.verseStart);
     });
 
-    footer.appendChild(labelSpan);
-    footer.appendChild(openBtn);
-    refCard.appendChild(quoteP);
-    refCard.appendChild(footer);
-    return refCard;
+    actions.appendChild(copyBtn);
+    actions.appendChild(openBtn);
+    footer.appendChild(refSpan);
+    footer.appendChild(actions);
+
+    card.appendChild(quoteP);
+    card.appendChild(footer);
+    return card;
   }
 
-  // ─── TAB 3: REFÚGIO BÍBLICO ──────────────────────────────────────────
+  // ─── TAB 2: DICIONÁRIO BÍBLICO (SOMENTE VERSÍCULOS) ──────────────────
+  private initDictionarySection(): void {
+    const allEntries = getSortedDictionaryEntries();
+    const statEl = document.getElementById('dict-total-stat');
+    if (statEl) {
+      statEl.textContent = `${allEntries.length} temas`;
+    }
+
+    // Popular quick chips
+    const popularContainer = document.getElementById('dict-popular-chips');
+    if (popularContainer) {
+      popularContainer.textContent = '';
+      for (const topicId of POPULAR_DICTIONARY_TOPICS) {
+        const entry = allEntries.find((e) => e.id === topicId);
+        if (!entry) continue;
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'quick-topic-chip';
+        chip.textContent = entry.title;
+        chip.addEventListener('click', () => {
+          this.currentDictQuery = '';
+          this.currentDictCategory = 'TODAS';
+          this.currentDictLetter = 'TODAS';
+          const input = document.getElementById('input-dict-search') as HTMLInputElement | null;
+          if (input) input.value = '';
+          document.getElementById('btn-clear-dict-search')?.classList.add('hidden');
+          this.activeDictEntryId = entry.id;
+          this.syncDictionaryFilterButtons();
+          this.renderDictionaryList();
+          this.openMobileDictionaryDetail();
+          void this.renderActiveDictionaryEntry();
+        });
+        popularContainer.appendChild(chip);
+      }
+    }
+
+    // Categories
+    const categoriesBar = document.getElementById('dict-categories-bar');
+    if (categoriesBar) {
+      const cats: ('TODAS' | DictionaryCategory)[] = ['TODAS', ...DICTIONARY_CATEGORIES];
+      categoriesBar.textContent = '';
+      for (const cat of cats) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `qa-cat-btn ${cat === this.currentDictCategory ? 'active' : ''}`;
+        btn.setAttribute('data-dict-cat', cat);
+        btn.textContent = cat === 'TODAS' ? 'Todos os temas' : cat;
+        btn.addEventListener('click', () => {
+          this.currentDictCategory = cat;
+          this.currentDictLetter = 'TODAS';
+          this.syncDictionaryFilterButtons();
+          this.renderDictionaryList(true);
+        });
+        categoriesBar.appendChild(btn);
+      }
+    }
+
+    // Alphabet A–Z
+    const alphaBar = document.getElementById('dict-alphabet-bar');
+    const available = getAvailableLetters(allEntries);
+    if (alphaBar) {
+      alphaBar.textContent = '';
+      const allBtn = document.createElement('button');
+      allBtn.type = 'button';
+      allBtn.className = 'alpha-btn active';
+      allBtn.setAttribute('data-dict-letter', 'TODAS');
+      allBtn.textContent = 'A–Z';
+      allBtn.addEventListener('click', () => {
+        this.currentDictLetter = 'TODAS';
+        this.syncDictionaryFilterButtons();
+        this.renderDictionaryList(true);
+      });
+      alphaBar.appendChild(allBtn);
+
+      for (const letter of ALPHABET) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'alpha-btn';
+        btn.setAttribute('data-dict-letter', letter);
+        btn.textContent = letter;
+        btn.disabled = !available.has(letter);
+        btn.addEventListener('click', () => {
+          this.currentDictLetter = letter;
+          this.currentDictQuery = '';
+          const input = document.getElementById('input-dict-search') as HTMLInputElement | null;
+          if (input) input.value = '';
+          document.getElementById('btn-clear-dict-search')?.classList.add('hidden');
+          this.syncDictionaryFilterButtons();
+          this.renderDictionaryList(true);
+        });
+        alphaBar.appendChild(btn);
+      }
+    }
+
+    // Search input
+    const searchInput = document.getElementById('input-dict-search') as HTMLInputElement | null;
+    const clearBtn = document.getElementById('btn-clear-dict-search');
+
+    searchInput?.addEventListener('input', () => {
+      this.currentDictQuery = searchInput.value;
+      clearBtn?.classList.toggle('hidden', this.currentDictQuery.trim().length === 0);
+      if (this.currentDictQuery.trim().length > 0 && this.currentDictLetter !== 'TODAS') {
+        this.currentDictLetter = 'TODAS';
+        this.syncDictionaryFilterButtons();
+      }
+      this.renderDictionaryList(true);
+    });
+
+    clearBtn?.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      this.currentDictQuery = '';
+      clearBtn.classList.add('hidden');
+      this.renderDictionaryList(true);
+      searchInput?.focus();
+    });
+
+    // Mobile back button
+    document.getElementById('btn-dict-back-mobile')?.addEventListener('click', () => {
+      document.getElementById('dict-workspace')?.classList.remove('mobile-show-detail');
+    });
+
+    this.renderDictionaryList(false);
+  }
+
+  private syncDictionaryFilterButtons(): void {
+    document.querySelectorAll<HTMLButtonElement>('[data-dict-cat]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-dict-cat') === this.currentDictCategory);
+    });
+    document.querySelectorAll<HTMLButtonElement>('[data-dict-letter]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-dict-letter') === this.currentDictLetter);
+    });
+  }
+
+  private openMobileDictionaryDetail(): void {
+    const ws = document.getElementById('dict-workspace');
+    ws?.classList.add('mobile-show-detail');
+    if (window.innerWidth <= 920) {
+      document.getElementById('dict-detail-col')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  private renderDictionaryList(autoSelectFirst = false): void {
+    const listEl = document.getElementById('dict-topics-list');
+    const metaEl = document.getElementById('dict-results-meta');
+    if (!listEl) return;
+
+    const results = searchDictionary(this.currentDictQuery, this.currentDictCategory, this.currentDictLetter);
+
+    if (metaEl) {
+      metaEl.textContent = `${results.length} ${results.length === 1 ? 'tema encontrado' : 'temas encontrados'}`;
+    }
+
+    listEl.textContent = '';
+
+    if (results.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-state-box';
+      const h3 = document.createElement('h3');
+      h3.textContent = 'Nenhum tema encontrado';
+      const p = document.createElement('p');
+      p.textContent = 'Tente outra palavra-chave ou limpe os filtros de categoria e letra.';
+      const resetBtn = document.createElement('button');
+      resetBtn.type = 'button';
+      resetBtn.className = 'btn-primary-action';
+      resetBtn.textContent = 'Mostrar todos os temas';
+      resetBtn.addEventListener('click', () => {
+        this.currentDictQuery = '';
+        this.currentDictCategory = 'TODAS';
+        this.currentDictLetter = 'TODAS';
+        const input = document.getElementById('input-dict-search') as HTMLInputElement | null;
+        if (input) input.value = '';
+        document.getElementById('btn-clear-dict-search')?.classList.add('hidden');
+        this.syncDictionaryFilterButtons();
+        this.renderDictionaryList(true);
+      });
+      empty.appendChild(h3);
+      empty.appendChild(p);
+      empty.appendChild(resetBtn);
+      listEl.appendChild(empty);
+      return;
+    }
+
+    if (autoSelectFirst && !results.some((r) => r.id === this.activeDictEntryId)) {
+      this.activeDictEntryId = results[0].id;
+      void this.renderActiveDictionaryEntry();
+    } else if (autoSelectFirst && this.currentDictQuery.trim().length > 0) {
+      this.activeDictEntryId = results[0].id;
+      void this.renderActiveDictionaryEntry();
+    }
+
+    for (const entry of results) {
+      const isSelected = entry.id === this.activeDictEntryId;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `dict-topic-btn ${isSelected ? 'active' : ''}`;
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('aria-selected', String(isSelected));
+
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'dict-topic-name';
+      titleSpan.textContent = entry.title;
+
+      const metaSpan = document.createElement('span');
+      metaSpan.className = 'dict-topic-meta';
+      metaSpan.textContent = `${entry.category} • ${entry.passages.length} ${entry.passages.length === 1 ? 'passagem' : 'passagens'}`;
+
+      btn.appendChild(titleSpan);
+      btn.appendChild(metaSpan);
+
+      btn.addEventListener('click', () => {
+        this.activeDictEntryId = entry.id;
+        listEl.querySelectorAll('.dict-topic-btn').forEach((b) => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        this.openMobileDictionaryDetail();
+        void this.renderActiveDictionaryEntry();
+      });
+
+      listEl.appendChild(btn);
+    }
+  }
+
+  private async renderActiveDictionaryEntry(): Promise<void> {
+    const seq = ++this.dictRenderSeq;
+    const container = document.getElementById('dict-detail-content');
+    if (!container) return;
+
+    const allEntries = getSortedDictionaryEntries();
+    const entry = allEntries.find((e) => e.id === this.activeDictEntryId) || allEntries[0];
+    if (!entry) return;
+
+    const resolvedPassages = await bibleService.resolvePassages(this.currentTranslation, entry.passages);
+    if (seq !== this.dictRenderSeq) return;
+
+    const frag = document.createDocumentFragment();
+
+    const header = document.createElement('header');
+    header.className = 'dict-detail-header';
+
+    const headerLeft = document.createElement('div');
+    const kicker = document.createElement('span');
+    kicker.className = 'meta-kicker';
+    kicker.textContent = entry.category;
+
+    const title = document.createElement('h3');
+    title.className = 'dict-detail-title';
+    title.textContent = entry.title;
+
+    const sub = document.createElement('p');
+    sub.className = 'dict-detail-sub';
+    sub.textContent = `O que as Escrituras dizem • ${resolvedPassages.length} passagens na tradução ${getTranslationCode(this.currentTranslation)}`;
+
+    headerLeft.appendChild(kicker);
+    headerLeft.appendChild(title);
+    headerLeft.appendChild(sub);
+
+    const copyAllBtn = document.createElement('button');
+    copyAllBtn.type = 'button';
+    copyAllBtn.className = 'btn-action-pill';
+    copyAllBtn.textContent = 'Copiar versículos';
+    copyAllBtn.addEventListener('click', async () => {
+      const code = getTranslationCode(this.currentTranslation);
+      const bundle = [
+        `${entry.title} (${code})`,
+        '',
+        ...resolvedPassages.map((p) => `${cleanQuoteText(p.text)} — ${p.label}`)
+      ].join('\n');
+      const ok = await copyTextSafe(bundle);
+      if (ok) {
+        copyAllBtn.textContent = 'Copiado';
+        setTimeout(() => {
+          copyAllBtn.textContent = 'Copiar versículos';
+        }, 1800);
+      }
+    });
+
+    header.appendChild(headerLeft);
+    header.appendChild(copyAllBtn);
+
+    const stack = document.createElement('div');
+    stack.className = 'passages-stack';
+    for (const passage of resolvedPassages) {
+      stack.appendChild(this.createResolvedPassageCard(passage));
+    }
+
+    frag.appendChild(header);
+    frag.appendChild(stack);
+    container.replaceChildren(frag);
+  }
+
+  // ─── TAB 3: REFÚGIO NAS ESCRITURAS (SEM PALAVRA PASTORAL) ────────────
   private initRefugioSection(): void {
     const grid = document.getElementById('refugio-states-grid');
     if (!grid) return;
@@ -882,378 +1293,355 @@ class VerboVivoApp {
         this.activeRefugioId = item.id;
         grid.querySelectorAll('.refugio-state-btn').forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
-        this.renderActiveRefugio();
+        void this.renderActiveRefugio();
+        if (window.innerWidth <= 860) {
+          document.getElementById('refugio-active-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       });
 
       grid.appendChild(btn);
     }
-
-    this.renderActiveRefugio();
   }
 
-  private renderActiveRefugio(): void {
+  private async renderActiveRefugio(): Promise<void> {
+    const seq = ++this.refugioRenderSeq;
     const detail = document.getElementById('refugio-active-detail');
     if (!detail) return;
 
     const item = REFUGIO_BIBLICO_DATA.find((r) => r.id === this.activeRefugioId) || REFUGIO_BIBLICO_DATA[0];
-    detail.textContent = '';
+    const resolvedPassages = await bibleService.resolvePassages(this.currentTranslation, item.passages);
+    if (seq !== this.refugioRenderSeq) return;
+
+    const frag = document.createDocumentFragment();
+
+    const header = document.createElement('header');
+    header.className = 'dict-detail-header';
+
+    const left = document.createElement('div');
+    const kicker = document.createElement('span');
+    kicker.className = 'meta-kicker';
+    kicker.textContent = `Escrituras para este momento • ${getTranslationCode(this.currentTranslation)}`;
 
     const title = document.createElement('h3');
-    title.className = 'qa-card-question';
+    title.className = 'dict-detail-title';
     title.textContent = item.stateTitle;
 
-    const sub = document.createElement('p');
-    sub.className = 'page-desc';
-    sub.textContent = item.subtitle;
+    left.appendChild(kicker);
+    left.appendChild(title);
+    header.appendChild(left);
 
-    const grid = document.createElement('div');
-    grid.className = 'refugio-pastoral-grid';
-
-    const boxWord = document.createElement('div');
-    boxWord.className = 'refugio-box';
-    const h4Word = document.createElement('h4');
-    h4Word.textContent = 'Palavra Pastoral';
-    const pWord = document.createElement('p');
-    pWord.textContent = item.pastoralWord;
-    boxWord.appendChild(h4Word);
-    boxWord.appendChild(pWord);
-
-    grid.appendChild(boxWord);
-
-    const refsRow = document.createElement('div');
-    refsRow.className = 'qa-refs-list';
-    for (const v of item.verses) {
-      refsRow.appendChild(this.createScriptureRefCard(v));
+    const stack = document.createElement('div');
+    stack.className = 'passages-stack';
+    for (const passage of resolvedPassages) {
+      stack.appendChild(this.createResolvedPassageCard(passage));
     }
 
-    detail.appendChild(title);
-    detail.appendChild(sub);
-    detail.appendChild(grid);
-    detail.appendChild(refsRow);
+    frag.appendChild(header);
+    frag.appendChild(stack);
+    detail.replaceChildren(frag);
   }
 
-  // ─── TAB 4: DEVOCIONAL & PLANOS DE LEITURA ───────────────────────────
-  private initDevotionalAndPlansSection(): void {
-    const devoBar = document.getElementById('devotional-tabs-bar');
-    if (devoBar) {
-      devoBar.textContent = '';
-      DEVOCIONAIS_DATA.forEach((devo, idx) => {
+  // ─── TAB 4: TIRA-DÚVIDAS BÍBLICO ─────────────────────────────────────
+  private initQASection(): void {
+    const categoriesBar = document.getElementById('qa-categories-bar');
+    const searchInput = document.getElementById('input-qa-search') as HTMLInputElement | null;
+
+    if (categoriesBar) {
+      const allCats: ('TODAS' | QACategory)[] = ['TODAS', ...QA_CATEGORIES];
+      categoriesBar.textContent = '';
+
+      allCats.forEach((cat) => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `qa-cat-btn ${devo.id === this.activeDevotionalId ? 'active' : ''}`;
-        btn.textContent = `${idx + 1}. ${devo.theme}`;
+        btn.className = `qa-cat-btn ${cat === this.currentQACategory ? 'active' : ''}`;
+        btn.textContent = cat === 'TODAS' ? 'Todas' : cat;
         btn.addEventListener('click', () => {
-          this.activeDevotionalId = devo.id;
-          devoBar.querySelectorAll('.qa-cat-btn').forEach((b) => b.classList.remove('active'));
+          this.currentQACategory = cat;
+          categoriesBar.querySelectorAll('.qa-cat-btn').forEach((b) => b.classList.remove('active'));
           btn.classList.add('active');
-          this.renderActiveDevotional();
+          void this.renderQACards();
         });
-        devoBar.appendChild(btn);
+        categoriesBar.appendChild(btn);
       });
     }
 
-    const plansSelector = document.getElementById('reading-plans-selector');
-    if (plansSelector) {
-      plansSelector.textContent = '';
-      PLANOS_LEITURA_DATA.forEach((plan) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `qa-cat-btn ${plan.id === this.activePlanId ? 'active' : ''}`;
-        btn.textContent = plan.title;
-        btn.addEventListener('click', () => {
-          this.activePlanId = plan.id;
-          plansSelector.querySelectorAll('.qa-cat-btn').forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
-          this.renderActiveReadingPlan();
-        });
-        plansSelector.appendChild(btn);
-      });
-    }
-
-    this.renderActiveDevotional();
-    this.renderActiveReadingPlan();
-  }
-
-  private renderActiveDevotional(): void {
-    const card = document.getElementById('devotional-active-card');
-    if (!card) return;
-
-    const devo = DEVOCIONAIS_DATA.find((d) => d.id === this.activeDevotionalId) || DEVOCIONAIS_DATA[0];
-    card.textContent = '';
-
-    const badge = document.createElement('span');
-    badge.className = 'eyebrow-tag';
-    badge.textContent = devo.theme;
-
-    const title = document.createElement('h3');
-    title.className = 'qa-card-question';
-    title.textContent = devo.title;
-
-    const verseCard = this.createScriptureRefCard(devo.baseVerse);
-
-    const contextBox = document.createElement('div');
-    contextBox.className = 'devo-context-box';
-    const ctxStrong = document.createElement('strong');
-    ctxStrong.textContent = 'Contexto Histórico: ';
-    const ctxText = document.createElement('span');
-    ctxText.textContent = devo.historicalContext;
-    contextBox.appendChild(ctxStrong);
-    contextBox.appendChild(ctxText);
-
-    const reflectionDiv = document.createElement('div');
-    reflectionDiv.className = 'devo-reflection-paragraphs';
-    devo.reflection.forEach((pText) => {
-      const p = document.createElement('p');
-      p.textContent = pText;
-      reflectionDiv.appendChild(p);
+    searchInput?.addEventListener('input', () => {
+      this.currentQAQuery = searchInput.value;
+      void this.renderQACards();
     });
-
-    const challengeBox = document.createElement('div');
-    challengeBox.className = 'qa-practical-box';
-    const chStrong = document.createElement('strong');
-    chStrong.textContent = 'Prática para Hoje: ';
-    const chSpan = document.createElement('span');
-    chSpan.textContent = devo.practicalChallenge;
-    challengeBox.appendChild(chStrong);
-    challengeBox.appendChild(chSpan);
-
-    card.appendChild(badge);
-    card.appendChild(title);
-    card.appendChild(verseCard);
-    card.appendChild(contextBox);
-    card.appendChild(reflectionDiv);
-    card.appendChild(challengeBox);
   }
 
-  private renderActiveReadingPlan(): void {
-    const container = document.getElementById('reading-plan-detail');
+  private async renderQACards(): Promise<void> {
+    const seq = ++this.qaRenderSeq;
+    const container = document.getElementById('qa-cards-container');
+    const counter = document.getElementById('qa-results-counter');
     if (!container) return;
 
-    const plan = PLANOS_LEITURA_DATA.find((p) => p.id === this.activePlanId) || PLANOS_LEITURA_DATA[0];
-    container.textContent = '';
-
-    for (const dayItem of plan.days) {
-      const isDone = storageService.isPlanDayCompleted(plan.id, dayItem.day);
-      const dayCard = document.createElement('div');
-      dayCard.className = `plan-day-card ${isDone ? 'completed' : ''}`;
-
-      const topRow = document.createElement('div');
-      topRow.className = 'plan-day-top';
-
-      const dayNum = document.createElement('span');
-      dayNum.className = 'plan-day-number';
-      dayNum.textContent = `DIA ${dayItem.day}`;
-
-      const toggleBtn = document.createElement('button');
-      toggleBtn.type = 'button';
-      toggleBtn.className = 'btn-ghost-sm';
-      toggleBtn.textContent = isDone ? '✓ Concluído' : 'Marcar Lido';
-      toggleBtn.addEventListener('click', () => {
-        storageService.togglePlanDay(plan.id, dayItem.day);
-        this.renderActiveReadingPlan();
-      });
-
-      topRow.appendChild(dayNum);
-      topRow.appendChild(toggleBtn);
-
-      const titleH4 = document.createElement('h4');
-      titleH4.textContent = dayItem.title;
-
-      const focusP = document.createElement('p');
-      focusP.style.fontSize = '0.84rem';
-      focusP.style.color = 'var(--text-secondary)';
-      focusP.textContent = dayItem.focus;
-
-      const chipsRow = document.createElement('div');
-      chipsRow.className = 'plan-readings-chips';
-      for (const reading of dayItem.readings) {
-        const chip = document.createElement('button');
-        chip.type = 'button';
-        chip.className = 'btn-gold-sm';
-        chip.textContent = `Ler ${reading.label}`;
-        chip.addEventListener('click', () => {
-          void this.navigateToScripture(reading.bookAbbrev, reading.chapter);
-        });
-        chipsRow.appendChild(chip);
-      }
-
-      dayCard.appendChild(topRow);
-      dayCard.appendChild(titleH4);
-      dayCard.appendChild(focusP);
-      dayCard.appendChild(chipsRow);
-      container.appendChild(dayCard);
+    const results = searchQuestions(this.currentQAQuery, this.currentQACategory);
+    if (counter) {
+      counter.textContent = `${results.length} ${results.length === 1 ? 'pergunta encontrada' : 'perguntas encontradas'} — clique em qualquer pergunta para ler o estudo completo`;
     }
-  }
 
-  // ─── TAB 5: ORAÇÃO & CADERNO BÍBLICO ─────────────────────────────────
-  private initSecretoSection(): void {
-    const form = document.getElementById('form-new-prayer') as HTMLFormElement | null;
-    form?.addEventListener('submit', (ev) => {
-      ev.preventDefault();
-      const titleInput = document.getElementById('prayer-title') as HTMLInputElement;
-      const catSelect = document.getElementById('prayer-category') as HTMLSelectElement;
-      const descInput = document.getElementById('prayer-desc') as HTMLTextAreaElement;
-      const promiseInput = document.getElementById('prayer-promise') as HTMLInputElement;
+    const frag = document.createDocumentFragment();
 
-      if (!titleInput.value.trim() || !descInput.value.trim()) return;
-
-      storageService.addPrayer({
-        title: titleInput.value.trim(),
-        category: catSelect.value as any,
-        description: descInput.value.trim(),
-        versePromise: promiseInput.value.trim() || 'Filipenses 4:6 — As vossas petições sejam em tudo conhecidas diante de Deus.'
-      });
-
-      form.reset();
-      this.renderPrayerJournal();
-      this.updateCounters();
-    });
-
-    this.renderPrayerJournal();
-    this.renderSavedStudiesList();
-  }
-
-  private renderPrayerJournal(): void {
-    const container = document.getElementById('prayer-items-container');
-    if (!container) return;
-
-    const prayers = storageService.getPrayers();
-    container.textContent = '';
-
-    for (const item of prayers) {
-      const card = document.createElement('div');
-      card.className = `prayer-card ${item.answered ? 'answered' : ''}`;
+    for (const qa of results) {
+      const isExpanded = this.expandedQAIds.has(qa.id) || this.currentQAQuery.trim().length > 2;
+      const card = document.createElement('article');
+      card.className = `qa-card ${isExpanded ? 'expanded' : ''}`;
 
       const header = document.createElement('div');
-      header.className = 'prayer-card-header';
+      header.className = 'qa-card-header';
+      header.setAttribute('role', 'button');
+      header.setAttribute('tabindex', '0');
+      header.setAttribute('aria-expanded', String(isExpanded));
 
-      const leftInfo = document.createElement('div');
+      const headerLeft = document.createElement('div');
       const catBadge = document.createElement('span');
-      catBadge.className = 'eyebrow-tag';
-      catBadge.textContent = item.answered ? `✨ ORAÇÃO RESPONDIDA • ${item.category}` : item.category;
+      catBadge.className = 'meta-kicker';
+      catBadge.textContent = qa.category;
 
-      const h4 = document.createElement('h4');
-      h4.style.fontSize = '1.05rem';
-      h4.textContent = item.title;
+      const qTitle = document.createElement('h3');
+      qTitle.className = 'qa-card-question';
+      qTitle.textContent = qa.question;
 
-      leftInfo.appendChild(catBadge);
-      leftInfo.appendChild(h4);
+      const shortP = document.createElement('p');
+      shortP.className = 'qa-short-answer';
+      shortP.textContent = qa.shortAnswer;
 
-      const dateSpan = document.createElement('small');
-      dateSpan.style.color = 'var(--text-muted)';
-      dateSpan.textContent = item.createdAt;
+      headerLeft.appendChild(catBadge);
+      headerLeft.appendChild(qTitle);
+      headerLeft.appendChild(shortP);
 
-      header.appendChild(leftInfo);
-      header.appendChild(dateSpan);
+      const toggleIndicator = document.createElement('span');
+      toggleIndicator.className = 'qa-toggle-indicator';
+      toggleIndicator.textContent = isExpanded ? 'Recolher' : 'Ler estudo';
 
-      const descP = document.createElement('p');
-      descP.style.fontSize = '0.9rem';
-      descP.style.color = 'var(--text-secondary)';
-      descP.style.marginBottom = '0.5rem';
-      descP.textContent = item.description;
+      header.appendChild(headerLeft);
+      header.appendChild(toggleIndicator);
 
-      const promiseP = document.createElement('p');
-      promiseP.style.fontSize = '0.8rem';
-      promiseP.style.color = 'var(--gold)';
-      promiseP.style.fontStyle = 'italic';
-      promiseP.style.marginBottom = '0.75rem';
-      promiseP.textContent = item.versePromise;
+      const expandableBody = document.createElement('div');
+      expandableBody.className = `qa-expandable-body ${isExpanded ? '' : 'hidden'}`;
 
-      const actionsRow = document.createElement('div');
-      actionsRow.style.display = 'flex';
-      actionsRow.style.gap = '0.5rem';
-
-      const btnToggle = document.createElement('button');
-      btnToggle.type = 'button';
-      btnToggle.className = 'btn-gold-sm';
-      btnToggle.textContent = item.answered ? 'Reabrir Pedido' : 'Marcar como Respondida';
-      btnToggle.addEventListener('click', () => {
-        storageService.togglePrayerAnswered(item.id);
-        this.renderPrayerJournal();
-        this.updateCounters();
+      const detailedDiv = document.createElement('div');
+      detailedDiv.className = 'qa-detailed-paragraphs';
+      qa.detailedExplanation.forEach((para) => {
+        const p = document.createElement('p');
+        p.textContent = para;
+        detailedDiv.appendChild(p);
       });
 
-      const btnDelete = document.createElement('button');
-      btnDelete.type = 'button';
-      btnDelete.className = 'btn-ghost-sm';
-      btnDelete.textContent = 'Remover';
-      btnDelete.addEventListener('click', () => {
-        storageService.deletePrayer(item.id);
-        this.renderPrayerJournal();
-        this.updateCounters();
-      });
+      const practicalBox = document.createElement('div');
+      practicalBox.className = 'qa-practical-box';
+      const strongLabel = document.createElement('strong');
+      strongLabel.textContent = 'Aplicação prática: ';
+      const spanPrac = document.createElement('span');
+      spanPrac.textContent = qa.practicalApplication;
+      practicalBox.appendChild(strongLabel);
+      practicalBox.appendChild(spanPrac);
 
-      actionsRow.appendChild(btnToggle);
-      actionsRow.appendChild(btnDelete);
+      const refsContainer = document.createElement('div');
+      refsContainer.className = 'qa-refs-list';
+      const passageRefs: VersePassageRef[] = qa.references.map((r) => ({
+        bookAbbrev: r.bookAbbrev,
+        chapter: r.chapter,
+        verseStart: r.verse,
+        verseEnd: r.verseEnd
+      }));
+      const resolvedRefs = await bibleService.resolvePassages(this.currentTranslation, passageRefs);
+      if (seq !== this.qaRenderSeq) return;
+      for (const resolved of resolvedRefs) {
+        refsContainer.appendChild(this.createResolvedPassageCard(resolved));
+      }
+
+      expandableBody.appendChild(detailedDiv);
+      expandableBody.appendChild(practicalBox);
+      expandableBody.appendChild(refsContainer);
+
+      const toggleCard = () => {
+        const nowHidden = expandableBody.classList.toggle('hidden');
+        const expanded = !nowHidden;
+        card.classList.toggle('expanded', expanded);
+        header.setAttribute('aria-expanded', String(expanded));
+        toggleIndicator.textContent = expanded ? 'Recolher' : 'Ler estudo';
+        if (expanded) {
+          this.expandedQAIds.add(qa.id);
+        } else {
+          this.expandedQAIds.delete(qa.id);
+        }
+      };
+
+      header.addEventListener('click', toggleCard);
+      header.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          toggleCard();
+        }
+      });
 
       card.appendChild(header);
-      card.appendChild(descP);
-      card.appendChild(promiseP);
-      card.appendChild(actionsRow);
-      container.appendChild(card);
+      card.appendChild(expandableBody);
+      frag.appendChild(card);
     }
+
+    if (seq !== this.qaRenderSeq) return;
+    container.replaceChildren(frag);
+  }
+
+  // ─── TAB 5: MINHAS MARCAÇÕES (VERSÍCULOS GRIFADOS & NOTAS) ───────────
+  private initMarcacoesSection(): void {
+    const searchInput = document.getElementById('input-studies-search') as HTMLInputElement | null;
+    searchInput?.addEventListener('input', () => {
+      this.currentStudyQuery = searchInput.value;
+      this.renderSavedStudiesList();
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-study-filter]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        this.currentStudyFilter =
+          (btn.getAttribute('data-study-filter') as 'ALL' | 'NOTES' | HighlightColor) || 'ALL';
+        document.querySelectorAll('[data-study-filter]').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.renderSavedStudiesList();
+      });
+    });
+
+    this.renderSavedStudiesList();
   }
 
   private renderSavedStudiesList(): void {
     const container = document.getElementById('saved-studies-container');
     if (!container) return;
 
-    const studies = storageService.getVerseStudies();
+    const allStudies = storageService.getVerseStudies();
+    const normQ = bibleService.normalizeText(this.currentStudyQuery);
+
+    const filtered = allStudies.filter((st) => {
+      if (this.currentStudyFilter === 'NOTES' && !st.note.trim()) return false;
+      if (
+        this.currentStudyFilter !== 'ALL' &&
+        this.currentStudyFilter !== 'NOTES' &&
+        st.color !== this.currentStudyFilter
+      ) {
+        return false;
+      }
+      if (!normQ) return true;
+      const hay = bibleService.normalizeText(`${st.bookName} ${st.chapter}:${st.verse} ${st.text} ${st.note}`);
+      return hay.includes(normQ);
+    });
+
     container.textContent = '';
 
-    if (studies.length === 0) {
+    if (allStudies.length === 0) {
       const empty = document.createElement('div');
-      empty.className = 'clean-panel';
-      empty.style.color = 'var(--text-muted)';
-      empty.style.fontSize = '0.9rem';
-      empty.textContent =
-        'Nenhum versículo grifado ainda. Na aba "Bíblia", clique em qualquer versículo para destacar ou anotar.';
+      empty.className = 'empty-state-box';
+
+      const h3 = document.createElement('h3');
+      h3.textContent = 'Nenhum versículo marcado ainda';
+
+      const p = document.createElement('p');
+      p.textContent =
+        'Na aba Bíblia, toque em qualquer versículo para grifar por categoria ou registrar uma anotação pessoal de estudo.';
+
+      const goBtn = document.createElement('button');
+      goBtn.type = 'button';
+      goBtn.className = 'btn-primary-action';
+      goBtn.textContent = 'Abrir a Bíblia';
+      goBtn.addEventListener('click', () => this.switchTab('biblia'));
+
+      empty.appendChild(h3);
+      empty.appendChild(p);
+      empty.appendChild(goBtn);
       container.appendChild(empty);
       return;
     }
 
-    for (const st of studies) {
-      const card = document.createElement('div');
+    if (filtered.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-state-box';
+      const p = document.createElement('p');
+      p.textContent = 'Nenhuma marcação corresponde ao filtro selecionado.';
+      empty.appendChild(p);
+      container.appendChild(empty);
+      return;
+    }
+
+    for (const st of filtered) {
+      const card = document.createElement('article');
       card.className = `saved-study-card hl-${st.color}`;
 
       const top = document.createElement('div');
-      top.className = 'prayer-card-header';
+      top.className = 'study-card-top';
 
       const refStrong = document.createElement('strong');
-      refStrong.style.color = 'var(--gold)';
-      refStrong.style.fontSize = '0.9rem';
-      refStrong.textContent = `${st.bookName} ${st.chapter}:${st.verse} (${st.translation === 'aa' ? 'ARA' : st.translation.toUpperCase()})`;
+      refStrong.className = 'study-card-ref';
+      refStrong.textContent = `${st.bookName} ${st.chapter}:${st.verse} (${getTranslationCode(st.translation)})`;
 
-      const openBtn = document.createElement('button');
-      openBtn.type = 'button';
-      openBtn.className = 'btn-inline-link';
-      openBtn.textContent = 'Abrir →';
-      openBtn.addEventListener('click', () => {
-        void this.navigateToScripture(st.bookAbbrev, st.chapter, st.verse);
-      });
+      const colorTag = document.createElement('span');
+      colorTag.className = 'study-card-tag';
+      colorTag.textContent = HIGHLIGHT_LABELS[st.color] || 'Grifado';
 
       top.appendChild(refStrong);
-      top.appendChild(openBtn);
+      top.appendChild(colorTag);
 
       const quoteP = document.createElement('p');
-      quoteP.style.fontFamily = "'Lora', serif";
-      quoteP.style.fontStyle = 'italic';
-      quoteP.style.fontSize = '0.92rem';
-      quoteP.style.marginBottom = '0.45rem';
-      quoteP.textContent = `"${st.text}"`;
+      quoteP.className = 'study-card-quote';
+      quoteP.textContent = cleanQuoteText(st.text);
 
       card.appendChild(top);
       card.appendChild(quoteP);
 
       if (st.note) {
         const noteBox = document.createElement('p');
-        noteBox.style.fontSize = '0.84rem';
-        noteBox.style.background = 'var(--bg-secondary)';
-        noteBox.style.padding = '0.5rem 0.7rem';
-        noteBox.style.borderRadius = '6px';
-        noteBox.textContent = `Nota: ${st.note}`;
+        noteBox.className = 'study-card-note';
+        noteBox.textContent = `Anotação: ${st.note}`;
         card.appendChild(noteBox);
       }
+
+      const footer = document.createElement('div');
+      footer.className = 'study-card-footer';
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'btn-passage-action';
+      removeBtn.textContent = 'Remover';
+      removeBtn.addEventListener('click', () => {
+        storageService.removeVerseStudy(st.id);
+        this.renderSavedStudiesList();
+        this.updateCounters();
+        void this.renderCurrentChapter();
+      });
+
+      const rightActions = document.createElement('div');
+      rightActions.className = 'passage-card-actions';
+
+      const copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'btn-passage-action';
+      copyBtn.textContent = 'Copiar';
+      copyBtn.addEventListener('click', async () => {
+        const formatted = `${cleanQuoteText(st.text)} — ${st.bookName} ${st.chapter}:${st.verse} (${getTranslationCode(st.translation)})`;
+        const ok = await copyTextSafe(formatted);
+        if (ok) {
+          copyBtn.textContent = 'Copiado';
+          setTimeout(() => {
+            copyBtn.textContent = 'Copiar';
+          }, 1600);
+        }
+      });
+
+      const openBtn = document.createElement('button');
+      openBtn.type = 'button';
+      openBtn.className = 'btn-passage-action btn-passage-open';
+      openBtn.textContent = 'Abrir na Bíblia →';
+      openBtn.addEventListener('click', () => {
+        void this.navigateToScripture(st.bookAbbrev, st.chapter, st.verse);
+      });
+
+      rightActions.appendChild(copyBtn);
+      rightActions.appendChild(openBtn);
+      footer.appendChild(removeBtn);
+      footer.appendChild(rightActions);
+      card.appendChild(footer);
 
       container.appendChild(card);
     }
@@ -1264,7 +1652,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const app = new VerboVivoApp();
   void app.init();
 
-  if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+  const isNativeCapacitor = Boolean(
+    (window as unknown as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor?.isNativePlatform?.()
+  );
+
+  if (!isNativeCapacitor && 'serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
     const swUrl = `${import.meta.env.BASE_URL || './'}sw.js`;
     navigator.serviceWorker.register(swUrl).catch(() => {
       // Silencioso em ambientes locais

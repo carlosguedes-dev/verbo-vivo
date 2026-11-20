@@ -7,11 +7,11 @@ function createMainWindow() {
   const win = new BrowserWindow({
     width: 1280,
     height: 860,
-    minWidth: 900,
-    minHeight: 640,
-    title: 'Verbo Vivo — Bíblia Sagrada, Tira-Dúvidas & Vida Cristã',
+    minWidth: 420,
+    minHeight: 560,
+    title: 'Verbo Vivo — Bíblia Sagrada, Dicionário Bíblico & Refúgio',
     icon: fs.existsSync(iconPath) ? iconPath : undefined,
-    backgroundColor: '#0b0d12',
+    backgroundColor: '#111317',
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),

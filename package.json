@@ -1,8 +1,8 @@
 {
   "name": "verbo-vivo",
   "private": true,
-  "version": "2.0.0",
-  "description": "Verbo Vivo — Aplicativo Cristão Evangélico para Android, iPhone (iOS) e Windows: Bíblia Sagrada nas 3 versões (ACF, NVI, ARA), Central Tira-Dúvidas Bereano, Refúgio Bíblico, Devocional Diário, Planos de Leitura e Caderno de Oração.",
+  "version": "3.0.0",
+  "description": "Verbo Vivo — Aplicativo Cristão Multiplataforma (Android, iPhone e Windows): Bíblia Sagrada offline (ACF, NVI e ARA), Dicionário Bíblico por temas com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações.",
   "author": "Carlos Guedes <https://github.com/carlosguedes-dev>",
   "license": "MIT",
   "type": "module",

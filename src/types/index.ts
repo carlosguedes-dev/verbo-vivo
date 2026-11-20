@@ -40,6 +40,49 @@ export interface BookMetadata {
   christConnection: string;
 }
 
+/**
+ * Referência exata a um versículo ou trecho contínuo das Escrituras.
+ * O texto é sempre resolvido diretamente da tradução bíblica ativa (ACF, NVI ou ARA).
+ */
+export interface VersePassageRef {
+  bookAbbrev: string;
+  chapter: number;
+  verseStart: number;
+  verseEnd?: number;
+}
+
+export interface ResolvedPassage {
+  bookAbbrev: string;
+  bookName: string;
+  chapter: number;
+  verseStart: number;
+  verseEnd: number;
+  label: string;
+  text: string;
+}
+
+export type DictionaryCategory =
+  | 'Vida, Ética & Sociedade'
+  | 'Família & Relacionamentos'
+  | 'Emoções & Lutas da Alma'
+  | 'Caráter & Vida Diária'
+  | 'Deus, Cristo & Salvação'
+  | 'Igreja & Vida Espiritual'
+  | 'Eternidade & Últimos Dias';
+
+/**
+ * Verbete do Dicionário Bíblico.
+ * Contém exclusivamente o tema, categoria, palavras-chave de busca e passagens bíblicas —
+ * sem comentários humanos ou opiniões, permitindo que a própria Escritura responda.
+ */
+export interface BibleDictionaryEntry {
+  id: string;
+  title: string;
+  category: DictionaryCategory;
+  keywords: string[];
+  passages: VersePassageRef[];
+}
+
 export type QACategory =
   | 'Salvação & Graça'
   | 'Vida Cristã & Santificação'
@@ -52,6 +95,7 @@ export interface ScriptureReference {
   bookAbbrev: string;
   chapter: number;
   verse: number;
+  verseEnd?: number;
   label: string;
   quote: string;
 }
@@ -71,39 +115,7 @@ export interface SpiritualRefuge {
   id: string;
   stateTitle: string;
   subtitle: string;
-  icon: string;
-  pastoralWord: string;
-  verses: ScriptureReference[];
-}
-
-export interface DevotionalItem {
-  id: string;
-  title: string;
-  theme: string;
-  baseVerse: ScriptureReference;
-  historicalContext: string;
-  reflection: string[];
-  practicalChallenge: string;
-}
-
-export interface ReadingPlanDay {
-  day: number;
-  title: string;
-  readings: {
-    bookAbbrev: string;
-    chapter: number;
-    label: string;
-  }[];
-  focus: string;
-}
-
-export interface ReadingPlan {
-  id: string;
-  title: string;
-  subtitle: string;
-  durationLabel: string;
-  description: string;
-  days: ReadingPlanDay[];
+  passages: VersePassageRef[];
 }
 
 export type HighlightColor = 'gold' | 'blue' | 'green' | 'rose';
@@ -119,16 +131,4 @@ export interface VerseStudyItem {
   color: HighlightColor;
   note: string;
   createdAt: string;
-}
-
-export interface PrayerRequestItem {
-  id: string;
-  title: string;
-  category: 'Família' | 'Igreja & Missões' | 'Saúde & Consolo' | 'Santificação' | 'Conversão' | 'Gratidão & Direção';
-  description: string;
-  versePromise: string;
-  answered: boolean;
-  answeredNote?: string;
-  createdAt: string;
-  answeredAt?: string;
 }

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'verbo-vivo-offline-v2.1';
+const CACHE_NAME = 'verbo-vivo-offline-v3.0';
 const CORE_ASSETS = [
   './app.html',
   './favicon.svg',
@@ -37,6 +37,25 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+
+  // Network-first para páginas HTML (garante atualização imediata após novos releases)
+  const isDocument = event.request.mode === 'navigate' || event.request.destination === 'document';
+  if (isDocument) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request).then((c) => c || caches.match('./app.html')))
+    );
+    return;
+  }
+
+  // Cache-first para arquivos de dados bíblicos e assets estáticos
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
