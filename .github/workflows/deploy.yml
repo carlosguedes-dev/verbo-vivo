@@ -179,17 +179,17 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.pkg.outputs.tag }}
-          name: "Verbo Vivo ${{ steps.pkg.outputs.tag }} — Dicionário Bíblico, Repaginação Visual & Apps Oficiais"
+          name: "Verbo Vivo ${{ steps.pkg.outputs.tag }} — Dicionário Bíblico Ampliado (650 Palavras e Expressões)"
           body: |
             ## Verbo Vivo ${{ steps.pkg.outputs.tag }} — Aplicativo Oficial Multiplataforma
 
             Nova versão do **Verbo Vivo** para **Android**, **iPhone (iOS)** e **Windows**, com as 3 traduções da Bíblia Sagrada (**ACF, NVI e ARA**) 100% offline.
 
             ### Principais novidades da versão ${{ steps.pkg.outputs.tag }}
-            - **Novo Dicionário Bíblico Temático (211 temas, A–Z)**: pesquise o que a Bíblia diz sobre aborto, amor, casamento, família, ansiedade, dinheiro, perdão, salvação, ética e vida diária — respondido **exclusivamente com versículos das Escrituras**, carregados diretamente na tradução escolhida (ACF, NVI ou ARA).
-            - **Refúgio nas Escrituras**: agora totalmente focado nos versículos bíblicos (sem palavra pastoral), ampliado para 12 momentos da vida.
-            - **Foco nas Escrituras**: removidas as seções de Oração, Devocional e Planos de Leitura; preservadas suas **Marcações e Anotações** pessoais de estudo.
-            - **Repaginação visual e correções multiplataforma**: navegação inferior nativa no celular com suporte a áreas seguras (iOS/Android), seletor visual de livros e capítulos, painel de estudo em gaveta deslizável no mobile, troca global de tradução no topo e correção de bugs de busca, cópia e paginação.
+            - **Dicionário Bíblico reformulado e ampliado (650 palavras e expressões, A–Z)**: todos os verbetes agora são **palavras ou expressões concisas** (ex.: `Amor`, `Espírito Santo`, `Aborto`, `Morte`, `Vida Pós-Morte`, `Casamento`, `Perdão`, `Salvação`), nunca frases longas — respondidos **exclusivamente com versículos das Escrituras** na tradução ativa (`ACF`, `NVI` ou `ARA`).
+            - **Busca aprimorada no Dicionário**: suporte natural a expressões com ou sem hífen e acento (ex.: buscar `vida pos morte` encontra imediatamente `Vida Pós-Morte`) e busca por sinônimos.
+            - **Fidelidade e integridade bíblica**: mais de 3.500 passagens verificadas automaticamente nas 3 traduções (`ACF`, `NVI` e `ARA`).
+            - **Refúgio nas Escrituras, Tira-Dúvidas e Marcações**: experiência limpa, multiplataforma (Android, iPhone e Windows), 100% offline e sem anúncios.
 
             ### Arquivos para Download Direto
             - **Android (`.APK`)**: `Verbo-Vivo-Android.apk`

@@ -979,7 +979,7 @@ class VerboVivoApp {
     const allEntries = getSortedDictionaryEntries();
     const statEl = document.getElementById('dict-total-stat');
     if (statEl) {
-      statEl.textContent = `${allEntries.length} temas`;
+      statEl.textContent = `${allEntries.length} palavras`;
     }
 
     // Popular quick chips
@@ -1020,7 +1020,7 @@ class VerboVivoApp {
         btn.type = 'button';
         btn.className = `qa-cat-btn ${cat === this.currentDictCategory ? 'active' : ''}`;
         btn.setAttribute('data-dict-cat', cat);
-        btn.textContent = cat === 'TODAS' ? 'Todos os temas' : cat;
+        btn.textContent = cat === 'TODAS' ? 'Todas as categorias' : cat;
         btn.addEventListener('click', () => {
           this.currentDictCategory = cat;
           this.currentDictLetter = 'TODAS';
@@ -1123,7 +1123,7 @@ class VerboVivoApp {
     const results = searchDictionary(this.currentDictQuery, this.currentDictCategory, this.currentDictLetter);
 
     if (metaEl) {
-      metaEl.textContent = `${results.length} ${results.length === 1 ? 'tema encontrado' : 'temas encontrados'}`;
+      metaEl.textContent = `${results.length} ${results.length === 1 ? 'palavra encontrada' : 'palavras encontradas'}`;
     }
 
     listEl.textContent = '';
@@ -1132,13 +1132,13 @@ class VerboVivoApp {
       const empty = document.createElement('div');
       empty.className = 'empty-state-box';
       const h3 = document.createElement('h3');
-      h3.textContent = 'Nenhum tema encontrado';
+      h3.textContent = 'Nenhuma palavra encontrada';
       const p = document.createElement('p');
-      p.textContent = 'Tente outra palavra-chave ou limpe os filtros de categoria e letra.';
+      p.textContent = 'Tente outra palavra, expressão ou limpe os filtros de categoria e letra.';
       const resetBtn = document.createElement('button');
       resetBtn.type = 'button';
       resetBtn.className = 'btn-primary-action';
-      resetBtn.textContent = 'Mostrar todos os temas';
+      resetBtn.textContent = 'Mostrar todas as palavras';
       resetBtn.addEventListener('click', () => {
         this.currentDictQuery = '';
         this.currentDictCategory = 'TODAS';
@@ -1227,7 +1227,7 @@ class VerboVivoApp {
 
     const sub = document.createElement('p');
     sub.className = 'dict-detail-sub';
-    sub.textContent = `O que as Escrituras dizem • ${resolvedPassages.length} passagens na tradução ${getTranslationCode(this.currentTranslation)}`;
+    sub.textContent = `Referências bíblicas • ${resolvedPassages.length} passagens na tradução ${getTranslationCode(this.currentTranslation)}`;
 
     headerLeft.appendChild(kicker);
     headerLeft.appendChild(title);

@@ -34,7 +34,7 @@
 
   <!-- Eyebrow -->
   <text x="590" y="160" text-anchor="middle" fill="#8E6713" font-size="11.5" font-weight="700" letter-spacing="2.4" class="mono">
-    SOLA SCRIPTURA • 66 LIVROS CANÔNICOS • VERSÃO 3.0.0
+    SOLA SCRIPTURA • 66 LIVROS CANÔNICOS • VERSÃO 3.2.1
   </text>
 
   <!-- Main Title -->
@@ -42,7 +42,7 @@
     VERBO VIVO
   </text>
   <text x="590" y="258" text-anchor="middle" fill="#8E6713" font-size="20" font-style="italic" class="serif">
-    Bíblia Sagrada (ACF, NVI, ARA) • Dicionário Bíblico por Temas • Refúgio nas Escrituras
+    Bíblia Sagrada (ACF, NVI, ARA) • Dicionário Bíblico (A–Z) • Refúgio nas Escrituras
   </text>
 
   <!-- Scripture Quote -->
@@ -58,7 +58,7 @@
     </g>
     <g transform="translate(-195, 0)">
       <rect x="-86" y="-17" width="172" height="32" rx="8" fill="#FFFDFA" stroke="rgba(142,103,19,0.34)"/>
-      <text y="4" fill="#1E1B16">211 Temas Bíblicos</text>
+      <text y="4" fill="#1E1B16">650 Palavras • A–Z</text>
     </g>
     <g transform="translate(0, 0)">
       <rect x="-86" y="-17" width="172" height="32" rx="8" fill="#FFFDFA" stroke="rgba(142,103,19,0.34)"/>

@@ -87,13 +87,83 @@ test('Dicionário Bíblico & Refúgio & Tira-Dúvidas: Todas as referências bí
   assert.ok(fs.existsSync(dictPath), 'dicionario-biblico.ts deve existir');
   const dictSrc = fs.readFileSync(dictPath, 'utf8');
 
-  const ids = [...dictSrc.matchAll(/id:\s*'([^']+)'/g)].map((m) => m[1]);
-  assert.ok(ids.length >= 150, `Dicionário Bíblico deve ter ao menos 150 temas (encontrados: ${ids.length})`);
+  const entryRegex = /e\(\s*'([^']+)'\s*,\s*'([^']+)'\s*,\s*CAT\.([A-Z_]+)\s*,\s*\[([\s\S]*?)\]\s*,\s*\[([\s\S]*?)\]\s*\)/g;
+  const tupleRegex = /\[\s*'([^']+)'\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*(\d+))?\s*\]/g;
+
+  const entries = [];
+  for (const m of dictSrc.matchAll(entryRegex)) {
+    const [, id, title, , , passRaw] = m;
+    const passages = [];
+    for (const tm of passRaw.matchAll(tupleRegex)) {
+      passages.push({
+        bookAbbrev: tm[1],
+        chapter: Number(tm[2]),
+        verseStart: Number(tm[3]),
+        verseEnd: tm[4] ? Number(tm[4]) : Number(tm[3])
+      });
+    }
+    entries.push({ id, title, passages });
+  }
+
+  const rawCalls = (dictSrc.match(/\be\(\s*'/g) || []).length;
+  assert.equal(entries.length, rawCalls, `Todas as chamadas e(...) devem ser parseadas (${entries.length} vs ${rawCalls})`);
+  assert.ok(entries.length >= 600, `Dicionário Bíblico deve ter ao menos 600 palavras/expressões (encontradas: ${entries.length})`);
+
+  const ids = entries.map((item) => item.id);
   assert.equal(ids.length, new Set(ids).size, 'Todos os IDs do Dicionário Bíblico devem ser únicos');
 
-  // Garante temas essenciais solicitados
-  for (const requiredId of ['aborto-valor-da-vida', 'amor', 'casamento']) {
-    assert.ok(ids.includes(requiredId), `Dicionário Bíblico deve conter o tema '${requiredId}'`);
+  const normTitle = (s) =>
+    s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[-–—/]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+  const normalizedTitles = entries.map((item) => normTitle(item.title));
+  assert.equal(
+    normalizedTitles.length,
+    new Set(normalizedTitles).size,
+    'Todos os títulos (verbetes) do Dicionário Bíblico devem ser únicos'
+  );
+
+  // Garante que cada verbete é palavra ou expressão concisa (NUNCA uma frase)
+  for (const item of entries) {
+    assert.equal(
+      /[()":;.?!,]/.test(item.title),
+      false,
+      `Verbete '${item.title}' (${item.id}) não deve conter pontuação/parênteses de frase`
+    );
+    const wordCount = item.title.trim().split(/\s+/).length;
+    assert.ok(
+      wordCount <= 3,
+      `Verbete '${item.title}' (${item.id}) deve ser uma palavra ou expressão concisa de até 3 palavras (tem ${wordCount})`
+    );
+    assert.ok(
+      item.passages.length >= 3,
+      `Verbete '${item.title}' (${item.id}) deve conter ao menos 3 passagens bíblicas`
+    );
+    const seenPass = new Set();
+    for (const p of item.passages) {
+      const key = `${p.bookAbbrev}:${p.chapter}:${p.verseStart}-${p.verseEnd}`;
+      assert.equal(seenPass.has(key), false, `Passagem duplicada ${key} dentro do verbete '${item.id}'`);
+      seenPass.add(key);
+    }
+  }
+
+  // Garante verbetes essenciais solicitados com título conciso exato
+  const byId = Object.fromEntries(entries.map((item) => [item.id, item.title]));
+  const requiredEntries = [
+    ['amor', 'Amor'],
+    ['espirito-santo', 'Espírito Santo'],
+    ['aborto', 'Aborto'],
+    ['morte', 'Morte'],
+    ['vida-pos-morte', 'Vida Pós-Morte'],
+    ['casamento', 'Casamento']
+  ];
+  for (const [reqId, reqTitle] of requiredEntries) {
+    assert.equal(byId[reqId], reqTitle, `Dicionário Bíblico deve conter '${reqId}' com título exato '${reqTitle}'`);
   }
 
   // Garante que o Dicionário responde apenas com versículos (sem campos de explicação/comentário)
@@ -104,36 +174,46 @@ test('Dicionário Bíblico & Refúgio & Tira-Dúvidas: Todas as referências bí
   const tdSrc = fs.readFileSync(path.join(rootDir, 'src', 'data', 'tira-duvidas.ts'), 'utf8');
   assert.equal(tdSrc.includes('**'), false, 'tira-duvidas.ts não deve conter asteriscos de Markdown cru');
 
-  // Valida 100% das referências em dicionario-biblico.ts, refugio-biblico.ts e tira-duvidas.ts
-  const refRegex = /\{\s*bookAbbrev:\s*'([^']+)',\s*chapter:\s*(\d+),\s*(?:verseStart|verse):\s*(\d+)(?:,\s*verseEnd:\s*(\d+))?/g;
   let totalChecked = 0;
 
-  for (const rel of ['src/data/dicionario-biblico.ts', 'src/data/refugio-biblico.ts', 'src/data/tira-duvidas.ts']) {
+  const validatePassage = (sourceLabel, bookAbbrev, ch, start, end) => {
+    totalChecked++;
+    for (const version of ['acf', 'nvi', 'aa']) {
+      const book = bibles[version][bookAbbrev];
+      assert.ok(book, `[${sourceLabel}] Livro '${bookAbbrev}' inexistente em ${version}`);
+      const verses = book.chapters[ch - 1];
+      assert.ok(verses, `[${sourceLabel}] Capítulo ${bookAbbrev} ${ch} inválido em ${version}`);
+      assert.ok(
+        start >= 1 && end >= start && end <= verses.length,
+        `[${sourceLabel}] Versículo fora do limite ${bookAbbrev} ${ch}:${start}-${end} em ${version} (máx ${verses.length})`
+      );
+      for (let v = start; v <= end; v++) {
+        assert.ok(verses[v - 1]?.trim().length > 0, `[${sourceLabel}] Versículo vazio ${bookAbbrev} ${ch}:${v} em ${version}`);
+      }
+    }
+  };
+
+  // Valida 100% das passagens em dicionario-biblico.ts
+  for (const item of entries) {
+    for (const p of item.passages) {
+      validatePassage(`dicionario:${item.id}`, p.bookAbbrev, p.chapter, p.verseStart, p.verseEnd);
+    }
+  }
+
+  // Valida 100% das referências em refugio-biblico.ts e tira-duvidas.ts
+  const refRegex = /\{\s*bookAbbrev:\s*'([^']+)',\s*chapter:\s*(\d+),\s*(?:verseStart|verse):\s*(\d+)(?:,\s*verseEnd:\s*(\d+))?/g;
+  for (const rel of ['src/data/refugio-biblico.ts', 'src/data/tira-duvidas.ts']) {
     const content = fs.readFileSync(path.join(rootDir, rel), 'utf8');
     for (const m of content.matchAll(refRegex)) {
       const [, bookAbbrev, chStr, startStr, endStr] = m;
       const ch = Number(chStr);
       const start = Number(startStr);
       const end = endStr ? Number(endStr) : start;
-      totalChecked++;
-
-      for (const version of ['acf', 'nvi', 'aa']) {
-        const book = bibles[version][bookAbbrev];
-        assert.ok(book, `[${rel}] Livro '${bookAbbrev}' inexistente em ${version}`);
-        const verses = book.chapters[ch - 1];
-        assert.ok(verses, `[${rel}] Capítulo ${bookAbbrev} ${ch} inválido em ${version}`);
-        assert.ok(
-          start >= 1 && end >= start && end <= verses.length,
-          `[${rel}] Versículo fora do limite ${bookAbbrev} ${ch}:${start}-${end} em ${version} (máx ${verses.length})`
-        );
-        for (let v = start; v <= end; v++) {
-          assert.ok(verses[v - 1]?.trim().length > 0, `[${rel}] Versículo vazio ${bookAbbrev} ${ch}:${v} em ${version}`);
-        }
-      }
+      validatePassage(rel, bookAbbrev, ch, start, end);
     }
   }
 
-  assert.ok(totalChecked > 1000, `Deve validar mais de 1.000 referências bíblicas (validadas: ${totalChecked})`);
+  assert.ok(totalChecked > 3500, `Deve validar mais de 3.500 referências bíblicas (validadas: ${totalChecked})`);
 });
 
 test('Arquitetura Multiplataforma: Site de Download (index.html), App (app.html) e configurações Android, iOS e Windows estão presentes', () => {

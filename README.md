@@ -12,9 +12,9 @@
 
 # Verbo Vivo — Aplicativo Oficial (Android, iPhone & Windows)
 
-**Bíblia Sagrada 100% offline nas 3 traduções (ACF, NVI e ARA), Dicionário Bíblico temático respondido exclusivamente com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações pessoais.**
+**Bíblia Sagrada 100% offline nas 3 traduções (ACF, NVI e ARA), Dicionário Bíblico com 650 palavras e expressões respondidas exclusivamente com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações pessoais.**
 
-[![Versão](https://img.shields.io/badge/versão-3.0.0-cfa84e?style=for-the-badge)](https://github.com/carlosguedes-dev/verbo-vivo/releases)
+[![Versão](https://img.shields.io/badge/versão-3.2.1-cfa84e?style=for-the-badge)](https://github.com/carlosguedes-dev/verbo-vivo/releases)
 [![Plataformas](https://img.shields.io/badge/Apps-Android_%7C_iPhone_%7C_Windows-cfa84e?style=for-the-badge)](https://carlosguedes-dev.github.io/verbo-vivo/)
 [![Licença](https://img.shields.io/badge/licença-MIT-39a874?style=for-the-badge)](LICENSE)
 [![Bíblia](https://img.shields.io/badge/Cânon-66_Livros_(ACF_%7C_NVI_%7C_ARA)-8e2934?style=for-the-badge)](https://carlosguedes-dev.github.io/verbo-vivo/)
@@ -56,10 +56,10 @@ Todo o texto integral de **3 traduções consagradas em português (ACF, NVI e A
   - Contexto histórico e mensagem de cada um dos 66 livros sob demanda.
   - Controle de tamanho da fonte (`A-` / `A+`) e marcação de capítulos lidos.
 
-- **Dicionário Bíblico Temático (211 temas, índice A–Z)**:
-  - Consulte o que a Bíblia diz sobre aborto, amor, casamento, divórcio, ansiedade, depressão, dinheiro, dívidas, perdão, salvação, família, trabalho, governo, ética e centenas de outros temas.
+- **Dicionário Bíblico (650 palavras e expressões, índice A–Z)**:
+  - Consulte palavras e expressões concisas — como `Amor`, `Espírito Santo`, `Aborto`, `Casamento`, `Morte`, `Vida Pós-Morte`, `Ansiedade`, `Perdão`, `Salvação`, `Finanças`, `Família` e centenas de outros verbetes bíblicos.
   - **Respondido exclusivamente com versículos bíblicos**, extraídos diretamente da tradução ativa (ACF, NVI ou ARA), sem comentários humanos ou opiniões.
-  - Busca por sinônimos, categorias temáticas, índice A–Z, cópia rápida e link direto para ler cada passagem no capítulo completo.
+  - Busca por palavras, expressões e sinônimos, categorias temáticas, índice A–Z, cópia rápida e link direto para ler cada passagem no capítulo completo.
 
 - **Refúgio nas Escrituras**:
   - Acesso imediato a passagens bíblicas para 12 situações reais da vida (ansiedade, arrependimento, cansaço, solidão, luto, decisões difíceis, tentação, tristeza, enfermidade, injustiça, incerteza e gratidão) — exibindo apenas a Palavra de Deus.
