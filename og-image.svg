@@ -76,7 +76,7 @@
         Verbo Vivo
       </text>
       <text x="220" y="57" fill="#ABA496" font-size="15.5" font-weight="500" class="sans">
-        •  Hebreus 4:12  •  v3.3.2
+        •  Hebreus 4:12  •  v4.0.1
       </text>
     </g>
   </g>
@@ -93,7 +93,7 @@
       Para <tspan fill="#EBD08A" font-weight="700">Android</tspan>, <tspan fill="#EBD08A" font-weight="700">iPhone (iOS)</tspan> e <tspan fill="#EBD08A" font-weight="700">Windows</tspan>.
     </text>
     <text x="0" y="142" fill="#ABA496" font-size="16.5" font-weight="400" class="sans">
-      Bíblia Sagrada nas 3 traduções (ACF, NVI e ARA), Dicionário
+      Bíblia Sagrada nas 3 traduções (ACF, NVI e AA), Dicionário
     </text>
     <text x="0" y="167" fill="#ABA496" font-size="16.5" font-weight="400" class="sans">
       Bíblico com 1.154 palavras, Refúgio nas Escrituras e Marcações.
@@ -140,7 +140,7 @@
 
     <rect x="308" y="16" width="112" height="28" rx="8" fill="rgba(207, 168, 78, 0.14)" stroke="rgba(207, 168, 78, 0.4)"/>
     <text x="364" y="34" text-anchor="middle" fill="#EBD08A" font-size="11" font-weight="700" class="mono">
-      ACF • NVI • ARA
+      ACF • NVI • AA
     </text>
 
     <g transform="translate(24, 78)">

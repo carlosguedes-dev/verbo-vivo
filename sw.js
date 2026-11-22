@@ -1,4 +1,4 @@
-const CACHE_NAME = 'verbo-vivo-offline-v3.3.2';
+const CACHE_NAME = 'verbo-vivo-offline-v4.0.1';
 const CORE_ASSETS = [
   './app.html',
   './favicon.svg',
