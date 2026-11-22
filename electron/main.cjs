@@ -17,7 +17,8 @@ function createMainWindow() {
       preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: false
+      sandbox: true,
+      webviewTag: false
     }
   });
 
@@ -29,8 +30,17 @@ function createMainWindow() {
 
   win.loadFile(targetFile);
 
+  win.webContents.on('will-navigate', (event, navigationUrl) => {
+    if (!navigationUrl.startsWith('file://')) {
+      event.preventDefault();
+      if (navigationUrl.startsWith('https://')) {
+        shell.openExternal(navigationUrl);
+      }
+    }
+  });
+
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https://') || url.startsWith('http://')) {
+    if (url.startsWith('https://')) {
       shell.openExternal(url);
     }
     return { action: 'deny' };

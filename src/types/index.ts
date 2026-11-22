@@ -42,7 +42,7 @@ export interface BookMetadata {
 
 /**
  * Referência exata a um versículo ou trecho contínuo das Escrituras.
- * O texto é sempre resolvido diretamente da tradução bíblica ativa (ACF, NVI ou ARA).
+ * O texto é sempre resolvido diretamente da tradução bíblica ativa (ACF, NVI ou AA).
  */
 export interface VersePassageRef {
   bookAbbrev: string;

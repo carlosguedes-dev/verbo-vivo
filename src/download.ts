@@ -1,5 +1,11 @@
 import './style.css';
 import type { ScriptureReference } from './types';
+import {
+  LICENSES_CREDITS_SECTIONS,
+  PRIVACY_POLICY_SECTIONS,
+  TERMS_OF_USE_SECTIONS,
+  type LegalDocumentSection
+} from './data/legal-and-safety';
 import { storageService } from './services/storage-service';
 
 const PROMISES_POOL: ScriptureReference[] = [
@@ -47,12 +53,16 @@ const PROMISES_POOL: ScriptureReference[] = [
   }
 ];
 
+const VALID_SECTIONS = ['downloads', 'recursos', 'instalacao'] as const;
+
 class VerboVivoDownloadPage {
   public init(): void {
     this.initTheme();
     this.initNavigation();
+    this.initLegalModal();
     this.initHeroPromises();
     this.detectUserPlatform();
+    this.syncSectionFromHash();
   }
 
   private initTheme(): void {
@@ -91,31 +101,140 @@ class VerboVivoDownloadPage {
     document.querySelectorAll<HTMLButtonElement>('[data-section]').forEach((btn) => {
       btn.addEventListener('click', () => {
         const target = btn.getAttribute('data-section');
-        if (target) this.switchSection(target);
+        if (target) this.switchSection(target, true);
       });
     });
 
     document.querySelectorAll<HTMLButtonElement>('[data-go-install]').forEach((btn) => {
       btn.addEventListener('click', () => {
-        this.switchSection('instalacao');
+        this.switchSection('instalacao', true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
 
     document.getElementById('brand-home')?.addEventListener('click', (ev) => {
       ev.preventDefault();
-      this.switchSection('downloads');
+      this.switchSection('downloads', true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    document.getElementById('btn-dl-404-home')?.addEventListener('click', () => {
+      this.switchSection('downloads', true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('hashchange', () => this.syncSectionFromHash());
   }
 
-  private switchSection(sectionId: string): void {
+  private syncSectionFromHash(): void {
+    const raw = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase();
+    if (!raw) return;
+
+    if (raw === 'privacidade' || raw === 'termos' || raw === 'creditos') {
+      this.switchSection('downloads', false);
+      this.openLegalModal(raw);
+      return;
+    }
+
+    if ((VALID_SECTIONS as readonly string[]).includes(raw)) {
+      this.switchSection(raw, false);
+      return;
+    }
+
+    document.querySelectorAll('[data-section]').forEach((btn) => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach((panel) => {
+      panel.classList.toggle('active', panel.id === 'section-erro-404');
+    });
+    const detail = document.getElementById('dl-404-detail');
+    if (detail) {
+      detail.textContent = `A seção "#${raw}" não existe nesta página. Volte para os downloads oficiais ou abra o aplicativo no navegador.`;
+    }
+  }
+
+  private switchSection(sectionId: string, updateHash = false): void {
     document.querySelectorAll('[data-section]').forEach((btn) => {
       btn.classList.toggle('active', btn.getAttribute('data-section') === sectionId);
     });
     document.querySelectorAll('.tab-panel').forEach((panel) => {
       panel.classList.toggle('active', panel.id === `section-${sectionId}`);
     });
+    if (updateHash && window.location.hash !== `#${sectionId}`) {
+      try {
+        window.history.replaceState(null, '', `#${sectionId}`);
+      } catch {
+        // Silencioso em ambientes locais
+      }
+    }
+  }
+
+  private initLegalModal(): void {
+    this.renderLegalDocs('dl-legal-panel-privacidade', PRIVACY_POLICY_SECTIONS);
+    this.renderLegalDocs('dl-legal-panel-termos', TERMS_OF_USE_SECTIONS);
+    this.renderLegalDocs('dl-legal-panel-creditos', LICENSES_CREDITS_SECTIONS);
+
+    const modal = document.getElementById('dl-legal-modal');
+    const closeBtn = document.getElementById('btn-close-dl-legal');
+
+    const closeModal = () => modal?.classList.add('hidden');
+    closeBtn?.addEventListener('click', closeModal);
+    modal?.addEventListener('click', (ev) => {
+      if (ev.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') closeModal();
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-open-dl-legal]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        this.openLegalModal(btn.getAttribute('data-open-dl-legal') || 'privacidade');
+      });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-dl-legal-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        this.switchLegalTab(btn.getAttribute('data-dl-legal-tab') || 'privacidade');
+      });
+    });
+  }
+
+  private openLegalModal(tabId: string): void {
+    this.switchLegalTab(tabId);
+    document.getElementById('dl-legal-modal')?.classList.remove('hidden');
+  }
+
+  private switchLegalTab(tabId: string): void {
+    document.querySelectorAll<HTMLButtonElement>('[data-dl-legal-tab]').forEach((btn) => {
+      const active = btn.getAttribute('data-dl-legal-tab') === tabId;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', String(active));
+    });
+    for (const key of ['privacidade', 'termos', 'creditos']) {
+      const panel = document.getElementById(`dl-legal-panel-${key}`);
+      if (!panel) continue;
+      const isMatch = key === tabId;
+      panel.classList.toggle('hidden', !isMatch);
+      panel.classList.toggle('active', isMatch);
+    }
+  }
+
+  private renderLegalDocs(containerId: string, sections: LegalDocumentSection[]): void {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const frag = document.createDocumentFragment();
+    for (const sec of sections) {
+      const box = document.createElement('section');
+      box.className = 'legal-doc-section';
+      const h3 = document.createElement('h3');
+      h3.textContent = sec.heading;
+      box.appendChild(h3);
+      for (const para of sec.paragraphs) {
+        const p = document.createElement('p');
+        p.textContent = para;
+        box.appendChild(p);
+      }
+      frag.appendChild(box);
+    }
+    container.replaceChildren(frag);
   }
 
   private initHeroPromises(): void {

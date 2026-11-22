@@ -14,7 +14,7 @@
     <title>Verbo Vivo | Bíblia Sagrada, Dicionário Bíblico & Refúgio</title>
     <meta
       name="description"
-      content="Aplicativo cristão Verbo Vivo: Bíblia Sagrada completa offline nas 3 traduções (ACF, NVI e ARA), Dicionário Bíblico com 1.154 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações."
+      content="Aplicativo cristão Verbo Vivo: Bíblia Sagrada completa offline nas 3 traduções (ACF, NVI e AA), Dicionário Bíblico com 1.154 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações."
     />
 
     <!-- Open Graph / Social Preview -->
@@ -25,7 +25,7 @@
     <meta property="og:title" content="Verbo Vivo | Bíblia Sagrada & Dicionário Bíblico" />
     <meta
       property="og:description"
-      content="Bíblia Sagrada offline nas 3 traduções (ACF, NVI, ARA), Dicionário Bíblico com 1.154 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras e Marcações."
+      content="Bíblia Sagrada offline nas 3 traduções (ACF, NVI e AA), Dicionário Bíblico com 1.154 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras e Marcações."
     />
     <meta property="og:image" content="https://carlosguedes-dev.github.io/verbo-vivo/og-image.png" />
     <meta property="og:image:type" content="image/png" />
@@ -65,6 +65,7 @@
 
         <!-- Desktop Primary Navigation -->
         <nav class="main-nav" aria-label="Navegação Principal">
+          <span id="desktop-nav-slider" class="desktop-nav-slider" aria-hidden="true"></span>
           <button type="button" class="nav-tab active" data-tab="biblia" aria-current="page">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path class="icon-fill" d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
@@ -104,13 +105,27 @@
           </button>
         </nav>
 
-        <!-- Global Translation & Theme Controls -->
+        <!-- Global Translation, Theme & Privacy Controls -->
         <div class="header-actions">
           <div class="translation-segmented" role="group" aria-label="Tradução da Bíblia">
             <button type="button" class="trans-pill active" data-translation="acf" title="Almeida Corrigida Fiel">ACF</button>
             <button type="button" class="trans-pill" data-translation="nvi" title="Nova Versão Internacional">NVI</button>
-            <button type="button" class="trans-pill" data-translation="aa" title="Almeida Revista e Atualizada">ARA</button>
+            <button type="button" class="trans-pill" data-translation="aa" title="Almeida Revisada — Imprensa Bíblica">AA</button>
           </div>
+
+          <button
+            type="button"
+            id="btn-open-legal"
+            class="btn-header-icon"
+            title="Meus Dados, Backup e Privacidade (LGPD)"
+            aria-label="Meus Dados, Backup e Privacidade"
+            aria-haspopup="dialog"
+          >
+            <svg class="theme-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path d="M9 12l2 2 4-4"></path>
+            </svg>
+          </button>
 
           <button
             type="button"
@@ -462,6 +477,9 @@
               Todos os versículos que você grifou e suas anotações pessoais de estudo, guardados localmente no seu dispositivo.
             </p>
           </div>
+          <button type="button" id="btn-open-backup-from-studies" class="btn-tool-pill">
+            Backup &amp; Meus Dados
+          </button>
         </header>
 
         <div class="marcacoes-toolbar">
@@ -489,6 +507,27 @@
         </div>
 
         <div id="saved-studies-container" class="studies-grid"></div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW DE ERRO 404 (ROTA / SEÇÃO NÃO ENCONTRADA)
+           ===================================================================== -->
+      <section id="tab-erro-404" class="tab-panel" aria-labelledby="heading-erro-404">
+        <div class="error-stage-card">
+          <span class="meta-kicker">Erro 404 • Rota não encontrada</span>
+          <h2 id="heading-erro-404" class="error-stage-title">Seção não encontrada</h2>
+          <p id="error-404-detail" class="error-stage-desc">
+            O endereço solicitado não corresponde a nenhuma seção do Verbo Vivo. Escolha para onde deseja voltar:
+          </p>
+          <blockquote class="error-verse-quote">
+            <p>"Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."</p>
+            <span>Salmos 119:105</span>
+          </blockquote>
+          <div class="error-stage-actions">
+            <button type="button" id="btn-404-go-biblia" class="btn-primary-action">Voltar para a Bíblia</button>
+            <button type="button" id="btn-404-go-dicionario" class="btn-tool-pill">Abrir Dicionário Bíblico</button>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -529,10 +568,110 @@
       </div>
     </div>
 
-    <!-- Mobile / Tablet Bottom Navigation Bar -->
+    <!-- Privacy, Terms, Backup & Credits Modal (LGPD / CDC / PI) -->
+    <div id="legal-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="legal-modal-title">
+      <div class="modal-card legal-modal-card">
+        <header class="modal-header">
+          <div>
+            <span class="meta-kicker">Transparência &amp; Conformidade</span>
+            <h2 id="legal-modal-title" class="modal-title">Privacidade, Termos e Meus Dados</h2>
+            <p class="modal-sub">Controle total dos seus dados locais (LGPD), termos de uso e créditos das traduções.</p>
+          </div>
+          <button type="button" id="btn-close-legal" class="btn-close-drawer">Fechar</button>
+        </header>
+
+        <div class="legal-tabs-bar" role="tablist" aria-label="Abas de Privacidade e Termos">
+          <button type="button" class="legal-tab-btn active" data-legal-tab="dados" role="tab" aria-selected="true">Meus Dados</button>
+          <button type="button" class="legal-tab-btn" data-legal-tab="privacidade" role="tab" aria-selected="false">Privacidade (LGPD)</button>
+          <button type="button" class="legal-tab-btn" data-legal-tab="termos" role="tab" aria-selected="false">Termos de Uso</button>
+          <button type="button" class="legal-tab-btn" data-legal-tab="creditos" role="tab" aria-selected="false">Licenças &amp; Créditos</button>
+        </div>
+
+        <div id="legal-modal-body" class="picker-scroll-body legal-modal-body">
+          <!-- Tab 1: Meus Dados (Backup / Restore / Delete) -->
+          <div id="legal-panel-dados" class="legal-panel active">
+            <div class="legal-stats-grid">
+              <div class="legal-stat-box">
+                <span class="legal-stat-label">Versículos grifados</span>
+                <strong id="legal-stat-studies" class="legal-stat-value">0</strong>
+              </div>
+              <div class="legal-stat-box">
+                <span class="legal-stat-label">Anotações pessoais</span>
+                <strong id="legal-stat-notes" class="legal-stat-value">0</strong>
+              </div>
+              <div class="legal-stat-box">
+                <span class="legal-stat-label">Capítulos lidos</span>
+                <strong id="legal-stat-chapters" class="legal-stat-value">0</strong>
+              </div>
+              <div class="legal-stat-box">
+                <span class="legal-stat-label">Armazenamento</span>
+                <strong id="legal-stat-size" class="legal-stat-value">Local (0 KB)</strong>
+              </div>
+            </div>
+
+            <div class="legal-action-card">
+              <h3>Portabilidade e Backup (Art. 18, V — LGPD)</h3>
+              <p>
+                Seus grifos e anotações ficam salvos apenas neste dispositivo. Exporte um arquivo de segurança (.JSON) para evitar perdas ao trocar de aparelho ou limpar o navegador.
+              </p>
+              <div class="legal-actions-row">
+                <button type="button" id="btn-export-data" class="btn-primary-action">Exportar Backup (.JSON)</button>
+                <button type="button" id="btn-import-data-trigger" class="btn-tool-pill">Restaurar Backup (.JSON)</button>
+                <input type="file" id="input-import-data" accept="application/json,.json" class="hidden" aria-label="Selecionar arquivo de backup JSON" />
+              </div>
+              <p id="legal-data-feedback" class="legal-feedback hidden" role="status"></p>
+            </div>
+
+            <div class="legal-action-card legal-danger-card">
+              <h3>Exclusão Completa de Dados (Art. 18, VI — LGPD)</h3>
+              <p>
+                Apaga permanentemente todas as marcações, anotações, capítulos lidos, preferências e caches offline armazenados neste dispositivo. Esta ação não pode ser desfeita.
+              </p>
+              <div class="legal-actions-row">
+                <button type="button" id="btn-delete-all-data" class="btn-danger-outline">Apagar todos os meus dados</button>
+                <button type="button" id="btn-cancel-delete-data" class="btn-tool-pill hidden">Cancelar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Política de Privacidade -->
+          <div id="legal-panel-privacidade" class="legal-panel hidden"></div>
+
+          <!-- Tab 3: Termos de Uso -->
+          <div id="legal-panel-termos" class="legal-panel hidden"></div>
+
+          <!-- Tab 4: Licenças & Créditos -->
+          <div id="legal-panel-creditos" class="legal-panel hidden"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global Error & Offline Load Recovery Overlay -->
+    <div id="app-error-overlay" class="modal-overlay hidden" role="alertdialog" aria-modal="true" aria-labelledby="app-error-title">
+      <div class="modal-card error-overlay-card">
+        <span id="app-error-code" class="meta-kicker">Erro de Carregamento</span>
+        <h2 id="app-error-title" class="modal-title">Não foi possível carregar o conteúdo</h2>
+        <p id="app-error-message" class="error-stage-desc">
+          Ocorreu uma falha temporária ao abrir os dados bíblicos. Você pode tentar novamente, alternar a tradução ou limpar o cache local sem perder suas marcações.
+        </p>
+        <div class="error-stage-actions">
+          <button type="button" id="btn-error-retry" class="btn-primary-action">Tentar novamente</button>
+          <button type="button" id="btn-error-switch-acf" class="btn-tool-pill">Abrir em ACF</button>
+          <button type="button" id="btn-error-clear-cache" class="btn-tool-pill">Limpar cache e recarregar</button>
+          <button type="button" id="btn-error-dismiss" class="btn-close-drawer">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile / Tablet Bottom Navigation Bar with Sliding Indicator -->
     <nav class="mobile-bottom-nav" aria-label="Navegação Inferior">
-      <div class="mobile-bottom-nav-inner">
-        <button type="button" class="mobile-nav-item active" data-tab="biblia" aria-current="page">
+      <div id="mobile-bottom-nav-inner" class="mobile-bottom-nav-inner" style="--active-tab-index: 0">
+        <div id="mobile-nav-slider" class="mobile-nav-slider" aria-hidden="true">
+          <span class="mobile-nav-slider-bar"></span>
+          <span class="mobile-nav-slider-pill"></span>
+        </div>
+
+        <button type="button" class="mobile-nav-item active" data-tab="biblia" data-tab-index="0" aria-current="page">
           <span class="mobile-nav-icon-pill">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path class="icon-fill" d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
@@ -543,7 +682,7 @@
           </span>
           <span class="mobile-nav-label">Bíblia</span>
         </button>
-        <button type="button" class="mobile-nav-item" data-tab="dicionario">
+        <button type="button" class="mobile-nav-item" data-tab="dicionario" data-tab-index="1">
           <span class="mobile-nav-icon-pill">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path class="icon-fill" d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"></path>
@@ -552,7 +691,7 @@
           </span>
           <span class="mobile-nav-label">Dicionário</span>
         </button>
-        <button type="button" class="mobile-nav-item" data-tab="refugio">
+        <button type="button" class="mobile-nav-item" data-tab="refugio" data-tab-index="2">
           <span class="mobile-nav-icon-pill">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path class="icon-fill" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -560,7 +699,7 @@
           </span>
           <span class="mobile-nav-label">Refúgio</span>
         </button>
-        <button type="button" class="mobile-nav-item" data-tab="tira-duvidas" aria-label="Tira-Dúvidas">
+        <button type="button" class="mobile-nav-item" data-tab="tira-duvidas" data-tab-index="3" aria-label="Tira-Dúvidas">
           <span class="mobile-nav-icon-pill">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle class="icon-fill" cx="12" cy="12" r="9.5"></circle>
@@ -570,7 +709,7 @@
           </span>
           <span class="mobile-nav-label">Dúvidas</span>
         </button>
-        <button type="button" class="mobile-nav-item" data-tab="marcacoes">
+        <button type="button" class="mobile-nav-item" data-tab="marcacoes" data-tab-index="4">
           <span class="mobile-nav-icon-pill">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path class="icon-fill" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
@@ -588,6 +727,15 @@
         <div>
           <strong class="footer-brand">Verbo Vivo</strong>
           <span class="footer-motto">Hebreus 4:12 • A Palavra de Deus é viva e eficaz</span>
+        </div>
+        <div class="footer-legal-links">
+          <button type="button" class="btn-footer-legal" data-open-legal-tab="privacidade">Privacidade (LGPD)</button>
+          <span aria-hidden="true">•</span>
+          <button type="button" class="btn-footer-legal" data-open-legal-tab="termos">Termos de Uso</button>
+          <span aria-hidden="true">•</span>
+          <button type="button" class="btn-footer-legal" data-open-legal-tab="dados">Meus Dados</button>
+          <span aria-hidden="true">•</span>
+          <button type="button" class="btn-footer-legal" data-open-legal-tab="creditos">Licenças</button>
         </div>
         <div class="footer-right">
           Desenvolvido por

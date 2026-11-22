@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#111317" />
+    <title>404 — Página não encontrada | Verbo Vivo</title>
+    <style>
+      :root,
+      [data-theme='dark'] {
+        --bg: #111317;
+        --card: #1b1f27;
+        --border: rgba(242, 239, 231, 0.12);
+        --text: #f2efe7;
+        --muted: #bab3a5;
+        --accent: #cfa84e;
+        --accent-soft: rgba(207, 168, 78, 0.14);
+        --accent-border: rgba(207, 168, 78, 0.36);
+        --accent-ink: #14120d;
+      }
+
+      [data-theme='light'] {
+        --bg: #f7f3ea;
+        --card: #fffdfa;
+        --border: rgba(30, 27, 22, 0.12);
+        --text: #1e1b16;
+        --muted: #4e473c;
+        --accent: #8e6713;
+        --accent-soft: rgba(142, 103, 19, 0.1);
+        --accent-border: rgba(142, 103, 19, 0.3);
+        --accent-ink: #fffdfa;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 1.5rem;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 540px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 2.25rem 2rem;
+        text-align: center;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.25);
+      }
+
+      .emblem {
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 1.1rem;
+        border-radius: 14px;
+        background: #0f1218;
+        border: 1.5px solid var(--accent-border);
+        display: grid;
+        place-items: center;
+      }
+
+      .code-pill {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-soft);
+        border: 1px solid var(--accent-border);
+        padding: 0.26rem 0.75rem;
+        border-radius: 999px;
+        margin-bottom: 0.9rem;
+      }
+
+      h1 {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: clamp(1.75rem, 4vw, 2.2rem);
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 0.65rem;
+      }
+
+      .desc {
+        color: var(--muted);
+        font-size: 0.94rem;
+        margin-bottom: 1.35rem;
+      }
+
+      .verse-box {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 10px;
+        padding: 0.95rem 1.1rem;
+        margin-bottom: 1.5rem;
+        text-align: left;
+      }
+
+      .verse-text {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-style: italic;
+        font-size: 0.98rem;
+        color: var(--text);
+        margin-bottom: 0.3rem;
+      }
+
+      .verse-ref {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        justify-content: center;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.72rem 1.2rem;
+        border-radius: 10px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: opacity 0.16s ease, border-color 0.16s ease;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: var(--accent-ink);
+      }
+
+      .btn-primary:hover {
+        opacity: 0.9;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--border);
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--accent-border);
+        color: var(--accent);
+      }
+
+      .foot {
+        margin-top: 1.5rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card" role="main">
+      <div class="emblem" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 47V29C18 26.5 25.5 28 32 32C38.5 28 46 26.5 54 29V47C46 44.5 38.5 46 32 50C25.5 46 18 44.5 10 47Z" fill="#171C28" stroke="#CFA84E" stroke-width="2" />
+          <path d="M13 43V27C19.5 24.8 26 26.2 32 29.8V46C26 42.4 19.5 41 13 43Z" fill="#F2E6CC" stroke="#CFA84E" stroke-width="1.4" />
+          <path d="M51 43V27C44.5 24.8 38 26.2 32 29.8V46C38 42.4 44.5 41 51 43Z" fill="#F2E6CC" stroke="#CFA84E" stroke-width="1.4" />
+          <path d="M29.8 10H34.2V17.5H41V21.5H34.2V34H29.8V21.5H23V17.5H29.8Z" fill="#CFA84E" />
+        </svg>
+      </div>
+
+      <span class="code-pill">Erro 404 • Rota não encontrada</span>
+      <h1>Página não encontrada</h1>
+      <p class="desc">
+        O endereço acessado não existe ou foi movido. Retorne para a leitura das Escrituras ou para a página oficial de downloads do Verbo Vivo.
+      </p>
+
+      <div class="verse-box">
+        <p class="verse-text">"Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."</p>
+        <span class="verse-ref">Salmos 119:105</span>
+      </div>
+
+      <div class="actions">
+        <a id="link-open-app" href="./app.html" class="btn btn-primary">Abrir Bíblia (WebApp)</a>
+        <a id="link-home" href="./index.html" class="btn btn-secondary">Página de Downloads</a>
+      </div>
+
+      <p class="foot">Verbo Vivo • Bíblia Sagrada, Dicionário Bíblico &amp; Refúgio</p>
+    </main>
+
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('verbo_vivo_theme_v1');
+          if (saved === '"light"' || saved === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        } catch (e) {}
+
+        // Ajusta links automaticamente caso a URL 404 esteja em um subcaminho (ex: /verbo-vivo/abc/def)
+        var path = window.location.pathname || '/';
+        var base = path.indexOf('/verbo-vivo/') !== -1 ? '/verbo-vivo/' : '/';
+        var appLink = document.getElementById('link-open-app');
+        var homeLink = document.getElementById('link-home');
+        if (appLink) appLink.setAttribute('href', base + 'app.html');
+        if (homeLink) homeLink.setAttribute('href', base);
+      })();
+    </script>
+  </body>
+</html>

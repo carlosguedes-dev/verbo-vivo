@@ -179,17 +179,18 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.pkg.outputs.tag }}
-          name: "Verbo Vivo ${{ steps.pkg.outputs.tag }} — Dicionário Bíblico (1.154 Palavras), Barra Inferior Redesenhada & README Atualizado"
+          name: "Verbo Vivo ${{ steps.pkg.outputs.tag }} — Transição Fluida na Barra Inferior, Telas de Erro 404 & Blindagem LGPD"
           body: |
             ## Verbo Vivo ${{ steps.pkg.outputs.tag }} — Aplicativo Oficial Multiplataforma
 
-            Nova versão do **Verbo Vivo** para **Android**, **iPhone (iOS)** e **Windows**, com as 3 traduções da Bíblia Sagrada (**ACF, NVI e ARA**) 100% offline.
+            Nova versão principal do **Verbo Vivo** para **Android**, **iPhone (iOS)**, **Windows** e **Web**, com foco em fluidez visual, estabilidade ponta a ponta e conformidade jurídica (LGPD, CDC, ECA e atribuição bíblica).
 
             ### Principais novidades da versão ${{ steps.pkg.outputs.tag }}
-            - **Dicionário Bíblico ampliado para 1.154 palavras e expressões (A–Z)**: mais de **500 novos verbetes concisos** adicionados — incluindo a nova categoria **Personagens & Lugares** (Abraão, Davi, Moisés, Paulo, Pedro, Jerusalém, Calvário, Getsêmani, etc.), símbolos bíblicos, doutrina e temas do cotidiano — totalizando **5.621 passagens** respondidas **exclusivamente com versículos das Escrituras** na tradução ativa (`ACF`, `NVI` ou `ARA`).
-            - **Barra de navegação inferior redesenhada (Mobile & Tablet)**: novo acabamento nativo translúcido com elevação, indicador superior dourado, cápsula de destaque no item ativo, ícones duotone consistentes e contador refinado em **Marcações** (`Bíblia`, `Dicionário`, `Refúgio`, `Dúvidas` e `Marcações`).
-            - **Documentação atualizada**: `README.md` e `CONTRIBUTING.md` revisados para refletir com exatidão os módulos, números e arquitetura das versões 3.x.
-            - **Integridade validada automaticamente**: suíte de testes verificando 100% dos 66 livros, 1.154 verbetes e mais de 5.600 referências bíblicas nas 3 traduções.
+            - **Transição fluida na barra inferior (e navegação desktop)**: indicador deslizante com curva elástica (*spring*) que acompanha a barra dourada superior e a cápsula do ícone ao alternar entre `Bíblia`, `Dicionário`, `Refúgio`, `Dúvidas` e `Marcações`, respeitando `prefers-reduced-motion`.
+            - **Telas de erro e recuperação**: nova página editorial `404.html` para rotas inválidas na web, visualização `404` interna para hashes inválidos (`app.html#...`), recuperação segura em falhas de carregamento/runtime (com opção de tentar novamente, trocar tradução ou limpar cache preservando suas marcações) e proteção contra `localStorage` corrompido ou cheio.
+            - **Central de Privacidade (LGPD), Termos, Backup e Exclusão**: modal completo no app e no site com Política de Privacidade real, Termos de Uso, Licenças e Créditos, **Exportar/Restaurar Backup (.JSON)** e **Exclusão definitiva em 2 cliques** (Art. 18 da LGPD).
+            - **Apoio emocional e saúde (CVV 188 / Disque 180 e 100)**: aviso discreto de apoio profissional gratuito em verbetes sensíveis do Dicionário e Refúgio.
+            - **Segurança e atribuição fiel**: Electron endurecido com `sandbox: true` e bloqueio de navegação externa; correção da identificação da tradução `AA` (`Almeida Revisada — Imprensa Bíblica`) junto à `ACF` e `NVI`, além de atribuição transparente de direitos autorais.
 
             ### Arquivos para Download Direto
             - **Android (`.APK`)**: `Verbo-Vivo-Android.apk`

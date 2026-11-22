@@ -1,8 +1,8 @@
 {
   "name": "verbo-vivo",
   "private": true,
-  "version": "3.3.2",
-  "description": "Verbo Vivo — Aplicativo Cristão Multiplataforma (Android, iPhone e Windows): Bíblia Sagrada offline (ACF, NVI e ARA), Dicionário Bíblico com 1.154 palavras e expressões respondidas com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações.",
+  "version": "4.0.1",
+  "description": "Verbo Vivo — Aplicativo Cristão Multiplataforma (Android, iPhone e Windows): Bíblia Sagrada offline (ACF, NVI e AA), Dicionário Bíblico com 1.154 palavras e expressões respondidas com versículos, Refúgio nas Escrituras, Tira-Dúvidas, Marcações e conformidade LGPD.",
   "author": "Carlos Guedes <https://github.com/carlosguedes-dev>",
   "license": "MIT",
   "type": "module",

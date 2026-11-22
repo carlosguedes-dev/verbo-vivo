@@ -15,9 +15,9 @@ export const BIBLE_TRANSLATIONS: BibleTranslationMeta[] = [
   },
   {
     id: 'aa',
-    code: 'ARA',
-    name: 'Almeida Revista e Atualizada',
-    description: 'Equilíbrio clássico entre a nobreza literária de João Ferreira de Almeida e a clareza do português moderno.'
+    code: 'AA',
+    name: 'Almeida Revisada (IBB)',
+    description: 'Revisão clássica da tradução de João Ferreira de Almeida publicada pela Imprensa Bíblica Brasileira.'
   }
 ];
 

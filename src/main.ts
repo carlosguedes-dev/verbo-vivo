@@ -11,6 +11,16 @@ import type {
 } from './types';
 import { BOOKS_METADATA, BIBLE_TRANSLATIONS } from './data/books-metadata';
 import { DICTIONARY_CATEGORIES, POPULAR_DICTIONARY_TOPICS } from './data/dicionario-biblico';
+import {
+  LICENSES_CREDITS_SECTIONS,
+  PRIVACY_POLICY_SECTIONS,
+  SAFETY_NOTICES,
+  SENSITIVE_DICT_NOTICE_MAP,
+  SENSITIVE_REFUGIO_NOTICE_MAP,
+  TERMS_OF_USE_SECTIONS,
+  type LegalDocumentSection,
+  type SafetyNoticeLevel
+} from './data/legal-and-safety';
 import { QA_CATEGORIES } from './data/tira-duvidas';
 import { REFUGIO_BIBLICO_DATA } from './data/refugio-biblico';
 import { bibleService } from './services/bible-service';
@@ -56,6 +66,12 @@ const HIGHLIGHT_LABELS: Record<HighlightColor, string> = {
 };
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const TAB_ORDER = ['biblia', 'dicionario', 'refugio', 'tira-duvidas', 'marcacoes'] as const;
+type ValidTabId = (typeof TAB_ORDER)[number];
+
+function isValidTabId(value: string): value is ValidTabId {
+  return (TAB_ORDER as readonly string[]).includes(value);
+}
 
 async function copyTextSafe(text: string): Promise<boolean> {
   try {
@@ -85,7 +101,7 @@ async function copyTextSafe(text: string): Promise<boolean> {
 }
 
 function getTranslationCode(id: BibleTranslationId): string {
-  return id === 'aa' ? 'ARA' : id.toUpperCase();
+  return id.toUpperCase();
 }
 
 function cleanQuoteText(raw: string): string {
@@ -136,33 +152,66 @@ class VerboVivoApp {
   private dictRenderSeq = 0;
   private refugioRenderSeq = 0;
   private qaRenderSeq = 0;
+  private translationLoadSeq = 0;
+
+  // Navigation slider, LGPD modal & error recovery state
+  private navSlideTimer: number | null = null;
+  private deleteConfirmArmed = false;
+  private pendingErrorRetry: (() => Promise<void>) | null = null;
 
   public async init(): Promise<void> {
+    this.initErrorBoundary();
     this.initTheme();
     this.bindGlobalNavigation();
     this.bindGlobalTranslationSwitcher();
     this.bindKeyboardShortcuts();
+    this.initLegalModal();
     this.updateCounters();
 
-    // Carrega tradução inicial antes de renderizar os módulos orientados a versículos
-    this.booksList = await bibleService.loadTranslation(this.currentTranslation);
-    this.validateInitialLocation();
+    // Carrega tradução inicial com tratamento de erro e recuperação segura
+    await this.loadTranslationAndRenderAll(this.currentTranslation, true);
+    this.syncRouteFromHash(true);
+  }
 
-    this.initBibleReader();
-    this.initBookPickerModal();
-    this.initFeaturedVerseRibbon();
-    this.initDictionarySection();
-    this.initRefugioSection();
-    this.initQASection();
-    this.initMarcacoesSection();
+  private async loadTranslationAndRenderAll(
+    translation: BibleTranslationId,
+    isInitialLoad = false
+  ): Promise<void> {
+    const seq = ++this.translationLoadSeq;
+    try {
+      const books = await bibleService.loadTranslation(translation);
+      if (seq !== this.translationLoadSeq) return;
+      this.booksList = books;
+      this.validateInitialLocation();
 
-    await Promise.all([
-      this.renderCurrentChapter(),
-      this.renderFeaturedVerse(),
-      this.renderActiveDictionaryEntry(),
-      this.renderActiveRefugio(),
-      this.renderQACards()
-    ]);
+      if (isInitialLoad) {
+        this.initBibleReader();
+        this.initBookPickerModal();
+        this.initFeaturedVerseRibbon();
+        this.initDictionarySection();
+        this.initRefugioSection();
+        this.initQASection();
+        this.initMarcacoesSection();
+      }
+
+      await Promise.all([
+        this.renderCurrentChapter(),
+        this.renderFeaturedVerse(),
+        this.renderActiveDictionaryEntry(),
+        this.renderActiveRefugio(),
+        this.renderQACards()
+      ]);
+      this.hideAppError();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Falha inesperada ao carregar os textos bíblicos.';
+      this.showAppError(
+        'Erro ao Carregar Tradução',
+        `Não foi possível abrir a tradução ${getTranslationCode(translation)} (${msg}). Verifique o cache local ou tente outra tradução.`,
+        async () => {
+          await this.loadTranslationAndRenderAll(this.currentTranslation, isInitialLoad);
+        }
+      );
+    }
   }
 
   private validateInitialLocation(): void {
@@ -210,13 +259,15 @@ class VerboVivoApp {
     }
   }
 
-  // ─── NAVEGAÇÃO GLOBAL (DESKTOP + MOBILE BOTTOM BAR) ──────────────────
+  // ─── NAVEGAÇÃO GLOBAL (DESKTOP + MOBILE BOTTOM BAR COM TRANSIÇÃO) ────
   private bindGlobalNavigation(): void {
     const allNavTriggers = document.querySelectorAll<HTMLButtonElement>('[data-tab]');
     allNavTriggers.forEach((btn) => {
       btn.addEventListener('click', () => {
         const target = btn.getAttribute('data-tab');
-        if (target) this.switchTab(target);
+        if (target && isValidTabId(target)) {
+          this.switchTab(target);
+        }
       });
     });
 
@@ -225,10 +276,115 @@ class VerboVivoApp {
       this.switchTab('biblia');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    document.getElementById('btn-404-go-biblia')?.addEventListener('click', () => this.switchTab('biblia'));
+    document.getElementById('btn-404-go-dicionario')?.addEventListener('click', () => this.switchTab('dicionario'));
+
+    window.addEventListener('hashchange', () => this.syncRouteFromHash(false));
+    window.addEventListener('resize', () => this.updateDesktopNavSlider(false));
+
+    requestAnimationFrame(() => this.updateDesktopNavSlider(false));
   }
 
-  public switchTab(tabId: string): void {
+  private syncRouteFromHash(isInitial: boolean): void {
+    const rawHash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase();
+    if (!rawHash) {
+      if (isInitial) {
+        this.updateMobileNavSlider('biblia', false);
+        this.updateDesktopNavSlider(false);
+      }
+      return;
+    }
+
+    if (rawHash === 'privacidade' || rawHash === 'termos' || rawHash === 'dados' || rawHash === 'creditos') {
+      this.switchTab('biblia', false);
+      this.openLegalModal(rawHash);
+      return;
+    }
+
+    if (isValidTabId(rawHash)) {
+      this.switchTab(rawHash, false);
+      return;
+    }
+
+    this.showNotFoundView(rawHash);
+  }
+
+  private showNotFoundView(unknownRoute: string): void {
+    this.currentTab = 'erro-404';
+    document.querySelectorAll<HTMLElement>('[data-tab]').forEach((btn) => {
+      btn.classList.remove('active');
+      btn.removeAttribute('aria-current');
+    });
+    document.querySelectorAll('.tab-panel').forEach((panel) => {
+      panel.classList.toggle('active', panel.id === 'tab-erro-404');
+    });
+
+    const detail = document.getElementById('error-404-detail');
+    if (detail) {
+      detail.textContent = `A rota "#${unknownRoute}" não corresponde a nenhuma seção do Verbo Vivo. Escolha para onde deseja voltar:`;
+    }
+
+    document.getElementById('mobile-nav-slider')?.classList.add('is-hidden');
+    const deskSlider = document.getElementById('desktop-nav-slider');
+    if (deskSlider) deskSlider.style.opacity = '0';
+  }
+
+  private updateMobileNavSlider(tabId: ValidTabId, animate = true): void {
+    const inner = document.getElementById('mobile-bottom-nav-inner');
+    const slider = document.getElementById('mobile-nav-slider');
+    if (!inner || !slider) return;
+
+    const nextIndex = TAB_ORDER.indexOf(tabId);
+    if (nextIndex === -1) {
+      slider.classList.add('is-hidden');
+      return;
+    }
+
+    slider.classList.remove('is-hidden');
+    inner.style.setProperty('--active-tab-index', String(nextIndex));
+
+    if (animate) {
+      slider.classList.add('is-sliding');
+      if (this.navSlideTimer !== null) {
+        window.clearTimeout(this.navSlideTimer);
+      }
+      this.navSlideTimer = window.setTimeout(() => {
+        slider.classList.remove('is-sliding');
+        this.navSlideTimer = null;
+      }, 320);
+    }
+  }
+
+  private updateDesktopNavSlider(animate = true): void {
+    const nav = document.querySelector<HTMLElement>('.main-nav');
+    const slider = document.getElementById('desktop-nav-slider');
+    const activeBtn = nav?.querySelector<HTMLElement>('.nav-tab.active');
+    if (!nav || !slider || !activeBtn || nav.offsetWidth === 0) return;
+
+    nav.classList.add('has-slider');
+    if (!animate) {
+      slider.style.transition = 'none';
+    }
+    slider.style.width = `${activeBtn.offsetWidth}px`;
+    slider.style.transform = `translate3d(${activeBtn.offsetLeft}px, 0, 0)`;
+    slider.style.opacity = '1';
+
+    if (!animate) {
+      void slider.offsetWidth;
+      slider.style.transition = '';
+    }
+  }
+
+  public switchTab(tabId: string, updateHash = true): void {
+    if (!isValidTabId(tabId)) {
+      this.showNotFoundView(tabId);
+      return;
+    }
+
+    const changed = this.currentTab !== tabId;
     this.currentTab = tabId;
+
     document.querySelectorAll<HTMLElement>('[data-tab]').forEach((btn) => {
       const isActive = btn.getAttribute('data-tab') === tabId;
       btn.classList.toggle('active', isActive);
@@ -238,13 +394,26 @@ class VerboVivoApp {
         btn.removeAttribute('aria-current');
       }
     });
+
     document.querySelectorAll('.tab-panel').forEach((panel) => {
       panel.classList.toggle('active', panel.id === `tab-${tabId}`);
     });
+
+    this.updateMobileNavSlider(tabId, changed);
+    this.updateDesktopNavSlider(changed);
+
+    if (updateHash && window.location.hash !== `#${tabId}`) {
+      try {
+        window.history.replaceState(null, '', `#${tabId}`);
+      } catch {
+        // Silencioso em contextos file:// restritos
+      }
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // ─── SELETOR GLOBAL DE TRADUÇÃO (ACF | NVI | ARA) ────────────────────
+  // ─── SELETOR GLOBAL DE TRADUÇÃO (ACF | NVI | AA) ─────────────────────
   private bindGlobalTranslationSwitcher(): void {
     const pills = document.querySelectorAll<HTMLButtonElement>('[data-translation]');
     const syncActivePill = () => {
@@ -264,15 +433,7 @@ class VerboVivoApp {
         this.currentTranslation = next;
         storageService.setTranslation(next);
         syncActivePill();
-
-        this.booksList = await bibleService.loadTranslation(this.currentTranslation);
-        await Promise.all([
-          this.renderCurrentChapter(),
-          this.renderFeaturedVerse(),
-          this.renderActiveDictionaryEntry(),
-          this.renderActiveRefugio(),
-          this.renderQACards()
-        ]);
+        await this.loadTranslationAndRenderAll(next, false);
       });
     });
   }
@@ -283,6 +444,8 @@ class VerboVivoApp {
       if (ev.key === 'Escape') {
         this.closeBookPicker();
         this.closeVerseInspector();
+        this.closeLegalModal();
+        this.hideAppError();
         document.getElementById('bible-search-results-panel')?.classList.add('hidden');
         return;
       }
@@ -297,6 +460,334 @@ class VerboVivoApp {
         }
       }
     });
+  }
+
+  // ─── CONTROLE DE ERROS GLOBAL & RECUPERAÇÃO ──────────────────────────
+  private initErrorBoundary(): void {
+    window.addEventListener('error', (ev) => {
+      if (ev.message && !ev.message.includes('ResizeObserver')) {
+        this.showAppError(
+          'Erro Inesperado',
+          `O aplicativo encontrou uma falha inesperada (${ev.message}). Suas marcações locais estão preservadas.`
+        );
+      }
+    });
+
+    window.addEventListener('unhandledrejection', (ev) => {
+      const reason = ev.reason instanceof Error ? ev.reason.message : String(ev.reason || 'Erro assíncrono');
+      this.showAppError(
+        'Falha na Operação',
+        `Não foi possível concluir a operação solicitada (${reason}). Você pode tentar novamente com segurança.`
+      );
+    });
+
+    document.getElementById('btn-error-retry')?.addEventListener('click', async () => {
+      this.hideAppError();
+      if (this.pendingErrorRetry) {
+        const retryFn = this.pendingErrorRetry;
+        this.pendingErrorRetry = null;
+        await retryFn();
+      } else {
+        await this.loadTranslationAndRenderAll(this.currentTranslation, this.booksList.length === 0);
+      }
+    });
+
+    document.getElementById('btn-error-switch-acf')?.addEventListener('click', async () => {
+      this.currentTranslation = 'acf';
+      storageService.setTranslation('acf');
+      document.querySelectorAll<HTMLButtonElement>('[data-translation]').forEach((b) => {
+        const active = b.getAttribute('data-translation') === 'acf';
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      this.hideAppError();
+      await this.loadTranslationAndRenderAll('acf', this.booksList.length === 0);
+    });
+
+    document.getElementById('btn-error-clear-cache')?.addEventListener('click', async () => {
+      try {
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((k) => caches.delete(k)));
+        }
+      } catch {
+        // segue para reload
+      }
+      window.location.reload();
+    });
+
+    document.getElementById('btn-error-dismiss')?.addEventListener('click', () => this.hideAppError());
+  }
+
+  private showAppError(code: string, message: string, retry?: () => Promise<void>): void {
+    const overlay = document.getElementById('app-error-overlay');
+    const codeEl = document.getElementById('app-error-code');
+    const msgEl = document.getElementById('app-error-message');
+    this.pendingErrorRetry = retry || null;
+    if (codeEl) codeEl.textContent = code;
+    if (msgEl) msgEl.textContent = message;
+    overlay?.classList.remove('hidden');
+  }
+
+  private hideAppError(): void {
+    document.getElementById('app-error-overlay')?.classList.add('hidden');
+  }
+
+  // ─── MODAL DE PRIVACIDADE (LGPD), TERMOS, BACKUP E CRÉDITOS ──────────
+  private initLegalModal(): void {
+    const modal = document.getElementById('legal-modal');
+    const openBtn = document.getElementById('btn-open-legal');
+    const openFromStudies = document.getElementById('btn-open-backup-from-studies');
+    const closeBtn = document.getElementById('btn-close-legal');
+
+    this.renderLegalDocList('legal-panel-privacidade', PRIVACY_POLICY_SECTIONS);
+    this.renderLegalDocList('legal-panel-termos', TERMS_OF_USE_SECTIONS);
+    this.renderLegalDocList('legal-panel-creditos', LICENSES_CREDITS_SECTIONS);
+
+    openBtn?.addEventListener('click', () => this.openLegalModal('dados'));
+    openFromStudies?.addEventListener('click', () => this.openLegalModal('dados'));
+    closeBtn?.addEventListener('click', () => this.closeLegalModal());
+    modal?.addEventListener('click', (ev) => {
+      if (ev.target === modal) this.closeLegalModal();
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-open-legal-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-open-legal-tab') || 'dados';
+        this.openLegalModal(tab);
+      });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-legal-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-legal-tab') || 'dados';
+        this.switchLegalTab(tab);
+      });
+    });
+
+    // Exportar Backup (.JSON)
+    document.getElementById('btn-export-data')?.addEventListener('click', () => {
+      try {
+        const json = storageService.exportUserDataJson();
+        const blob = new Blob([json], { type: 'application/json;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `verbo-vivo-backup-${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        this.setLegalFeedback('Backup exportado com sucesso (.JSON). Guarde-o em local seguro.', false);
+      } catch {
+        this.setLegalFeedback('Não foi possível exportar o arquivo neste navegador.', true);
+      }
+    });
+
+    // Restaurar Backup (.JSON)
+    const fileInput = document.getElementById('input-import-data') as HTMLInputElement | null;
+    document.getElementById('btn-import-data-trigger')?.addEventListener('click', () => {
+      if (fileInput) {
+        fileInput.value = '';
+        fileInput.click();
+      }
+    });
+
+    fileInput?.addEventListener('change', async () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) {
+        this.setLegalFeedback('Arquivo muito grande (limite de 5 MB).', true);
+        return;
+      }
+      try {
+        const text = await file.text();
+        const result = storageService.importUserDataJson(text);
+        this.setLegalFeedback(result.message, !result.ok);
+        if (result.ok) {
+          this.applyTheme(storageService.getTheme());
+          this.fontSize = storageService.getFontSize();
+          this.currentTranslation = storageService.getTranslation();
+          const loc = storageService.getLastLocation();
+          this.currentBookAbbrev = loc.bookAbbrev;
+          this.currentChapter = loc.chapter;
+          document.querySelectorAll<HTMLButtonElement>('[data-translation]').forEach((b) => {
+            const active = b.getAttribute('data-translation') === this.currentTranslation;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-pressed', String(active));
+          });
+          this.renderSavedStudiesList();
+          this.updateCounters();
+          this.refreshLegalStats();
+          await this.loadTranslationAndRenderAll(this.currentTranslation, false);
+        }
+      } catch {
+        this.setLegalFeedback('Falha ao ler o arquivo de backup.', true);
+      }
+    });
+
+    // Exclusão completa de dados em 2 passos (LGPD Art. 18, VI)
+    const deleteBtn = document.getElementById('btn-delete-all-data');
+    const cancelDeleteBtn = document.getElementById('btn-cancel-delete-data');
+
+    const resetDeleteArm = () => {
+      this.deleteConfirmArmed = false;
+      if (deleteBtn) {
+        deleteBtn.textContent = 'Apagar todos os meus dados';
+        deleteBtn.classList.remove('confirming');
+      }
+      cancelDeleteBtn?.classList.add('hidden');
+    };
+
+    cancelDeleteBtn?.addEventListener('click', resetDeleteArm);
+
+    deleteBtn?.addEventListener('click', async () => {
+      if (!this.deleteConfirmArmed) {
+        this.deleteConfirmArmed = true;
+        deleteBtn.textContent = 'Confirmar exclusão definitiva';
+        deleteBtn.classList.add('confirming');
+        cancelDeleteBtn?.classList.remove('hidden');
+        return;
+      }
+
+      await storageService.clearAllUserData();
+      resetDeleteArm();
+      this.fontSize = 19;
+      this.currentTranslation = 'acf';
+      this.currentBookAbbrev = 'jo';
+      this.currentChapter = 1;
+      this.selectedVerseNumber = null;
+      this.applyTheme('dark');
+      this.closeVerseInspector();
+      document.querySelectorAll<HTMLButtonElement>('[data-translation]').forEach((b) => {
+        const active = b.getAttribute('data-translation') === 'acf';
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      this.renderSavedStudiesList();
+      this.updateCounters();
+      this.refreshLegalStats();
+      await this.loadTranslationAndRenderAll('acf', false);
+      this.setLegalFeedback('Todos os dados locais e caches do Verbo Vivo foram apagados deste dispositivo.', false);
+    });
+  }
+
+  private renderLegalDocList(containerId: string, sections: LegalDocumentSection[]): void {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const frag = document.createDocumentFragment();
+    for (const sec of sections) {
+      const box = document.createElement('section');
+      box.className = 'legal-doc-section';
+      const h3 = document.createElement('h3');
+      h3.textContent = sec.heading;
+      box.appendChild(h3);
+      for (const para of sec.paragraphs) {
+        const p = document.createElement('p');
+        p.textContent = para;
+        box.appendChild(p);
+      }
+      frag.appendChild(box);
+    }
+    container.replaceChildren(frag);
+  }
+
+  private openLegalModal(tab = 'dados'): void {
+    this.refreshLegalStats();
+    this.switchLegalTab(tab);
+    document.getElementById('legal-modal')?.classList.remove('hidden');
+  }
+
+  private closeLegalModal(): void {
+    document.getElementById('legal-modal')?.classList.add('hidden');
+    this.deleteConfirmArmed = false;
+    const delBtn = document.getElementById('btn-delete-all-data');
+    if (delBtn) {
+      delBtn.textContent = 'Apagar todos os meus dados';
+      delBtn.classList.remove('confirming');
+    }
+    document.getElementById('btn-cancel-delete-data')?.classList.add('hidden');
+  }
+
+  private switchLegalTab(tabId: string): void {
+    document.querySelectorAll<HTMLButtonElement>('[data-legal-tab]').forEach((btn) => {
+      const active = btn.getAttribute('data-legal-tab') === tabId;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', String(active));
+    });
+    for (const key of ['dados', 'privacidade', 'termos', 'creditos']) {
+      const panel = document.getElementById(`legal-panel-${key}`);
+      if (!panel) continue;
+      const isMatch = key === tabId;
+      panel.classList.toggle('hidden', !isMatch);
+      panel.classList.toggle('active', isMatch);
+    }
+  }
+
+  private refreshLegalStats(): void {
+    const stats = storageService.getStorageStats();
+    const set = (id: string, val: string) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    };
+    set('legal-stat-studies', String(stats.studiesCount));
+    set('legal-stat-notes', String(stats.notesCount));
+    set('legal-stat-chapters', `${stats.readChaptersCount} / 1.189`);
+    const kb = (stats.estimatedBytes / 1024).toFixed(1);
+    set('legal-stat-size', `Local (${kb} KB)`);
+  }
+
+  private setLegalFeedback(message: string, isError: boolean): void {
+    const el = document.getElementById('legal-data-feedback');
+    if (!el) return;
+    el.textContent = message;
+    el.classList.toggle('is-error', isError);
+    el.classList.remove('hidden');
+  }
+
+  // ─── CARTÃO DISCRETO DE APOIO EMOCIONAL / SAÚDE (CVV 188 / SUS) ──────
+  private createSafetySupportBanner(level: SafetyNoticeLevel): HTMLElement {
+    const info = SAFETY_NOTICES[level];
+    const banner = document.createElement('aside');
+    banner.className = `safety-support-banner level-${info.level}`;
+    banner.setAttribute('aria-label', info.kicker);
+
+    const kicker = document.createElement('span');
+    kicker.className = 'meta-kicker';
+    kicker.textContent = info.kicker;
+
+    const title = document.createElement('h4');
+    title.className = 'safety-support-title';
+    title.textContent = info.title;
+
+    const body = document.createElement('p');
+    body.className = 'safety-support-body';
+    body.textContent = info.body;
+
+    const channelsRow = document.createElement('div');
+    channelsRow.className = 'safety-channels-list';
+    for (const ch of info.channels) {
+      const chip = ch.href ? document.createElement('a') : document.createElement('div');
+      chip.className = 'safety-channel-chip';
+      if (ch.href && chip instanceof HTMLAnchorElement) {
+        chip.href = ch.href;
+        chip.target = '_blank';
+        chip.rel = 'noopener noreferrer';
+      }
+      const strong = document.createElement('strong');
+      strong.textContent = ch.label;
+      const span = document.createElement('span');
+      span.textContent = ch.detail;
+      chip.appendChild(strong);
+      chip.appendChild(span);
+      channelsRow.appendChild(chip);
+    }
+
+    banner.appendChild(kicker);
+    banner.appendChild(title);
+    banner.appendChild(body);
+    banner.appendChild(channelsRow);
+    return banner;
   }
 
   private updateCounters(): void {
@@ -622,8 +1113,20 @@ class VerboVivoApp {
     this.renderBookOverview();
     this.updateChapterReadButton();
 
-    const book = this.booksList.find((b) => b.abbrev === this.currentBookAbbrev);
+    const bookIdx = this.booksList.findIndex((b) => b.abbrev === this.currentBookAbbrev);
+    const book = bookIdx >= 0 ? this.booksList[bookIdx] : undefined;
     if (!book) return;
+
+    const isAtFirstChapter = bookIdx === 0 && this.currentChapter <= 1;
+    const isAtLastChapter = bookIdx === this.booksList.length - 1 && this.currentChapter >= book.chapters.length;
+    for (const id of ['btn-prev-chapter', 'btn-prev-chapter-bottom']) {
+      const btn = document.getElementById(id) as HTMLButtonElement | null;
+      if (btn) btn.disabled = isAtFirstChapter;
+    }
+    for (const id of ['btn-next-chapter', 'btn-next-chapter-bottom']) {
+      const btn = document.getElementById(id) as HTMLButtonElement | null;
+      if (btn) btn.disabled = isAtLastChapter;
+    }
 
     const transMeta = BIBLE_TRANSLATIONS.find((t) => t.id === this.currentTranslation);
     const badge = document.getElementById('reader-translation-badge');
@@ -842,7 +1345,7 @@ class VerboVivoApp {
     const noteInput = document.getElementById('textarea-verse-note') as HTMLTextAreaElement | null;
     const note = noteInput?.value.trim() || '';
 
-    storageService.saveVerseStudy({
+    const { saved } = storageService.saveVerseStudy({
       id: `${this.currentBookAbbrev}:${this.currentChapter}:${this.selectedVerseNumber}`,
       bookAbbrev: this.currentBookAbbrev,
       bookName: book.name,
@@ -854,6 +1357,18 @@ class VerboVivoApp {
       note,
       createdAt: new Date().toISOString().slice(0, 10)
     });
+
+    if (!saved) {
+      const feedback = document.getElementById('note-saved-feedback');
+      if (feedback) {
+        feedback.textContent = 'Armazenamento cheio — exporte um backup';
+        feedback.classList.remove('hidden');
+        setTimeout(() => {
+          feedback.textContent = 'Salvo';
+          feedback.classList.add('hidden');
+        }, 3200);
+      }
+    }
 
     await this.renderCurrentChapter();
     this.renderSavedStudiesList();
@@ -1266,7 +1781,19 @@ class VerboVivoApp {
     }
 
     frag.appendChild(header);
+
+    const safetyLevel = SENSITIVE_DICT_NOTICE_MAP[entry.id];
+    const urgentSafety = safetyLevel === 'crisis' || safetyLevel === 'violence';
+    if (safetyLevel && urgentSafety) {
+      frag.appendChild(this.createSafetySupportBanner(safetyLevel));
+    }
+
     frag.appendChild(stack);
+
+    if (safetyLevel && !urgentSafety) {
+      frag.appendChild(this.createSafetySupportBanner(safetyLevel));
+    }
+
     container.replaceChildren(frag);
   }
 
@@ -1341,6 +1868,12 @@ class VerboVivoApp {
 
     frag.appendChild(header);
     frag.appendChild(stack);
+
+    const refugioSafety = SENSITIVE_REFUGIO_NOTICE_MAP[item.id];
+    if (refugioSafety) {
+      frag.appendChild(this.createSafetySupportBanner(refugioSafety));
+    }
+
     detail.replaceChildren(frag);
   }
 

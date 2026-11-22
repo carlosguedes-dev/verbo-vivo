@@ -15,7 +15,7 @@ function loadAllBibles() {
   return map;
 }
 
-test('Bíblia Sagrada: As 3 traduções (ACF, NVI, ARA) possuem exatamente 66 livros canônicos (39 AT + 27 NT) e 1.189 capítulos', () => {
+test('Bíblia Sagrada: As 3 traduções (ACF, NVI, AA) possuem exatamente 66 livros canônicos (39 AT + 27 NT) e 1.189 capítulos', () => {
   for (const version of ['acf', 'nvi', 'aa']) {
     const filePath = path.join(rootDir, 'public', 'data', `${version}.json`);
     assert.ok(fs.existsSync(filePath), `Arquivo ${version}.json deve existir`);
@@ -42,12 +42,17 @@ test('Bíblia Sagrada: As 3 traduções (ACF, NVI, ARA) possuem exatamente 66 li
   }
 });
 
-test('Segurança DOM: Código-fonte (src/main.ts e src/download.ts) não utiliza innerHTML inseguro ou eval', () => {
+test('Segurança DOM & Electron: Sem innerHTML/eval e Electron com sandbox ativo', () => {
   for (const file of ['main.ts', 'download.ts']) {
     const content = fs.readFileSync(path.join(rootDir, 'src', file), 'utf8');
     assert.equal(content.includes('.innerHTML'), false, `src/${file} não deve usar innerHTML`);
     assert.equal(content.includes('eval('), false, `src/${file} não deve usar eval()`);
   }
+
+  const electronMain = fs.readFileSync(path.join(rootDir, 'electron', 'main.cjs'), 'utf8');
+  assert.ok(electronMain.includes('sandbox: true'), 'electron/main.cjs deve ativar sandbox: true');
+  assert.ok(electronMain.includes('contextIsolation: true'), 'electron/main.cjs deve ativar contextIsolation: true');
+  assert.ok(electronMain.includes('nodeIntegration: false'), 'electron/main.cjs deve manter nodeIntegration: false');
 });
 
 test('Remoções obrigatórias: Oração, Devocional, Planos de Leitura e Palavra Pastoral no Refúgio foram completamente removidos', () => {
@@ -80,7 +85,7 @@ test('Remoções obrigatórias: Oração, Devocional, Planos de Leitura e Palavr
   assert.equal(storageTs.includes('PLAN_PROGRESS'), false, 'storage-service.ts não deve armazenar planos');
 });
 
-test('Dicionário Bíblico & Refúgio & Tira-Dúvidas: Todas as referências bíblicas são válidas e existem nas 3 traduções (ACF, NVI, ARA)', () => {
+test('Dicionário Bíblico & Refúgio & Tira-Dúvidas: Todas as referências bíblicas são válidas e existem nas 3 traduções (ACF, NVI, AA)', () => {
   const bibles = loadAllBibles();
 
   const dictPath = path.join(rootDir, 'src', 'data', 'dicionario-biblico.ts');
@@ -223,7 +228,7 @@ test('Dicionário Bíblico & Refúgio & Tira-Dúvidas: Todas as referências bí
   assert.ok(totalChecked > 5500, `Deve validar mais de 5.500 referências bíblicas (validadas: ${totalChecked})`);
 });
 
-test('Arquitetura Multiplataforma, Barra Inferior Profissional e Documentação Atualizada', () => {
+test('Arquitetura Multiplataforma, Barra Inferior com Transição, Telas 404/Erro e Conformidade LGPD', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8'));
   const indexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
   assert.ok(indexHtml.includes('Verbo-Vivo-Android.apk'), 'index.html deve ter download para Android (.APK)');
@@ -231,16 +236,43 @@ test('Arquitetura Multiplataforma, Barra Inferior Profissional e Documentação 
   assert.ok(indexHtml.includes('Verbo-Vivo-Windows-Setup.exe'), 'index.html deve ter download para Windows (.EXE)');
   assert.ok(indexHtml.includes('Dicionário Bíblico'), 'index.html deve apresentar o Dicionário Bíblico');
   assert.ok(indexHtml.includes(pkg.version), `index.html deve exibir a versão atual ${pkg.version}`);
+  assert.ok(indexHtml.includes('dl-legal-modal'), 'index.html deve oferecer modal de Privacidade (LGPD) e Termos');
 
   const appHtml = fs.readFileSync(path.join(rootDir, 'app.html'), 'utf8');
   assert.ok(appHtml.includes('tab-dicionario'), 'app.html deve conter a aba Dicionário Bíblico');
   assert.ok(appHtml.includes('tab-marcacoes'), 'app.html deve conter a aba Minhas Marcações');
   assert.ok(appHtml.includes('mobile-bottom-nav-inner'), 'app.html deve conter a barra inferior redesenhada');
-  assert.ok(appHtml.includes('mobile-nav-icon-pill'), 'app.html deve conter cápsulas de ícone na barra inferior');
+  assert.ok(appHtml.includes('mobile-nav-slider'), 'app.html deve conter indicador deslizante na barra inferior');
+  assert.ok(appHtml.includes('tab-erro-404'), 'app.html deve conter tela interna de erro 404');
+  assert.ok(appHtml.includes('app-error-overlay'), 'app.html deve conter overlay de recuperação de erro');
+  assert.ok(appHtml.includes('legal-modal'), 'app.html deve conter modal de Privacidade (LGPD), Termos e Dados');
+  assert.ok(appHtml.includes('btn-export-data'), 'app.html deve oferecer exportação de backup (LGPD)');
+  assert.ok(appHtml.includes('btn-delete-all-data'), 'app.html deve oferecer exclusão completa de dados (LGPD)');
+
+  // Página 404 dedicada para web / GitHub Pages
+  const page404 = path.join(rootDir, 'public', '404.html');
+  assert.ok(fs.existsSync(page404), 'public/404.html deve existir');
+  const html404 = fs.readFileSync(page404, 'utf8');
+  assert.ok(html404.includes('404') && html404.includes('app.html'), 'public/404.html deve orientar retorno ao app');
+
+  // Apoio emocional (CVV 188) e documentos LGPD
+  const legalTs = fs.readFileSync(path.join(rootDir, 'src', 'data', 'legal-and-safety.ts'), 'utf8');
+  assert.ok(legalTs.includes('CVV — Ligue 188'), 'legal-and-safety.ts deve incluir canal CVV 188');
+  assert.ok(legalTs.includes('LGPD'), 'legal-and-safety.ts deve incluir seção LGPD');
+
+  const storageTs = fs.readFileSync(path.join(rootDir, 'src', 'services', 'storage-service.ts'), 'utf8');
+  assert.ok(storageTs.includes('exportUserDataJson'), 'storage-service.ts deve implementar exportUserDataJson');
+  assert.ok(storageTs.includes('importUserDataJson'), 'storage-service.ts deve implementar importUserDataJson');
+  assert.ok(storageTs.includes('clearAllUserData'), 'storage-service.ts deve implementar clearAllUserData');
 
   const styleCss = fs.readFileSync(path.join(rootDir, 'src', 'style.css'), 'utf8');
-  assert.ok(styleCss.includes('.mobile-nav-icon-pill'), 'src/style.css deve estilizar cápsulas da barra inferior');
-  assert.ok(styleCss.includes('.mobile-nav-item.active::before'), 'src/style.css deve incluir indicador ativo na barra inferior');
+  assert.ok(styleCss.includes('.mobile-nav-slider'), 'src/style.css deve estilizar a transição deslizante inferior');
+  assert.ok(styleCss.includes('.mobile-nav-slider-pill'), 'src/style.css deve estilizar a cápsula deslizante inferior');
+  assert.ok(styleCss.includes('prefers-reduced-motion'), 'src/style.css deve respeitar prefers-reduced-motion');
+
+  // Atribuição correta da tradução AA (sem uso indevido da sigla ARA em aa.json)
+  const booksMeta = fs.readFileSync(path.join(rootDir, 'src', 'data', 'books-metadata.ts'), 'utf8');
+  assert.equal(booksMeta.includes("code: 'ARA'"), false, 'books-metadata.ts deve identificar aa.json corretamente como AA');
 
   const readme = fs.readFileSync(path.join(rootDir, 'README.md'), 'utf8');
   const readmeLower = readme.toLowerCase();

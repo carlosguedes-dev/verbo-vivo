@@ -59,7 +59,7 @@ function e(
  * - Cada verbete é uma palavra ou expressão concisa (nunca uma frase).
  * - Zero comentários humanos, zero opiniões, zero textos de IA.
  * - Cada verbete responde exclusivamente com versículos bíblicos reais,
- *   carregados diretamente da tradução ativa (ACF, NVI ou ARA).
+ *   carregados diretamente da tradução ativa (ACF, NVI ou AA).
  */
 export const DICIONARIO_BIBLICO_DATA: BibleDictionaryEntry[] = [
   // ─── A ───────────────────────────────────────────────────────────────────
