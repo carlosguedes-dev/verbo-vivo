@@ -7,7 +7,8 @@ export const DICTIONARY_CATEGORIES: DictionaryCategory[] = [
   'Caráter & Vida Diária',
   'Deus, Cristo & Salvação',
   'Igreja & Vida Espiritual',
-  'Eternidade & Últimos Dias'
+  'Eternidade & Últimos Dias',
+  'Personagens & Lugares'
 ];
 
 export const POPULAR_DICTIONARY_TOPICS: string[] = [
@@ -32,7 +33,8 @@ const CAT = {
   CARATER: 'Caráter & Vida Diária' as DictionaryCategory,
   DEUS: 'Deus, Cristo & Salvação' as DictionaryCategory,
   IGREJA: 'Igreja & Vida Espiritual' as DictionaryCategory,
-  ETERNIDADE: 'Eternidade & Últimos Dias' as DictionaryCategory
+  ETERNIDADE: 'Eternidade & Últimos Dias' as DictionaryCategory,
+  PERSONAGENS: 'Personagens & Lugares' as DictionaryCategory
 };
 
 function e(
@@ -901,7 +903,7 @@ export const DICIONARIO_BIBLICO_DATA: BibleDictionaryEntry[] = [
   e('mansidao', 'Mansidão', CAT.CARATER, ['manso', 'serenidade', 'brandura', 'humildade'], [
     ['mt', 5, 5], ['mt', 11, 29], ['gl', 5, 22, 23], ['ef', 4, 2], ['pv', 15, 1], ['tt', 3, 2]
   ]),
-  e('maria', 'Maria', CAT.DEUS, ['mae de jesus', 'mediador', 'serva do senhor'], [
+  e('maria', 'Maria', CAT.PERSONAGENS, ['mae de jesus', 'mediador', 'serva do senhor'], [
     ['lc', 1, 28, 31], ['lc', 1, 38], ['lc', 1, 46, 48], ['jo', 2, 5], ['lc', 11, 27, 28], ['1tm', 2, 5]
   ]),
   e('marido', 'Marido', CAT.FAMILIA, ['maridos', 'esposo', 'casamento', 'amar a esposa'], [
@@ -1645,7 +1647,7 @@ export const DICIONARIO_BIBLICO_DATA: BibleDictionaryEntry[] = [
   e('economia', 'Economia', CAT.CARATER, ['financas', 'dinheiro', 'poupar', 'prudencia'], [
     ['pv', 21, 20], ['pv', 21, 5], ['pv', 13, 11], ['pv', 6, 6, 8], ['lc', 14, 28]
   ]),
-  e('eden', 'Éden', CAT.DEUS, ['jardim do eden', 'criacao', 'adao e eva', 'paraiso'], [
+  e('eden', 'Éden', CAT.PERSONAGENS, ['jardim do eden', 'criacao', 'adao e eva', 'paraiso'], [
     ['gn', 2, 8, 15], ['gn', 3, 23, 24], ['is', 51, 3], ['ap', 2, 7], ['ap', 22, 1, 2]
   ]),
   e('emocoes', 'Emoções', CAT.EMOCOES, ['sentimentos', 'coracao', 'alma', 'equilibrio'], [
@@ -2058,6 +2060,1519 @@ export const DICIONARIO_BIBLICO_DATA: BibleDictionaryEntry[] = [
   ]),
   e('yahweh', 'Yahweh', CAT.DEUS, ['jeova', 'senhor', 'eu sou', 'nome de deus', 'yhwh'], [
     ['ex', 3, 14, 15], ['sl', 83, 18], ['is', 42, 8], ['dt', 6, 4], ['ex', 34, 6, 7]
+  ]),
+
+  // ─── EXPANSÃO v3.3.2: PERSONAGENS, LUGARES, SÍMBOLOS, DOUTRINA & VIDA ───
+  e('abraao', 'Abraão', CAT.PERSONAGENS, ['pai da fe', 'patriarca', 'alianca', 'isaque'], [
+    ['gn', 12, 1, 3], ['gn', 15, 6], ['rm', 4, 3], ['hb', 11, 8, 10], ['tg', 2, 23]
+  ]),
+  e('adao', 'Adão', CAT.PERSONAGENS, ['primeiro homem', 'eden', 'criacao', 'queda'], [
+    ['gn', 2, 7], ['gn', 3, 17, 19], ['rm', 5, 12], ['1co', 15, 22], ['1co', 15, 45]
+  ]),
+  e('eva', 'Eva', CAT.PERSONAGENS, ['primeira mulher', 'eden', 'criacao', 'adao'], [
+    ['gn', 2, 21, 23], ['gn', 3, 20], ['2co', 11, 3], ['1tm', 2, 13, 14]
+  ]),
+  e('caim', 'Caim', CAT.PERSONAGENS, ['abel', 'inveja', 'homicidio', 'oferta'], [
+    ['gn', 4, 3, 8], ['hb', 11, 4], ['1jo', 3, 12], ['jd', 1, 11]
+  ]),
+  e('abel', 'Abel', CAT.PERSONAGENS, ['caim', 'oferta', 'fe', 'justo'], [
+    ['gn', 4, 4], ['mt', 23, 35], ['hb', 11, 4], ['hb', 12, 24]
+  ]),
+  e('enoque', 'Enoque', CAT.PERSONAGENS, ['andou com deus', 'arrebatado', 'fe'], [
+    ['gn', 5, 22, 24], ['hb', 11, 5], ['jd', 1, 14, 15]
+  ]),
+  e('noe', 'Noé', CAT.PERSONAGENS, ['arca', 'diluvio', 'obediencia', 'arco-iris'], [
+    ['gn', 6, 8, 9], ['gn', 6, 22], ['hb', 11, 7], ['2pe', 2, 5], ['mt', 24, 37, 38]
+  ]),
+  e('sara', 'Sara', CAT.PERSONAGENS, ['abraao', 'isaque', 'promessa', 'fe'], [
+    ['gn', 17, 15, 16], ['gn', 21, 1, 3], ['hb', 11, 11], ['1pe', 3, 6]
+  ]),
+  e('isaque', 'Isaque', CAT.PERSONAGENS, ['filho da promessa', 'abraao', 'rebeca', 'moria'], [
+    ['gn', 21, 3], ['gn', 22, 7, 12], ['rm', 9, 7], ['gl', 4, 28], ['hb', 11, 17, 20]
+  ]),
+  e('rebeca', 'Rebeca', CAT.PERSONAGENS, ['isaque', 'jaco', 'esau', 'casamento'], [
+    ['gn', 24, 58, 60], ['gn', 24, 67], ['gn', 25, 21, 23], ['rm', 9, 10, 12]
+  ]),
+  e('jaco', 'Jacó', CAT.PERSONAGENS, ['israel', 'doze tribos', 'escada', 'peniel'], [
+    ['gn', 28, 12, 15], ['gn', 32, 24, 28], ['hb', 11, 21], ['rm', 9, 13]
+  ]),
+  e('raquel', 'Raquel', CAT.PERSONAGENS, ['jaco', 'jose', 'benjamim', 'amor'], [
+    ['gn', 29, 18, 20], ['gn', 30, 22, 24], ['gn', 35, 16, 19], ['jr', 31, 15]
+  ]),
+  e('jose', 'José', CAT.PERSONAGENS, ['egito', 'sonhos', 'perdao', 'providencia'], [
+    ['gn', 37, 5, 8], ['gn', 39, 2, 3], ['gn', 39, 9], ['gn', 50, 20], ['at', 7, 9, 10]
+  ]),
+  e('moises', 'Moisés', CAT.PERSONAGENS, ['exodo', 'lei', 'sarca ardente', 'sinai', 'libertador'], [
+    ['ex', 3, 4, 10], ['nm', 12, 3], ['dt', 34, 10], ['jo', 1, 17], ['hb', 11, 24, 27]
+  ]),
+  e('arao', 'Arão', CAT.PERSONAGENS, ['sumo sacerdote', 'moises', 'levitas', 'bencao'], [
+    ['ex', 4, 14, 16], ['ex', 28, 1], ['nm', 6, 22, 26], ['hb', 5, 4]
+  ]),
+  e('miria', 'Miriã', CAT.PERSONAGENS, ['profetisa', 'moises', 'louvor', 'mar vermelho'], [
+    ['ex', 15, 20, 21], ['nm', 12, 1, 2], ['mq', 6, 4]
+  ]),
+  e('josue', 'Josué', CAT.PERSONAGENS, ['terra prometida', 'jerico', 'coragem', 'lideranca'], [
+    ['js', 1, 1, 3], ['js', 1, 8, 9], ['js', 24, 15], ['hb', 4, 8]
+  ]),
+  e('calebe', 'Calebe', CAT.PERSONAGENS, ['espia', 'fe', 'perseveranca', 'hebrom'], [
+    ['nm', 13, 30], ['nm', 14, 24], ['js', 14, 10, 12]
+  ]),
+  e('raabe', 'Raabe', CAT.PERSONAGENS, ['jerico', 'fe', 'fio escarlate', 'genealogia'], [
+    ['js', 2, 11], ['js', 6, 25], ['mt', 1, 5], ['hb', 11, 31], ['tg', 2, 25]
+  ]),
+  e('debora', 'Débora', CAT.PERSONAGENS, ['juiza', 'profetisa', 'baraq', 'coragem'], [
+    ['jz', 4, 4, 6], ['jz', 4, 14], ['jz', 5, 1, 3]
+  ]),
+  e('gideao', 'Gideão', CAT.PERSONAGENS, ['juiz', 'trezentos', 'coragem', 'midianitas'], [
+    ['jz', 6, 12, 14], ['jz', 7, 2], ['jz', 7, 7], ['hb', 11, 32]
+  ]),
+  e('sansao', 'Sansão', CAT.PERSONAGENS, ['juiz', 'nazireu', 'forca', 'filisteus'], [
+    ['jz', 13, 5], ['jz', 13, 24, 25], ['jz', 16, 28], ['hb', 11, 32]
+  ]),
+  e('rute', 'Rute', CAT.PERSONAGENS, ['lealdade', 'noemi', 'boaz', 'moabita'], [
+    ['rt', 1, 16, 17], ['rt', 2, 12], ['rt', 4, 13, 17], ['mt', 1, 5]
+  ]),
+  e('noemi', 'Noemi', CAT.PERSONAGENS, ['rute', 'sogra', 'mara', 'restauracao'], [
+    ['rt', 1, 19, 21], ['rt', 4, 14, 17], ['rt', 2, 20]
+  ]),
+  e('boaz', 'Boaz', CAT.PERSONAGENS, ['resgatador', 'rute', 'belem', 'generosidade'], [
+    ['rt', 2, 4], ['rt', 2, 11, 12], ['rt', 4, 9, 10], ['rt', 4, 13]
+  ]),
+  e('ana', 'Ana', CAT.PERSONAGENS, ['samuel', 'oracao', 'esterilidade', 'voto'], [
+    ['1sm', 1, 10, 11], ['1sm', 1, 27, 28], ['1sm', 2, 1, 2]
+  ]),
+  e('samuel', 'Samuel', CAT.PERSONAGENS, ['profeta', 'juiz', 'chamado', 'obediencia'], [
+    ['1sm', 3, 9, 10], ['1sm', 3, 19, 20], ['1sm', 7, 12], ['1sm', 15, 22], ['at', 13, 20]
+  ]),
+  e('saul', 'Saul', CAT.PERSONAGENS, ['primeiro rei', 'desobediencia', 'inveja', 'israel'], [
+    ['1sm', 9, 17], ['1sm', 10, 1], ['1sm', 15, 22, 23], ['at', 13, 21]
+  ]),
+  e('davi', 'Davi', CAT.PERSONAGENS, ['rei', 'salmista', 'golias', 'coracao de deus'], [
+    ['1sm', 16, 7], ['1sm', 17, 45], ['2sm', 7, 16], ['at', 13, 22], ['sl', 23, 1]
+  ]),
+  e('jonatas', 'Jônatas', CAT.PERSONAGENS, ['amizade', 'davi', 'lealdade', 'alianca'], [
+    ['1sm', 18, 1, 4], ['1sm', 14, 6], ['1sm', 20, 42], ['2sm', 1, 26]
+  ]),
+  e('mefibosete', 'Mefibosete', CAT.PERSONAGENS, ['graca', 'mesa do rei', 'davi', 'jonatas'], [
+    ['2sm', 9, 1], ['2sm', 9, 7, 8], ['2sm', 9, 13]
+  ]),
+  e('nata', 'Natã', CAT.PERSONAGENS, ['profeta', 'davi', 'confronto', 'alianca'], [
+    ['2sm', 7, 16, 17], ['2sm', 12, 7], ['2sm', 12, 13]
+  ]),
+  e('salomao', 'Salomão', CAT.PERSONAGENS, ['sabedoria', 'templo', 'proverbios', 'rei'], [
+    ['1rs', 3, 9, 12], ['1rs', 4, 29, 30], ['1rs', 8, 27], ['mt', 12, 42]
+  ]),
+  e('elias', 'Elias', CAT.PERSONAGENS, ['profeta', 'carmelo', 'fogo', 'oracao'], [
+    ['1rs', 18, 21], ['1rs', 18, 36, 39], ['2rs', 2, 11], ['tg', 5, 17, 18], ['mt', 17, 3]
+  ]),
+  e('eliseu', 'Eliseu', CAT.PERSONAGENS, ['profeta', 'elias', 'porcao dobrada', 'milagres'], [
+    ['2rs', 2, 9, 10], ['2rs', 2, 15], ['2rs', 6, 16, 17], ['lc', 4, 27]
+  ]),
+  e('naama', 'Naamã', CAT.PERSONAGENS, ['lepra', 'cura', 'jordao', 'humildade'], [
+    ['2rs', 5, 1], ['2rs', 5, 10], ['2rs', 5, 14, 15], ['lc', 4, 27]
+  ]),
+  e('acabe', 'Acabe', CAT.PERSONAGENS, ['idolatria', 'jezabel', 'nabote', 'elias'], [
+    ['1rs', 16, 30], ['1rs', 18, 17, 18], ['1rs', 21, 25, 29]
+  ]),
+  e('jezabel', 'Jezabel', CAT.PERSONAGENS, ['idolatria', 'baal', 'perseguicao', 'sedução'], [
+    ['1rs', 18, 4], ['1rs', 19, 2], ['1rs', 21, 25], ['ap', 2, 20]
+  ]),
+  e('ester', 'Ester', CAT.PERSONAGENS, ['rainha', 'coragem', 'livramento', 'providencia'], [
+    ['et', 4, 14], ['et', 4, 16], ['et', 7, 3, 4], ['et', 8, 6]
+  ]),
+  e('mardoqueu', 'Mardoqueu', CAT.PERSONAGENS, ['ester', 'fidelidade', 'livramento', 'honra'], [
+    ['et', 3, 2], ['et', 4, 13, 14], ['et', 10, 3]
+  ]),
+  e('jo-personagem', 'Jó', CAT.PERSONAGENS, ['sofrimento', 'paciencia', 'integridade', 'restauracao'], [
+    ['jo_at', 1, 1], ['jo_at', 1, 21], ['jo_at', 19, 25], ['jo_at', 42, 5], ['tg', 5, 11]
+  ]),
+  e('isaias', 'Isaías', CAT.PERSONAGENS, ['profeta', 'eis-me aqui', 'servo sofredor', 'messias'], [
+    ['is', 6, 1, 8], ['is', 9, 6], ['is', 53, 5], ['jo', 12, 41]
+  ]),
+  e('jeremias', 'Jeremias', CAT.PERSONAGENS, ['profeta chorao', 'chamado', 'nova alianca'], [
+    ['jr', 1, 5, 8], ['jr', 20, 9], ['jr', 29, 11], ['jr', 31, 31, 33]
+  ]),
+  e('ezequiel', 'Ezequiel', CAT.PERSONAGENS, ['profeta', 'vale de ossos secos', 'atalaia', 'novo coracao'], [
+    ['ez', 2, 3, 5], ['ez', 3, 17], ['ez', 36, 26], ['ez', 37, 3, 5]
+  ]),
+  e('daniel', 'Daniel', CAT.PERSONAGENS, ['cova dos leoes', 'fidelidade', 'oracao', 'profecia'], [
+    ['dn', 1, 8], ['dn', 6, 10], ['dn', 6, 22], ['dn', 12, 3], ['mt', 24, 15]
+  ]),
+  e('oseias', 'Oséias', CAT.PERSONAGENS, ['profeta', 'amor fiel', 'misericordia', 'conhecimento'], [
+    ['os', 1, 2], ['os', 4, 6], ['os', 6, 3], ['os', 6, 6]
+  ]),
+  e('joel', 'Joel', CAT.PERSONAGENS, ['profeta', 'derramamento do espirito', 'restauracao'], [
+    ['jl', 2, 12, 13], ['jl', 2, 25], ['jl', 2, 28, 29], ['at', 2, 16, 17]
+  ]),
+  e('amos', 'Amós', CAT.PERSONAGENS, ['profeta', 'justica', 'retidao', 'pastor'], [
+    ['am', 1, 1], ['am', 3, 3], ['am', 5, 24], ['am', 7, 14, 15]
+  ]),
+  e('jonas', 'Jonas', CAT.PERSONAGENS, ['ninive', 'grande peixe', 'arrependimento', 'misericordia'], [
+    ['jn', 1, 17], ['jn', 2, 9], ['jn', 3, 10], ['jn', 4, 2], ['mt', 12, 40]
+  ]),
+  e('miqueias', 'Miqueias', CAT.PERSONAGENS, ['profeta', 'belem', 'justica', 'misericordia'], [
+    ['mq', 5, 2], ['mq', 6, 8], ['mq', 7, 18, 19]
+  ]),
+  e('habacuque', 'Habacuque', CAT.PERSONAGENS, ['profeta', 'justo pela fe', 'avivamento', 'alegria'], [
+    ['hc', 2, 4], ['hc', 3, 2], ['hc', 3, 17, 18], ['rm', 1, 17]
+  ]),
+  e('zacarias', 'Zacarias', CAT.PERSONAGENS, ['profeta', 'espirito', 'messias', 'reconstrucao'], [
+    ['zc', 4, 6], ['zc', 9, 9], ['zc', 12, 10], ['lc', 1, 67, 68]
+  ]),
+  e('malaquias', 'Malaquias', CAT.PERSONAGENS, ['profeta', 'dizimo', 'mensageiro', 'sol da justica'], [
+    ['ml', 3, 1], ['ml', 3, 6], ['ml', 3, 10], ['ml', 4, 2]
+  ]),
+  e('esdras', 'Esdras', CAT.PERSONAGENS, ['escriba', 'lei', 'ensino', 'estudo biblico'], [
+    ['ed', 7, 6], ['ed', 7, 10], ['ne', 8, 1, 8]
+  ]),
+  e('neemias', 'Neemias', CAT.PERSONAGENS, ['muros', 'reconstrucao', 'oracao', 'lideranca'], [
+    ['ne', 1, 4], ['ne', 2, 17, 18], ['ne', 6, 3], ['ne', 8, 10]
+  ]),
+  e('melquisedeque', 'Melquisedeque', CAT.PERSONAGENS, ['rei de salem', 'sacerdote', 'cristo', 'hebreus'], [
+    ['gn', 14, 18, 20], ['sl', 110, 4], ['hb', 7, 1, 3], ['hb', 7, 17]
+  ]),
+  e('balaao', 'Balaão', CAT.PERSONAGENS, ['ganancia', 'falso profeta', 'jumenta', 'bencao'], [
+    ['nm', 22, 18], ['nm', 23, 19], ['2pe', 2, 15], ['jd', 1, 11], ['ap', 2, 14]
+  ]),
+  e('nabucodonosor', 'Nabucodonosor', CAT.PERSONAGENS, ['babilonia', 'soberba', 'humilhacao', 'daniel'], [
+    ['dn', 2, 47], ['dn', 3, 28], ['dn', 4, 34, 37]
+  ]),
+  e('ciro', 'Ciro', CAT.PERSONAGENS, ['persia', 'profecia', 'reconstrucao', 'soberania'], [
+    ['is', 44, 28], ['is', 45, 1], ['ed', 1, 1, 3]
+  ]),
+  e('joao-batista', 'João Batista', CAT.PERSONAGENS, ['precursor', 'batismo', 'arrependimento', 'cordeiro'], [
+    ['mt', 3, 1, 3], ['mt', 11, 11], ['jo', 1, 29], ['jo', 3, 30]
+  ]),
+  e('pedro', 'Pedro', CAT.PERSONAGENS, ['simao', 'apostolo', 'confissao', 'restauracao'], [
+    ['mt', 16, 16, 18], ['jo', 21, 15, 17], ['at', 2, 14], ['at', 4, 12], ['1pe', 5, 1, 4]
+  ]),
+  e('paulo', 'Paulo', CAT.PERSONAGENS, ['saulo', 'apostolo', 'gentios', 'evangelho'], [
+    ['at', 9, 15], ['at', 20, 24], ['rm', 1, 16], ['gl', 2, 20], ['2tm', 4, 7, 8]
+  ]),
+  e('tiago', 'Tiago', CAT.PERSONAGENS, ['apostolo', 'irmao do senhor', 'fe e obras', 'sabedoria'], [
+    ['tg', 1, 1, 5], ['tg', 2, 17], ['at', 15, 13], ['gl', 1, 19]
+  ]),
+  e('joao-apostolo', 'João', CAT.PERSONAGENS, ['discipulo amado', 'apostolo', 'evangelho', 'apocalipse'], [
+    ['jo', 20, 31], ['jo', 21, 24], ['1jo', 4, 8], ['ap', 1, 9]
+  ]),
+  e('andre', 'André', CAT.PERSONAGENS, ['apostolo', 'pedro', 'evangelismo', 'pescador'], [
+    ['mt', 4, 18, 19], ['jo', 1, 40, 42], ['jo', 6, 8, 9], ['jo', 12, 22]
+  ]),
+  e('filipe', 'Filipe', CAT.PERSONAGENS, ['apostolo', 'evangelista', 'samaria', 'etiope'], [
+    ['jo', 1, 43, 46], ['jo', 14, 8, 9], ['at', 8, 5], ['at', 8, 35]
+  ]),
+  e('tome', 'Tomé', CAT.PERSONAGENS, ['duvida', 'ressurreicao', 'meu senhor e meu deus'], [
+    ['jo', 11, 16], ['jo', 14, 5], ['jo', 20, 24, 29]
+  ]),
+  e('mateus', 'Mateus', CAT.PERSONAGENS, ['levi', 'publicano', 'apostolo', 'evangelho'], [
+    ['mt', 9, 9], ['mc', 2, 14], ['lc', 5, 27, 29]
+  ]),
+  e('marcos', 'Marcos', CAT.PERSONAGENS, ['joao marcos', 'evangelho', 'restauracao', 'paulo'], [
+    ['at', 12, 12], ['cl', 4, 10], ['2tm', 4, 11], ['1pe', 5, 13]
+  ]),
+  e('lucas', 'Lucas', CAT.PERSONAGENS, ['medico amado', 'evangelho', 'atos', 'historiador'], [
+    ['lc', 1, 1, 4], ['at', 1, 1], ['cl', 4, 14], ['2tm', 4, 11]
+  ]),
+  e('judas-iscariotes', 'Judas Iscariotes', CAT.PERSONAGENS, ['traicao', 'trinta moedas', 'ganancia'], [
+    ['mt', 26, 14, 16], ['lc', 22, 48], ['jo', 12, 6], ['at', 1, 16, 18]
+  ]),
+  e('estevao', 'Estêvão', CAT.PERSONAGENS, ['primeiro martir', 'diacono', 'perdao', 'atos 7'], [
+    ['at', 6, 5], ['at', 6, 8], ['at', 7, 55, 60]
+  ]),
+  e('barnabe', 'Barnabé', CAT.PERSONAGENS, ['filho da consolacao', 'encorajamento', 'missoes', 'paulo'], [
+    ['at', 4, 36, 37], ['at', 9, 27], ['at', 11, 22, 24], ['at', 13, 2]
+  ]),
+  e('timoteo', 'Timóteo', CAT.PERSONAGENS, ['discipulo', 'paulo', 'juventude', 'pastor'], [
+    ['at', 16, 1, 2], ['1tm', 4, 12], ['2tm', 1, 5, 7], ['fp', 2, 19, 20]
+  ]),
+  e('tito', 'Tito', CAT.PERSONAGENS, ['creta', 'cooperador', 'paulo', 'sa doutrina'], [
+    ['tt', 1, 4, 5], ['tt', 2, 1], ['2co', 7, 6], ['2co', 8, 23]
+  ]),
+  e('silas', 'Silas', CAT.PERSONAGENS, ['silvano', 'paulo', 'prisao', 'louvor'], [
+    ['at', 15, 22], ['at', 16, 25], ['1pe', 5, 12]
+  ]),
+  e('apolo', 'Apolo', CAT.PERSONAGENS, ['eloquente', 'escrituras', 'corinto', 'ensino'], [
+    ['at', 18, 24, 28], ['1co', 3, 5, 6], ['tt', 3, 13]
+  ]),
+  e('priscila', 'Priscila', CAT.PERSONAGENS, ['aquila', 'casal', 'ensino', 'igreja'], [
+    ['at', 18, 2, 3], ['at', 18, 26], ['rm', 16, 3, 4], ['1co', 16, 19]
+  ]),
+  e('aquila', 'Áquila', CAT.PERSONAGENS, ['priscila', 'casal', 'tendas', 'cooperador'], [
+    ['at', 18, 2, 3], ['at', 18, 26], ['rm', 16, 3, 5]
+  ]),
+  e('cornelio', 'Cornélio', CAT.PERSONAGENS, ['centuriao', 'gentios', 'pedro', 'espirito santo'], [
+    ['at', 10, 1, 4], ['at', 10, 34, 35], ['at', 10, 44, 45]
+  ]),
+  e('lidia', 'Lídia', CAT.PERSONAGENS, ['filipos', 'hospitalidade', 'purpura', 'conversao'], [
+    ['at', 16, 14, 15], ['at', 16, 40], ['rm', 12, 13]
+  ]),
+  e('dorcas', 'Dorcas', CAT.PERSONAGENS, ['tabita', 'boas obras', 'caridade', 'milagre'], [
+    ['at', 9, 36], ['at', 9, 39, 41], ['tg', 1, 27]
+  ]),
+  e('nicodemos', 'Nicodemos', CAT.PERSONAGENS, ['fariseu', 'novo nascimento', 'joao 3'], [
+    ['jo', 3, 1, 5], ['jo', 7, 50, 51], ['jo', 19, 39]
+  ]),
+  e('zaqueu', 'Zaqueu', CAT.PERSONAGENS, ['publicano', 'restituicao', 'arrependimento', 'salvacao'], [
+    ['lc', 19, 2, 5], ['lc', 19, 8, 10], ['lc', 5, 32]
+  ]),
+  e('lazaro', 'Lázaro', CAT.PERSONAGENS, ['betania', 'ressurreicao', 'amigo de jesus', 'joao 11'], [
+    ['jo', 11, 11], ['jo', 11, 25, 26], ['jo', 11, 43, 44], ['jo', 12, 1, 2]
+  ]),
+  e('marta', 'Marta', CAT.PERSONAGENS, ['betania', 'servico', 'ansiedade', 'confissao'], [
+    ['lc', 10, 38, 42], ['jo', 11, 21, 27], ['jo', 12, 2]
+  ]),
+  e('maria-madalena', 'Maria Madalena', CAT.PERSONAGENS, ['libertacao', 'ressurreicao', 'testemunha', 'discipula'], [
+    ['lc', 8, 2], ['mc', 16, 9], ['jo', 20, 11, 18]
+  ]),
+  e('onesimo', 'Onésimo', CAT.PERSONAGENS, ['filemom', 'perdao', 'reconciliacao', 'irmao'], [
+    ['fm', 1, 10, 12], ['fm', 1, 15, 16], ['cl', 4, 9]
+  ]),
+  e('filemom', 'Filemom', CAT.PERSONAGENS, ['onesimo', 'perdao', 'amor', 'igreja na casa'], [
+    ['fm', 1, 1, 2], ['fm', 1, 4, 7], ['fm', 1, 15, 17]
+  ]),
+  e('pilatos', 'Pilatos', CAT.PERSONAGENS, ['poncio pilatos', 'julgamento', 'cruz', 'verdade'], [
+    ['mt', 27, 24], ['jo', 18, 37, 38], ['jo', 19, 10, 11], ['1tm', 6, 13]
+  ]),
+  e('herodes', 'Herodes', CAT.PERSONAGENS, ['soberba', 'perseguicao', 'belem', 'juizo'], [
+    ['mt', 2, 3], ['mc', 6, 20], ['lc', 23, 8, 11], ['at', 12, 21, 23]
+  ]),
+  e('jerusalem', 'Jerusalém', CAT.PERSONAGENS, ['cidade santa', 'siao', 'paz', 'templo'], [
+    ['sl', 122, 6], ['sl', 125, 2], ['lc', 19, 41, 42], ['at', 1, 8], ['ap', 21, 2]
+  ]),
+  e('belem', 'Belém', CAT.PERSONAGENS, ['casa do pao', 'nascimento de jesus', 'davi', 'profecia'], [
+    ['mq', 5, 2], ['mt', 2, 1], ['lc', 2, 4, 7], ['lc', 2, 11]
+  ]),
+  e('nazare', 'Nazaré', CAT.PERSONAGENS, ['nazareno', 'jesus', 'galileia', 'infancia'], [
+    ['lc', 2, 39], ['lc', 1, 26, 27], ['lc', 4, 16], ['jo', 1, 45, 46]
+  ]),
+  e('cafarnaum', 'Cafarnaum', CAT.PERSONAGENS, ['galileia', 'ministerio de jesus', 'milagres'], [
+    ['mt', 4, 13], ['mc', 2, 1], ['mt', 11, 23], ['jo', 6, 59]
+  ]),
+  e('betania', 'Betânia', CAT.PERSONAGENS, ['lazaro', 'marta', 'maria', 'ascensao'], [
+    ['jo', 11, 1], ['jo', 12, 1, 3], ['lc', 24, 50, 51]
+  ]),
+  e('calvario', 'Calvário', CAT.PERSONAGENS, ['golgota', 'cruz', 'crucificacao', 'sacrificio'], [
+    ['lc', 23, 33], ['jo', 19, 17, 18], ['jo', 19, 30], ['1pe', 2, 24]
+  ]),
+  e('golgota', 'Gólgota', CAT.PERSONAGENS, ['calvario', 'lugar da caveira', 'cruz'], [
+    ['lc', 23, 33], ['mc', 15, 22], ['jo', 19, 17, 18]
+  ]),
+  e('getsemani', 'Getsêmani', CAT.PERSONAGENS, ['jardim', 'oracao', 'angustia', 'vontade do pai'], [
+    ['mt', 26, 36, 39], ['mc', 14, 32, 36], ['lc', 22, 41, 44]
+  ]),
+  e('monte-das-oliveiras', 'Monte das Oliveiras', CAT.PERSONAGENS, ['ascensao', 'volta de jesus', 'getsemani'], [
+    ['zc', 14, 4], ['mt', 24, 3], ['lc', 22, 39], ['at', 1, 9, 12]
+  ]),
+  e('sinai', 'Sinai', CAT.PERSONAGENS, ['monte sinai', 'dez mandamentos', 'moises', 'lei'], [
+    ['ex', 19, 18, 20], ['ex', 20, 1, 3], ['gl', 4, 24, 25], ['hb', 12, 18, 22]
+  ]),
+  e('siao', 'Sião', CAT.PERSONAGENS, ['jerusalem', 'monte siao', 'cidade de deus'], [
+    ['sl', 2, 6], ['sl', 48, 2], ['sl', 125, 1], ['is', 28, 16], ['hb', 12, 22]
+  ]),
+  e('jordao', 'Jordão', CAT.PERSONAGENS, ['rio jordao', 'batismo', 'travessia', 'josue'], [
+    ['js', 3, 15, 17], ['2rs', 5, 14], ['mt', 3, 13, 17], ['mc', 1, 9]
+  ]),
+  e('galileia', 'Galileia', CAT.PERSONAGENS, ['ministerio de jesus', 'discipulos', 'luz'], [
+    ['is', 9, 1, 2], ['mt', 4, 15, 16], ['mt', 4, 23], ['mt', 28, 16, 17]
+  ]),
+  e('judeia', 'Judeia', CAT.PERSONAGENS, ['juda', 'jerusalem', 'belem', 'testemunho'], [
+    ['mt', 2, 1], ['lc', 2, 4], ['at', 1, 8], ['at', 9, 31]
+  ]),
+  e('samaria', 'Samaria', CAT.PERSONAGENS, ['samaritana', 'filipe', 'evangelho', 'adoracao'], [
+    ['jo', 4, 4, 10], ['jo', 4, 39, 42], ['at', 1, 8], ['at', 8, 5, 8]
+  ]),
+  e('canaa', 'Canaã', CAT.PERSONAGENS, ['terra prometida', 'abraao', 'heranca'], [
+    ['gn', 12, 5, 7], ['gn', 17, 8], ['ex', 3, 8], ['sl', 105, 11]
+  ]),
+  e('egito', 'Egito', CAT.PERSONAGENS, ['escravidao', 'exodo', 'livramento', 'jose'], [
+    ['ex', 3, 7, 8], ['ex', 12, 40, 41], ['ex', 20, 2], ['mt', 2, 13, 15]
+  ]),
+  e('babilonia', 'Babilônia', CAT.PERSONAGENS, ['exilio', 'cativeiro', 'apocalipse', 'daniel'], [
+    ['sl', 137, 1], ['jr', 29, 7], ['jr', 29, 10, 11], ['ap', 18, 2, 4]
+  ]),
+  e('ninive', 'Nínive', CAT.PERSONAGENS, ['jonas', 'arrependimento', 'misericordia'], [
+    ['jn', 1, 2], ['jn', 3, 5, 10], ['jn', 4, 11], ['mt', 12, 41]
+  ]),
+  e('jerico', 'Jericó', CAT.PERSONAGENS, ['muralhas', 'fe', 'josue', 'raabe', 'zaqueu'], [
+    ['js', 6, 2], ['js', 6, 20], ['hb', 11, 30], ['lc', 19, 1, 5]
+  ]),
+  e('sodoma', 'Sodoma', CAT.PERSONAGENS, ['gomorra', 'juizo', 'lo', 'imoralidade'], [
+    ['gn', 18, 20], ['gn', 19, 24, 25], ['ez', 16, 49], ['2pe', 2, 6], ['jd', 1, 7]
+  ]),
+  e('gomorra', 'Gomorra', CAT.PERSONAGENS, ['sodoma', 'juizo', 'advertencia', 'pecado'], [
+    ['gn', 19, 24], ['is', 1, 9], ['mt', 10, 15], ['2pe', 2, 6], ['jd', 1, 7]
+  ]),
+  e('antioquia', 'Antioquia', CAT.PERSONAGENS, ['cristaos', 'missoes', 'igreja', 'barnabe'], [
+    ['at', 11, 22, 26], ['at', 13, 1, 3], ['at', 14, 26, 27]
+  ]),
+  e('efeso', 'Éfeso', CAT.PERSONAGENS, ['igreja', 'primeiro amor', 'paulo', 'apocalipse'], [
+    ['at', 19, 10], ['at', 19, 19, 20], ['ef', 1, 1, 3], ['ap', 2, 1, 5]
+  ]),
+  e('corinto', 'Corinto', CAT.PERSONAGENS, ['igreja', 'paulo', 'amor', 'dons'], [
+    ['at', 18, 8, 10], ['1co', 1, 2], ['1co', 2, 2], ['2co', 1, 1]
+  ]),
+  e('filipos', 'Filipos', CAT.PERSONAGENS, ['alegria', 'lidia', 'carcereiro', 'paulo'], [
+    ['at', 16, 12, 15], ['at', 16, 30, 31], ['fp', 1, 1, 6], ['fp', 4, 4]
+  ]),
+  e('roma', 'Roma', CAT.PERSONAGENS, ['evangelho', 'paulo', 'igreja', 'testemunho'], [
+    ['at', 23, 11], ['at', 28, 30, 31], ['rm', 1, 7, 8], ['rm', 1, 15, 16]
+  ]),
+  e('damasco', 'Damasco', CAT.PERSONAGENS, ['conversao de paulo', 'saulo', 'luz', 'ananias'], [
+    ['at', 9, 3, 6], ['at', 9, 17, 20], ['at', 22, 6, 10]
+  ]),
+  e('patmos', 'Patmos', CAT.PERSONAGENS, ['ilha', 'joao', 'apocalipse', 'revelacao'], [
+    ['ap', 1, 9, 11], ['ap', 1, 17, 19], ['ap', 22, 20]
+  ]),
+  e('tarso', 'Tarso', CAT.PERSONAGENS, ['paulo', 'saulo', 'cilicia'], [
+    ['at', 9, 11], ['at', 21, 39], ['at', 22, 3]
+  ]),
+  e('tessalonica', 'Tessalônica', CAT.PERSONAGENS, ['igreja', 'esperanca', 'volta de cristo', 'fe'], [
+    ['at', 17, 1, 4], ['1ts', 1, 1, 3], ['1ts', 1, 8, 9]
+  ]),
+  e('cesareia', 'Cesaréia', CAT.PERSONAGENS, ['cornelio', 'filipe', 'paulo', 'testemunho'], [
+    ['at', 10, 1], ['at', 21, 8], ['at', 25, 4], ['mt', 16, 13, 16]
+  ]),
+  e('hebrom', 'Hebrom', CAT.PERSONAGENS, ['abraao', 'calebe', 'davi', 'comunhao'], [
+    ['gn', 13, 18], ['js', 14, 13, 14], ['2sm', 2, 1, 4]
+  ]),
+  e('betel', 'Betel', CAT.PERSONAGENS, ['casa de deus', 'jaco', 'altar', 'presenca'], [
+    ['gn', 28, 16, 19], ['gn', 35, 1, 3], ['gn', 35, 7]
+  ]),
+  e('berseba', 'Berseba', CAT.PERSONAGENS, ['poco do juramento', 'abraao', 'isaque', 'alianca'], [
+    ['gn', 21, 31, 33], ['gn', 26, 23, 25], ['gn', 46, 1, 3]
+  ]),
+  e('siquem', 'Siquém', CAT.PERSONAGENS, ['abraao', 'josue', 'alianca', 'decisao'], [
+    ['gn', 12, 6, 7], ['js', 24, 1], ['js', 24, 15], ['js', 24, 25]
+  ]),
+  e('carmelo', 'Carmelo', CAT.PERSONAGENS, ['monte carmelo', 'elias', 'fogo', 'fidelidade'], [
+    ['1rs', 18, 19, 21], ['1rs', 18, 37, 39], ['is', 35, 2]
+  ]),
+  e('mar-vermelho', 'Mar Vermelho', CAT.PERSONAGENS, ['exodo', 'milagre', 'livramento', 'moises'], [
+    ['ex', 14, 13, 16], ['ex', 14, 21, 22], ['sl', 106, 9], ['hb', 11, 29]
+  ]),
+  e('mar-da-galileia', 'Mar da Galileia', CAT.PERSONAGENS, ['tempestade', 'pescadores', 'jesus', 'milagres'], [
+    ['mt', 4, 18, 19], ['mc', 4, 37, 39], ['mt', 14, 25, 27], ['jo', 21, 1]
+  ]),
+  e('emaus', 'Emaús', CAT.PERSONAGENS, ['caminho de emaus', 'ressurreicao', 'escrituras', 'coracao ardendo'], [
+    ['lc', 24, 13, 16], ['lc', 24, 27], ['lc', 24, 30, 32]
+  ]),
+  e('gileade', 'Gileade', CAT.PERSONAGENS, ['balsamo', 'cura', 'restauracao'], [
+    ['jr', 8, 22], ['jr', 46, 11], ['nm', 32, 1]
+  ]),
+  e('libano', 'Líbano', CAT.PERSONAGENS, ['cedros', 'majestade', 'forca', 'justo'], [
+    ['sl', 92, 12], ['sl', 104, 16], ['os', 14, 5, 6]
+  ]),
+  e('arca-de-noe', 'Arca de Noé', CAT.PERSONAGENS, ['diluvio', 'salvacao', 'obediencia', 'abrigo'], [
+    ['gn', 6, 14], ['gn', 7, 1], ['hb', 11, 7], ['1pe', 3, 20]
+  ]),
+  e('torre-de-babel', 'Torre de Babel', CAT.PERSONAGENS, ['orgulho', 'linguas', 'dispersao', 'soberba'], [
+    ['gn', 11, 4], ['gn', 11, 7, 9], ['sl', 127, 1]
+  ]),
+  e('sarca-ardente', 'Sarça Ardente', CAT.PERSONAGENS, ['moises', 'eu sou', 'terra santa', 'chamado'], [
+    ['ex', 3, 2, 6], ['ex', 3, 14], ['at', 7, 30, 34]
+  ]),
+  e('tabuas-da-lei', 'Tábuas da Lei', CAT.PERSONAGENS, ['dez mandamentos', 'sinai', 'coracao', 'nova alianca'], [
+    ['ex', 31, 18], ['ex', 34, 28], ['2co', 3, 3], ['hb', 8, 10]
+  ]),
+  e('candelabro', 'Candelabro', CAT.IGREJA, ['menora', 'luz', 'sete igrejas', 'tabernaculo'], [
+    ['ex', 25, 31], ['zc', 4, 2], ['mt', 5, 15], ['ap', 1, 12], ['ap', 1, 20]
+  ]),
+  e('incenso', 'Incenso', CAT.IGREJA, ['oracoes dos santos', 'adoracao', 'altar'], [
+    ['sl', 141, 2], ['ex', 30, 7, 8], ['ap', 5, 8], ['ap', 8, 3, 4]
+  ]),
+  e('azeite', 'Azeite', CAT.IGREJA, ['uncao', 'espirito santo', 'alegria', 'cura'], [
+    ['sl', 23, 5], ['sl', 45, 7], ['mt', 25, 3, 4], ['tg', 5, 14], ['is', 61, 3]
+  ]),
+  e('mirra', 'Mirra', CAT.DEUS, ['magos', 'sacrificio', 'perfume', 'cruz'], [
+    ['mt', 2, 11], ['sl', 45, 8], ['jo', 19, 39], ['ct', 1, 13]
+  ]),
+  e('coroa-de-espinhos', 'Coroa de Espinhos', CAT.DEUS, ['paixao', 'sofrimento de cristo', 'cruz', 'rei'], [
+    ['mc', 15, 17, 18], ['jo', 19, 2], ['jo', 19, 5]
+  ]),
+  e('tumulo-vazio', 'Túmulo Vazio', CAT.DEUS, ['ressurreicao', 'pascoa', 'vitoria', 'vivo'], [
+    ['mt', 28, 5, 6], ['lc', 24, 5, 6], ['jo', 20, 6, 8], ['1co', 15, 20]
+  ]),
+  e('veu-do-templo', 'Véu do Templo', CAT.DEUS, ['acesso a deus', 'cruz', 'novo e vivo caminho'], [
+    ['lc', 23, 45], ['mc', 15, 38], ['hb', 10, 19, 20], ['hb', 6, 19]
+  ]),
+  e('rio-da-vida', 'Rio da Vida', CAT.ETERNIDADE, ['nova jerusalem', 'agua da vida', 'eternidade'], [
+    ['ap', 22, 1, 2], ['sl', 46, 4], ['ez', 47, 9], ['jo', 7, 38]
+  ]),
+  e('arvore-da-vida', 'Árvore da Vida', CAT.ETERNIDADE, ['eden', 'paraiso', 'nova jerusalem', 'sabedoria'], [
+    ['gn', 2, 9], ['pv', 3, 18], ['pv', 11, 30], ['ap', 2, 7], ['ap', 22, 2], ['ap', 22, 14]
+  ]),
+  e('trono-branco', 'Trono Branco', CAT.ETERNIDADE, ['juizo final', 'livro da vida', 'apocalipse 20'], [
+    ['ap', 20, 11, 15], ['rm', 14, 10, 12], ['at', 17, 31]
+  ]),
+  e('arco-iris', 'Arco-Íris', CAT.DEUS, ['alianca', 'noe', 'fidelidade', 'trono'], [
+    ['gn', 9, 13, 16], ['ez', 1, 28], ['ap', 4, 3], ['ap', 10, 1]
+  ]),
+  e('sinagoga', 'Sinagoga', CAT.IGREJA, ['ensino', 'escrituras', 'jesus', 'paulo'], [
+    ['lc', 4, 16, 18], ['mt', 4, 23], ['at', 17, 1, 2], ['at', 18, 4]
+  ]),
+  e('cajado', 'Cajado', CAT.DEUS, ['pastor', 'salmo 23', 'direcao', 'consolo'], [
+    ['sl', 23, 4], ['ex', 4, 2, 4], ['ex', 14, 16], ['mq', 7, 14]
+  ]),
+  e('trombeta', 'Trombeta', CAT.ETERNIDADE, ['arrebatamento', 'alerta', 'volta de cristo', 'louvor'], [
+    ['1co', 15, 52], ['1ts', 4, 16], ['mt', 24, 31], ['sl', 150, 3], ['jl', 2, 1]
+  ]),
+  e('harpa', 'Harpa', CAT.IGREJA, ['louvor', 'musica', 'davi', 'adoracao'], [
+    ['1sm', 16, 23], ['sl', 33, 2], ['sl', 150, 3], ['ap', 5, 8], ['ap', 15, 2]
+  ]),
+  e('candeia', 'Candeia', CAT.DEUS, ['luz', 'palavra', 'olhos', 'vigilancia'], [
+    ['sl', 18, 28], ['pv', 20, 27], ['mt', 5, 15], ['mt', 6, 22], ['2pe', 1, 19]
+  ]),
+  e('lampada', 'Lâmpada', CAT.DEUS, ['palavra de deus', 'luz', 'caminho', 'salmo 119'], [
+    ['sl', 119, 105], ['pv', 6, 23], ['mt', 25, 1, 4], ['ap', 21, 23]
+  ]),
+  e('ancora', 'Âncora', CAT.EMOCOES, ['esperanca', 'firmeza', 'seguranca', 'alma'], [
+    ['hb', 6, 19], ['sl', 62, 5, 6], ['is', 26, 3, 4], ['sl', 46, 1, 2]
+  ]),
+  e('espelho', 'Espelho', CAT.CARATER, ['palavra', 'praticante', 'transformacao', 'gloria'], [
+    ['tg', 1, 23, 25], ['2co', 3, 18], ['1co', 13, 12]
+  ]),
+  e('semente', 'Semente', CAT.IGREJA, ['palavra', 'semear', 'colheita', 'crescimento'], [
+    ['lc', 8, 11], ['gl', 6, 7, 9], ['2co', 9, 10], ['sl', 126, 5, 6], ['jo', 12, 24]
+  ]),
+  e('colheita', 'Colheita', CAT.CARATER, ['semear', 'ceifa', 'fruto', 'recompensa'], [
+    ['gl', 6, 7, 9], ['mt', 9, 37, 38], ['sl', 126, 5, 6], ['2co', 9, 6]
+  ]),
+  e('ceifa', 'Ceifa', CAT.IGREJA, ['seara', 'missoes', 'evangelismo', 'fim dos tempos'], [
+    ['mt', 9, 37, 38], ['jo', 4, 35], ['mt', 13, 39], ['ap', 14, 15]
+  ]),
+  e('trigo', 'Trigo', CAT.DEUS, ['grao de trigo', 'joio', 'fruto', 'sacrificio'], [
+    ['jo', 12, 24], ['mt', 13, 29, 30], ['mt', 3, 12], ['sl', 81, 16]
+  ]),
+  e('joio', 'Joio', CAT.ETERNIDADE, ['parabola', 'trigo', 'juizo', 'discernimento'], [
+    ['mt', 13, 24, 30], ['mt', 13, 37, 40], ['mt', 7, 16]
+  ]),
+  e('mostarda', 'Mostarda', CAT.DEUS, ['grao de mostarda', 'fe', 'reino dos ceus'], [
+    ['mt', 13, 31, 32], ['mt', 17, 20], ['lc', 17, 6]
+  ]),
+  e('fermento', 'Fermento', CAT.CARATER, ['influencia', 'hipocrisia', 'pureza', 'reino'], [
+    ['mt', 13, 33], ['mt', 16, 6], ['1co', 5, 6, 8], ['gl', 5, 9]
+  ]),
+  e('videira', 'Videira', CAT.DEUS, ['permanecer em cristo', 'ramos', 'fruto', 'joao 15'], [
+    ['jo', 15, 1, 5], ['jo', 15, 8], ['sl', 80, 8]
+  ]),
+  e('figueira', 'Figueira', CAT.IGREJA, ['fruto', 'israel', 'sinais', 'fe'], [
+    ['mt', 24, 32, 33], ['lc', 13, 6, 9], ['hc', 3, 17], ['mq', 4, 4]
+  ]),
+  e('oliveira', 'Oliveira', CAT.IGREJA, ['enxerto', 'israel', 'gentios', 'bencao'], [
+    ['rm', 11, 17, 24], ['sl', 52, 8], ['sl', 128, 3], ['os', 14, 6]
+  ]),
+  e('cedro', 'Cedro', CAT.CARATER, ['justo', 'firmeza', 'crescimento', 'libano'], [
+    ['sl', 92, 12], ['sl', 104, 16], ['ez', 17, 22, 23]
+  ]),
+  e('ovelha', 'Ovelha', CAT.DEUS, ['bom pastor', 'rebanho', 'ouvir a voz', 'cuidado'], [
+    ['jo', 10, 11], ['jo', 10, 27, 28], ['sl', 23, 1], ['sl', 100, 3], ['is', 53, 6]
+  ]),
+  e('lobo', 'Lobo', CAT.IGREJA, ['falsos profetas', 'perigo', 'vigilancia', 'paz'], [
+    ['mt', 7, 15], ['mt', 10, 16], ['at', 20, 29], ['jo', 10, 12], ['is', 11, 6]
+  ]),
+  e('serpente', 'Serpente', CAT.DEUS, ['tentacao', 'eden', 'satanas', 'vitoria'], [
+    ['gn', 3, 1], ['gn', 3, 15], ['jo', 3, 14, 15], ['2co', 11, 3], ['ap', 12, 9]
+  ]),
+  e('pomba', 'Pomba', CAT.DEUS, ['espirito santo', 'paz', 'simplicidade', 'batismo'], [
+    ['mt', 3, 16], ['mt', 10, 16], ['gn', 8, 11], ['sl', 55, 6]
+  ]),
+  e('aguia', 'Águia', CAT.EMOCOES, ['renovacao', 'forca', 'asas', 'protecao'], [
+    ['is', 40, 31], ['sl', 103, 5], ['ex', 19, 4], ['dt', 32, 11]
+  ]),
+  e('leao', 'Leão', CAT.DEUS, ['leao de juda', 'coragem', 'vigilancia', 'justo'], [
+    ['ap', 5, 5], ['pv', 28, 1], ['1pe', 5, 8], ['is', 11, 6, 7]
+  ]),
+  e('abba', 'Abba', CAT.DEUS, ['pai', 'adocao', 'intimidade', 'filhos de deus'], [
+    ['mc', 14, 36], ['rm', 8, 15], ['gl', 4, 6]
+  ]),
+  e('adonai', 'Adonai', CAT.DEUS, ['senhor', 'soberano', 'nome de deus', 'reverencia'], [
+    ['sl', 8, 1], ['sl', 86, 5], ['is', 6, 1], ['sl', 16, 2]
+  ]),
+  e('elohim', 'Elohim', CAT.DEUS, ['deus criador', 'poderoso', 'genesis', 'nome de deus'], [
+    ['gn', 1, 1], ['dt', 6, 4], ['sl', 19, 1], ['sl', 46, 1]
+  ]),
+  e('jeova', 'Jeová', CAT.DEUS, ['yahweh', 'senhor', 'nome de deus', 'eu sou'], [
+    ['ex', 3, 14, 15], ['ex', 6, 3], ['sl', 83, 18], ['is', 26, 4]
+  ]),
+  e('hosana', 'Hosana', CAT.IGREJA, ['salva-nos', 'louvor', 'entrada triunfal', 'messias'], [
+    ['sl', 118, 25, 26], ['mt', 21, 9], ['mc', 11, 9, 10], ['jo', 12, 13]
+  ]),
+  e('shalom', 'Shalom', CAT.DEUS, ['paz', 'inteireza', 'bencao', 'reconciliacao'], [
+    ['nm', 6, 24, 26], ['is', 26, 3], ['jo', 14, 27], ['fp', 4, 7]
+  ]),
+  e('logos', 'Logos', CAT.DEUS, ['verbo', 'palavra', 'jesus cristo', 'joao 1'], [
+    ['jo', 1, 1, 3], ['jo', 1, 14], ['1jo', 1, 1, 2], ['ap', 19, 13]
+  ]),
+  e('shema', 'Shemá', CAT.DEUS, ['ouve israel', 'unico deus', 'amar a deus', 'mandamento'], [
+    ['dt', 6, 4, 7], ['mc', 12, 29, 30], ['1co', 8, 6]
+  ]),
+  e('alfa-e-omega', 'Alfa e Ômega', CAT.DEUS, ['principio e fim', 'eterno', 'jesus', 'apocalipse'], [
+    ['ap', 1, 8], ['ap', 21, 6], ['ap', 22, 13], ['is', 44, 6]
+  ]),
+  e('leao-de-juda', 'Leão de Judá', CAT.DEUS, ['cristo', 'vitoria', 'messias', 'raiz de davi'], [
+    ['ap', 5, 5], ['gn', 49, 9, 10], ['is', 11, 1]
+  ]),
+  e('estrela-da-manha', 'Estrela da Manhã', CAT.DEUS, ['jesus', 'esperanca', 'luz', 'amanhecer'], [
+    ['ap', 22, 16], ['ap', 2, 28], ['2pe', 1, 19], ['nm', 24, 17]
+  ]),
+  e('principe-da-paz', 'Príncipe da Paz', CAT.DEUS, ['messias', 'isaias 9', 'jesus', 'paz'], [
+    ['is', 9, 6, 7], ['ef', 2, 14], ['jo', 14, 27], ['cl', 1, 20]
+  ]),
+  e('luz-do-mundo', 'Luz do Mundo', CAT.DEUS, ['jesus', 'trevas', 'testemunho', 'caminho'], [
+    ['jo', 8, 12], ['jo', 9, 5], ['mt', 5, 14, 16], ['jo', 1, 4, 5]
+  ]),
+  e('filho-de-deus', 'Filho de Deus', CAT.DEUS, ['divindade de cristo', 'jesus', 'unigenito'], [
+    ['mt', 16, 16], ['jo', 3, 16], ['jo', 20, 31], ['rm', 1, 4], ['1jo', 4, 15]
+  ]),
+  e('filho-do-homem', 'Filho do Homem', CAT.DEUS, ['jesus', 'humanidade', 'daniel 7', 'autoridade'], [
+    ['dn', 7, 13, 14], ['lc', 19, 10], ['mc', 10, 45], ['mt', 24, 30]
+  ]),
+  e('videira-verdadeira', 'Videira Verdadeira', CAT.DEUS, ['jesus', 'permanecer', 'fruto', 'joao 15'], [
+    ['jo', 15, 1, 5], ['jo', 15, 7, 8], ['gl', 5, 22, 23]
+  ]),
+  e('porta-das-ovelhas', 'Porta das Ovelhas', CAT.DEUS, ['jesus', 'salvacao', 'acesso', 'bom pastor'], [
+    ['jo', 10, 7, 9], ['jo', 14, 6], ['ef', 2, 18]
+  ]),
+  e('bom-combate', 'Bom Combate', CAT.IGREJA, ['perseveranca', 'fe', 'corrida', 'paulo'], [
+    ['2tm', 4, 7, 8], ['1tm', 6, 12], ['hb', 12, 1, 2], ['1co', 9, 24, 27]
+  ]),
+  e('coroa-da-vida', 'Coroa da Vida', CAT.ETERNIDADE, ['fidelidade', 'galardao', 'perseveranca', 'martires'], [
+    ['tg', 1, 12], ['ap', 2, 10], ['2tm', 4, 8], ['1pe', 5, 4]
+  ]),
+  e('selo-do-espirito', 'Selo do Espírito', CAT.DEUS, ['garantia', 'seguranca', 'redencao', 'espirito santo'], [
+    ['ef', 1, 13, 14], ['ef', 4, 30], ['2co', 1, 21, 22]
+  ]),
+  e('penhor-do-espirito', 'Penhor do Espírito', CAT.DEUS, ['garantia', 'heranca', 'espirito santo'], [
+    ['2co', 1, 22], ['2co', 5, 5], ['ef', 1, 13, 14]
+  ]),
+  e('bodas-do-cordeiro', 'Bodas do Cordeiro', CAT.ETERNIDADE, ['noiva de cristo', 'igreja', 'banquete', 'eternidade'], [
+    ['ap', 19, 7, 9], ['ap', 21, 2], ['mt', 22, 2], ['ef', 5, 27]
+  ]),
+  e('grande-tribulacao', 'Grande Tribulação', CAT.ETERNIDADE, ['fim dos tempos', 'sofrimento', 'livramento'], [
+    ['mt', 24, 21, 22], ['dn', 12, 1], ['ap', 7, 14], ['ap', 3, 10]
+  ]),
+  e('segunda-morte', 'Segunda Morte', CAT.ETERNIDADE, ['lago de fogo', 'juizo', 'vencedor'], [
+    ['ap', 2, 11], ['ap', 20, 6], ['ap', 20, 14], ['ap', 21, 8]
+  ]),
+  e('novo-ceu', 'Novo Céu', CAT.ETERNIDADE, ['nova terra', 'eternidade', 'restauracao', 'apocalipse'], [
+    ['ap', 21, 1, 5], ['is', 65, 17], ['is', 66, 22], ['2pe', 3, 13]
+  ]),
+  e('nova-terra', 'Nova Terra', CAT.ETERNIDADE, ['novo ceu', 'justica', 'eternidade', 'criacao'], [
+    ['ap', 21, 1, 4], ['2pe', 3, 13], ['is', 65, 17], ['rm', 8, 21]
+  ]),
+  e('gogue-e-magogue', 'Gogue e Magogue', CAT.ETERNIDADE, ['profecia', 'nacoes', 'juizo', 'apocalipse'], [
+    ['ez', 38, 2, 3], ['ez', 39, 1], ['ap', 20, 7, 9]
+  ]),
+  e('sete-igrejas', 'Sete Igrejas', CAT.IGREJA, ['asia', 'apocalipse', 'cartas', 'fidelidade'], [
+    ['ap', 1, 4], ['ap', 1, 11], ['ap', 1, 20], ['ap', 2, 7], ['ap', 3, 20]
+  ]),
+  e('besta', 'Besta', CAT.ETERNIDADE, ['anticristo', 'apocalipse', 'marca da besta', 'juizo'], [
+    ['ap', 13, 1, 4], ['ap', 13, 16, 18], ['ap', 19, 20], ['dn', 7, 7]
+  ]),
+  e('dragao', 'Dragão', CAT.ETERNIDADE, ['satanas', 'antiga serpente', 'vitoria do cordeiro'], [
+    ['ap', 12, 7, 11], ['ap', 20, 2], ['sl', 91, 13]
+  ]),
+  e('falso-profeta', 'Falso Profeta', CAT.ETERNIDADE, ['engano', 'sinais mentirosos', 'apocalipse'], [
+    ['ap', 16, 13], ['ap', 19, 20], ['ap', 20, 10], ['mt', 24, 24]
+  ]),
+  e('imutabilidade', 'Imutabilidade', CAT.DEUS, ['deus nao muda', 'fidelidade', 'constancia'], [
+    ['ml', 3, 6], ['tg', 1, 17], ['hb', 13, 8], ['nm', 23, 19], ['sl', 102, 27]
+  ]),
+  e('transcendencia', 'Transcendência', CAT.DEUS, ['majestade', 'altissimo', 'grandeza de deus'], [
+    ['is', 55, 8, 9], ['is', 57, 15], ['1rs', 8, 27], ['sl', 113, 4, 6]
+  ]),
+  e('criador', 'Criador', CAT.DEUS, ['criacao', 'genesis', 'universo', 'deus'], [
+    ['gn', 1, 1], ['ec', 12, 1], ['is', 40, 28], ['cl', 1, 16], ['ap', 4, 11]
+  ]),
+  e('redentor', 'Redentor', CAT.DEUS, ['resgate', 'salvador', 'jo 19', 'cruz'], [
+    ['jo_at', 19, 25], ['sl', 19, 14], ['is', 41, 14], ['is', 59, 20], ['gl', 3, 13]
+  ]),
+  e('justo-juiz', 'Justo Juiz', CAT.DEUS, ['justica', 'julgamento', 'coroa', 'retidao'], [
+    ['2tm', 4, 8], ['sl', 7, 11], ['gn', 18, 25], ['sl', 96, 13]
+  ]),
+  e('todo-poderoso', 'Todo-Poderoso', CAT.DEUS, ['onipotente', 'el shaddai', 'poder de deus'], [
+    ['gn', 17, 1], ['sl', 91, 1], ['jr', 32, 17], ['ap', 1, 8], ['ap', 19, 6]
+  ]),
+  e('altissimo', 'Altíssimo', CAT.DEUS, ['soberano', 'refugio', 'salmo 91', 'majestade'], [
+    ['sl', 91, 1], ['sl', 91, 9], ['sl', 97, 9], ['dn', 4, 17], ['lc', 1, 32]
+  ]),
+  e('imputacao', 'Imputação', CAT.DEUS, ['justica de cristo', 'justificacao', 'perdao', 'fe'], [
+    ['rm', 4, 3, 8], ['2co', 5, 19], ['2co', 5, 21], ['fp', 3, 9]
+  ]),
+  e('substituicao', 'Substituição', CAT.DEUS, ['cruz', 'isaias 53', 'sacrificio', 'expiacao'], [
+    ['is', 53, 4, 6], ['2co', 5, 21], ['1pe', 2, 24], ['1pe', 3, 18], ['gl', 3, 13]
+  ]),
+  e('novo-homem', 'Novo Homem', CAT.DEUS, ['nova criatura', 'renovacao', 'santificacao'], [
+    ['ef', 4, 22, 24], ['cl', 3, 9, 10], ['2co', 5, 17], ['rm', 6, 4]
+  ]),
+  e('velho-homem', 'Velho Homem', CAT.DEUS, ['crucificado', 'carne', 'pecado', 'nova vida'], [
+    ['rm', 6, 6], ['ef', 4, 22], ['cl', 3, 9], ['gl', 2, 20]
+  ]),
+  e('ascensao', 'Ascensão', CAT.DEUS, ['subida aos ceus', 'atos 1', 'intercessao', 'gloria'], [
+    ['at', 1, 9, 11], ['lc', 24, 50, 51], ['mc', 16, 19], ['ef', 4, 8, 10], ['hb', 4, 14]
+  ]),
+  e('intercessor', 'Intercessor', CAT.DEUS, ['cristo', 'espirito santo', 'oracao', 'mediador'], [
+    ['rm', 8, 34], ['hb', 7, 25], ['rm', 8, 26, 27], ['1jo', 2, 1]
+  ]),
+  e('advogado', 'Advogado', CAT.DEUS, ['jesus cristo', 'justo', 'perdao', 'defesa'], [
+    ['1jo', 2, 1, 2], ['rm', 8, 33, 34], ['hb', 7, 25], ['hb', 9, 24]
+  ]),
+  e('lava-pes', 'Lava-Pés', CAT.IGREJA, ['humildade', 'servico', 'exemplo de jesus', 'joao 13'], [
+    ['jo', 13, 4, 5], ['jo', 13, 12, 17], ['fp', 2, 5, 7]
+  ]),
+  e('imposicao-de-maos', 'Imposição de Mãos', CAT.IGREJA, ['consagracao', 'oracao', 'cura', 'ministerio'], [
+    ['at', 6, 6], ['at', 13, 3], ['1tm', 4, 14], ['1tm', 5, 22], ['2tm', 1, 6]
+  ]),
+  e('osculo-santo', 'Ósculo Santo', CAT.IGREJA, ['saudacao', 'amor fraternal', 'comunhao'], [
+    ['rm', 16, 16], ['1co', 16, 20], ['2co', 13, 12], ['1ts', 5, 26], ['1pe', 5, 14]
+  ]),
+  e('dons-de-cura', 'Dons de Cura', CAT.IGREJA, ['dons espirituais', 'milagres', 'oracao'], [
+    ['1co', 12, 9], ['1co', 12, 28], ['tg', 5, 14, 15], ['at', 3, 6, 8]
+  ]),
+  e('linguas-estranhas', 'Línguas Estranhas', CAT.IGREJA, ['dom de linguas', 'pentecostes', 'interpretacao', 'ordem'], [
+    ['at', 2, 4, 6], ['1co', 12, 10], ['1co', 14, 2, 5], ['1co', 14, 18, 19], ['1co', 14, 27, 28]
+  ]),
+  e('evangelistas', 'Evangelistas', CAT.IGREJA, ['evangelismo', 'ministerio', 'boas novas'], [
+    ['ef', 4, 11, 12], ['2tm', 4, 5], ['at', 21, 8], ['rm', 10, 15]
+  ]),
+  e('profetas', 'Profetas', CAT.IGREJA, ['profecia', 'escrituras', 'antigo testamento', 'fundamento'], [
+    ['ef', 2, 20], ['ef', 4, 11], ['hb', 1, 1], ['2pe', 1, 21], ['am', 3, 7]
+  ]),
+  e('mestres', 'Mestres', CAT.IGREJA, ['ensino', 'doutrina', 'responsabilidade', 'igreja'], [
+    ['ef', 4, 11, 12], ['tg', 3, 1], ['2tm', 2, 2], ['1co', 12, 28]
+  ]),
+  e('levitas', 'Levitas', CAT.IGREJA, ['tribo de levi', 'servico', 'tabernaculo', 'heranca'], [
+    ['nm', 1, 50], ['nm', 18, 20], ['dt', 10, 8, 9], ['2cr', 29, 11]
+  ]),
+  e('sacerdotes', 'Sacerdotes', CAT.IGREJA, ['sacerdocio', 'adoracao', 'sacrificio', 'santidade'], [
+    ['ex', 19, 6], ['1pe', 2, 5], ['1pe', 2, 9], ['ap', 1, 6], ['ap', 5, 10]
+  ]),
+  e('fariseus', 'Fariseus', CAT.IGREJA, ['legalismo', 'hipocrisia', 'tradicao', 'justica'], [
+    ['mt', 5, 20], ['mt', 23, 23, 28], ['lc', 18, 9, 14], ['fp', 3, 5]
+  ]),
+  e('saduceus', 'Saduceus', CAT.IGREJA, ['ressurreicao', 'incredulidade', 'escrituras'], [
+    ['mt', 22, 23, 32], ['mt', 16, 6], ['at', 23, 8]
+  ]),
+  e('escribas', 'Escribas', CAT.IGREJA, ['lei', 'ensino', 'tradicao', 'autoridade'], [
+    ['mt', 7, 29], ['mt', 23, 2, 3], ['mc', 12, 28, 34], ['ed', 7, 6]
+  ]),
+  e('publicanos', 'Publicanos', CAT.DEUS, ['cobradores de impostos', 'graca', 'arrependimento', 'zaqueu'], [
+    ['mt', 9, 10, 13], ['lc', 18, 13, 14], ['lc', 19, 2, 9], ['mt', 21, 31]
+  ]),
+  e('samaritanos', 'Samaritanos', CAT.VIDA, ['bom samaritano', 'proximo', 'compaixao', 'gratidao'], [
+    ['lc', 10, 33, 37], ['lc', 17, 15, 18], ['jo', 4, 9], ['at', 8, 14]
+  ]),
+  e('gentios', 'Gentios', CAT.DEUS, ['nacoes', 'evangelho', 'igreja', 'graca'], [
+    ['is', 49, 6], ['at', 11, 18], ['rm', 1, 16], ['ef', 2, 11, 13], ['ef', 3, 6]
+  ]),
+  e('israel', 'Israel', CAT.DEUS, ['povo de deus', 'alianca', 'promessas', 'romanos 11'], [
+    ['dt', 7, 6, 8], ['sl', 121, 4], ['rm', 9, 4, 6], ['rm', 11, 25, 29]
+  ]),
+  e('juda', 'Judá', CAT.DEUS, ['tribo de juda', 'cetro', 'davi', 'messias'], [
+    ['gn', 49, 8, 10], ['mq', 5, 2], ['hb', 7, 14], ['ap', 5, 5]
+  ]),
+  e('doze-tribos', 'Doze Tribos', CAT.PERSONAGENS, ['israel', 'filhos de jaco', 'nova jerusalem'], [
+    ['gn', 49, 28], ['mt', 19, 28], ['tg', 1, 1], ['ap', 21, 12]
+  ]),
+  e('remanescente', 'Remanescente', CAT.DEUS, ['fieis', 'graca', 'preservacao', 'elias'], [
+    ['1rs', 19, 18], ['is', 10, 20, 22], ['rm', 11, 4, 5], ['rm', 9, 27]
+  ]),
+  e('povo-escolhido', 'Povo Escolhido', CAT.DEUS, ['nacao santa', 'igreja', 'eleicao', 'sacerdocio real'], [
+    ['dt', 7, 6], ['sl', 33, 12], ['1pe', 2, 9, 10], ['tt', 2, 14]
+  ]),
+  e('nazireu', 'Nazireu', CAT.IGREJA, ['voto', 'consagracao', 'separacao', 'sansao'], [
+    ['nm', 6, 2, 6], ['jz', 13, 5], ['am', 2, 11, 12]
+  ]),
+  e('jubileu', 'Jubileu', CAT.VIDA, ['ano aceitavel', 'libertacao', 'perdao de dividas', 'restauracao'], [
+    ['lv', 25, 10], ['is', 61, 1, 2], ['lc', 4, 18, 19]
+  ]),
+  e('paes-asmos', 'Pães Asmos', CAT.IGREJA, ['pascoa', 'sinceridade', 'verdade', 'sem fermento'], [
+    ['ex', 12, 15, 17], ['1co', 5, 7, 8], ['mc', 14, 12]
+  ]),
+  e('tabernaculos', 'Tabernáculos', CAT.IGREJA, ['festa das cabanas', 'alegria', 'provisao', 'agua viva'], [
+    ['lv', 23, 34], ['lv', 23, 42, 43], ['jo', 7, 2], ['jo', 7, 37, 38]
+  ]),
+  e('holocausto', 'Holocausto', CAT.DEUS, ['sacrificio', 'oferta', 'entrega total', 'cruz'], [
+    ['lv', 1, 3, 4], ['sl', 51, 16, 17], ['os', 6, 6], ['hb', 10, 8, 10]
+  ]),
+  e('pentateuco', 'Pentateuco', CAT.DEUS, ['lei de moises', 'tora', 'cinco livros', 'escrituras'], [
+    ['lc', 24, 44], ['jo', 5, 46, 47], ['rm', 3, 21], ['2tm', 3, 16]
+  ]),
+  e('salmos', 'Salmos', CAT.IGREJA, ['louvor', 'canticos', 'oracao', 'davi'], [
+    ['ef', 5, 19], ['cl', 3, 16], ['lc', 24, 44], ['tg', 5, 13]
+  ]),
+  e('proverbios', 'Provérbios', CAT.CARATER, ['sabedoria', 'salomao', 'instrucao', 'prudencia'], [
+    ['pv', 1, 1, 7], ['ec', 12, 9], ['1rs', 4, 32]
+  ]),
+  e('evangelhos', 'Evangelhos', CAT.DEUS, ['boas novas', 'vida de jesus', 'testemunho'], [
+    ['mc', 1, 1], ['lc', 1, 1, 4], ['jo', 20, 30, 31], ['1co', 15, 1, 4]
+  ]),
+  e('epistolas', 'Epístolas', CAT.IGREJA, ['cartas', 'ensino apostolico', 'igreja', 'escrituras'], [
+    ['cl', 4, 16], ['1ts', 5, 27], ['2pe', 3, 15, 16], ['2ts', 2, 15]
+  ]),
+  e('boas-novas', 'Boas Novas', CAT.DEUS, ['evangelho', 'salvacao', 'alegria', 'anunciar'], [
+    ['is', 52, 7], ['lc', 2, 10, 11], ['rm', 10, 15], ['is', 61, 1]
+  ]),
+  e('sa-doutrina', 'Sã Doutrina', CAT.IGREJA, ['verdade', 'ensino fiel', 'escrituras', 'igreja'], [
+    ['tt', 2, 1], ['1tm', 1, 10], ['2tm', 4, 3], ['tt', 1, 9]
+  ]),
+  e('apologetica', 'Apologética', CAT.IGREJA, ['defesa da fe', 'razao da esperanca', 'mansidao'], [
+    ['1pe', 3, 15], ['jd', 1, 3], ['fp', 1, 7], ['at', 17, 2, 3], ['cl', 4, 6]
+  ]),
+  e('cruz-diaria', 'Cruz Diária', CAT.IGREJA, ['discipulado', 'renuncia', 'seguir a cristo'], [
+    ['lc', 9, 23, 24], ['mt', 16, 24], ['gl', 2, 20], ['gl', 6, 14]
+  ]),
+  e('espiritos', 'Espíritos', CAT.IGREJA, ['discernimento', 'provar os espiritos', 'verdade'], [
+    ['1jo', 4, 1, 3], ['1co', 12, 10], ['1tm', 4, 1], ['hb', 1, 14]
+  ]),
+  e('cegueira-espiritual', 'Cegueira Espiritual', CAT.DEUS, ['incredulidade', 'luz do evangelho', 'abertura de olhos'], [
+    ['2co', 4, 4], ['jo', 9, 39], ['ap', 3, 17, 18], ['ef', 1, 18]
+  ]),
+  e('dons-ministeriais', 'Dons Ministeriais', CAT.IGREJA, ['apostolos', 'profetas', 'evangelistas', 'pastores', 'mestres'], [
+    ['ef', 4, 11, 13], ['1co', 12, 28], ['rm', 12, 6, 8]
+  ]),
+  e('guerra-espiritual', 'Guerra Espiritual', CAT.IGREJA, ['batalha', 'armadura', 'oracao', 'vitoria'], [
+    ['ef', 6, 12], ['2co', 10, 3, 5], ['1tm', 1, 18], ['2tm', 2, 3, 4]
+  ]),
+  e('vinda-do-senhor', 'Vinda do Senhor', CAT.ETERNIDADE, ['parousia', 'esperanca', 'paciencia', 'vigiar'], [
+    ['tg', 5, 7, 8], ['1ts', 5, 2], ['2pe', 3, 10, 12], ['1co', 1, 7, 8]
+  ]),
+  e('reino-dos-ceus', 'Reino dos Céus', CAT.DEUS, ['reino de deus', 'evangelho', 'parabolas', 'eterno'], [
+    ['mt', 4, 17], ['mt', 5, 3], ['mt', 13, 44, 46], ['mt', 19, 14]
+  ]),
+  e('agua-da-vida', 'Água da Vida', CAT.ETERNIDADE, ['sede', 'graca', 'salvacao', 'apocalipse'], [
+    ['ap', 21, 6], ['ap', 22, 1], ['ap', 22, 17], ['jo', 4, 14]
+  ]),
+  e('pao-vivo', 'Pão Vivo', CAT.DEUS, ['jesus', 'pao da vida', 'alimento espiritual'], [
+    ['jo', 6, 35], ['jo', 6, 48, 51], ['mt', 4, 4]
+  ]),
+  e('acomodacao', 'Acomodação', CAT.CARATER, ['zona de conforto', 'preguica', 'morno', 'zelo'], [
+    ['ap', 3, 15, 16], ['rm', 12, 11], ['pv', 6, 9, 11], ['am', 6, 1]
+  ]),
+  e('acusacao', 'Acusação', CAT.EMOCOES, ['culpa', 'acusador', 'justificacao', 'defesa'], [
+    ['rm', 8, 33, 34], ['ap', 12, 10], ['zc', 3, 1, 4], ['1tm', 5, 19]
+  ]),
+  e('adolescencia', 'Adolescência', CAT.FAMILIA, ['jovens', 'mocidade', 'identidade', 'pais'], [
+    ['1tm', 4, 12], ['ec', 11, 9, 10], ['ec', 12, 1], ['sl', 119, 9], ['pv', 1, 8, 9]
+  ]),
+  e('afeto', 'Afeto', CAT.FAMILIA, ['carinho', 'amor fraternal', 'ternura', 'familia'], [
+    ['rm', 12, 10], ['fp', 1, 8], ['cl', 3, 12], ['1ts', 2, 7, 8]
+  ]),
+  e('agonia', 'Agonia', CAT.EMOCOES, ['dor profunda', 'getsemani', 'oracao', 'socorro'], [
+    ['lc', 22, 44], ['sl', 116, 3, 6], ['sl', 18, 6], ['2co', 1, 8, 9]
+  ]),
+  e('ajuda', 'Ajuda', CAT.EMOCOES, ['socorro', 'amparo', 'proximo', 'auxilio'], [
+    ['sl', 121, 1, 2], ['is', 41, 10], ['is', 41, 13], ['hb', 13, 6], ['gl', 6, 2]
+  ]),
+  e('alivio', 'Alívio', CAT.EMOCOES, ['descanso', 'consolo', 'fardo leve', 'paz'], [
+    ['mt', 11, 28, 30], ['sl', 55, 22], ['sl', 94, 19], ['at', 3, 19]
+  ]),
+  e('altivez', 'Altivez', CAT.CARATER, ['orgulho', 'soberba', 'arrogancia', 'queda'], [
+    ['pv', 16, 18], ['pv', 29, 23], ['sl', 131, 1], ['is', 2, 11, 12]
+  ]),
+  e('altruismo', 'Altruísmo', CAT.CARATER, ['servir', 'generosidade', 'amor ao proximo', 'abnegacao'], [
+    ['fp', 2, 3, 4], ['1co', 10, 24], ['rm', 15, 1, 2], ['at', 20, 35]
+  ]),
+  e('ameaca', 'Ameaça', CAT.EMOCOES, ['medo', 'intimidacao', 'coragem', 'protecao'], [
+    ['sl', 27, 1, 3], ['at', 4, 29], ['ef', 6, 9], ['1pe', 2, 23], ['is', 54, 17]
+  ]),
+  e('apego', 'Apego', CAT.CARATER, ['bens materiais', 'idolatria', 'desapego', 'tesouro'], [
+    ['mt', 6, 19, 21], ['lc', 12, 15], ['cl', 3, 1, 2], ['1jo', 2, 15, 17]
+  ]),
+  e('apatia', 'Apatia', CAT.IGREJA, ['indiferenca', 'frieza', 'morno', 'despertar'], [
+    ['ap', 3, 15, 16], ['ef', 5, 14], ['rm', 13, 11], ['pv', 1, 32]
+  ]),
+  e('apoio', 'Apoio', CAT.FAMILIA, ['sustento', 'amizade', 'comunhao', 'ajuda mutua'], [
+    ['ec', 4, 9, 10], ['gl', 6, 2], ['1ts', 5, 14], ['sl', 18, 18]
+  ]),
+  e('aprendizado', 'Aprendizado', CAT.CARATER, ['aprender', 'ensino', 'sabedoria', 'humildade'], [
+    ['pv', 1, 5], ['pv', 9, 9], ['pv', 18, 15], ['mt', 11, 29], ['fp', 4, 9]
+  ]),
+  e('aridez', 'Aridez', CAT.EMOCOES, ['deserto', 'sede espiritual', 'sequidao', 'renovacao'], [
+    ['sl', 63, 1], ['is', 43, 19], ['is', 44, 3], ['sl', 143, 6]
+  ]),
+  e('atencao', 'Atenção', CAT.CARATER, ['vigilancia', 'ouvir', 'foco', 'prudencia'], [
+    ['hb', 2, 1], ['pv', 4, 20, 22], ['pv', 4, 25], ['lc', 8, 18]
+  ]),
+  e('atitude', 'Atitude', CAT.CARATER, ['comportamento', 'conduta', 'mente de cristo', 'acoes'], [
+    ['fp', 2, 5], ['cl', 3, 17], ['ef', 4, 22, 24], ['1pe', 1, 15]
+  ]),
+  e('autoconhecimento', 'Autoconhecimento', CAT.CARATER, ['examinar-se', 'coracao', 'humildade', 'sonda-me'], [
+    ['sl', 139, 23, 24], ['2co', 13, 5], ['lm', 3, 40], ['gl', 6, 4]
+  ]),
+  e('autossuficiencia', 'Autossuficiência', CAT.CARATER, ['orgulho', 'dependencia de deus', 'soberba'], [
+    ['jo', 15, 5], ['2co', 3, 5], ['pv', 3, 5, 7], ['ap', 3, 17]
+  ]),
+  e('bajulacao', 'Bajulação', CAT.CARATER, ['lisonja', 'falsidade', 'elogio falso', 'engano'], [
+    ['pv', 29, 5], ['pv', 26, 28], ['sl', 12, 2, 3], ['1ts', 2, 5]
+  ]),
+  e('banquete', 'Banquete', CAT.ETERNIDADE, ['festa', 'mesa', 'comunhao', 'reino de deus'], [
+    ['is', 25, 6], ['sl', 23, 5], ['lc', 14, 15, 23], ['ap', 19, 9]
+  ]),
+  e('batalha', 'Batalha', CAT.EMOCOES, ['luta', 'guerra', 'vitoria', 'forca'], [
+    ['2cr', 20, 15], ['1sm', 17, 47], ['sl', 18, 39], ['ef', 6, 10, 13]
+  ]),
+  e('beneficencia', 'Beneficência', CAT.VIDA, ['fazer o bem', 'caridade', 'generosidade', 'partilha'], [
+    ['hb', 13, 16], ['gl', 6, 10], ['at', 10, 38], ['1tm', 6, 18]
+  ]),
+  e('benevolencia', 'Benevolência', CAT.CARATER, ['bondade', 'compaixao', 'generosidade'], [
+    ['pv', 19, 17], ['pv', 22, 9], ['cl', 3, 12], ['tt', 3, 4]
+  ]),
+  e('bullying', 'Bullying', CAT.VIDA, ['zombaria', 'humilhacao', 'ofensa', 'respeito', 'protecao'], [
+    ['ef', 4, 29], ['pv', 11, 12], ['pv', 12, 18], ['mt', 7, 12], ['pv', 31, 8, 9]
+  ]),
+  e('busca', 'Busca', CAT.DEUS, ['buscar a deus', 'encontrar', 'oracao', 'prioridade'], [
+    ['jr', 29, 13], ['mt', 6, 33], ['mt', 7, 7, 8], ['sl', 105, 4], ['hb', 11, 6]
+  ]),
+  e('cadeias', 'Cadeias', CAT.DEUS, ['prisao', 'escravidao', 'libertacao', 'vicios'], [
+    ['sl', 107, 14], ['is', 61, 1], ['at', 16, 26], ['2tm', 2, 9]
+  ]),
+  e('carencia', 'Carência', CAT.EMOCOES, ['vazio', 'plenitude', 'amor de deus', 'solidao'], [
+    ['sl', 23, 1], ['cl', 2, 10], ['sl', 107, 9], ['jo', 6, 35], ['fp', 4, 19]
+  ]),
+  e('ceticismo', 'Ceticismo', CAT.DEUS, ['duvida', 'incredulidade', 'fe', 'evidencias'], [
+    ['jo', 20, 27, 29], ['hb', 11, 1], ['hb', 11, 6], ['sl', 19, 1, 2], ['rm', 1, 20]
+  ]),
+  e('chama', 'Chama', CAT.IGREJA, ['fogo', 'fervor', 'espirito santo', 'zelo'], [
+    ['2tm', 1, 6], ['rm', 12, 11], ['ct', 8, 6], ['lc', 24, 32]
+  ]),
+  e('chave', 'Chave', CAT.DEUS, ['autoridade', 'reino', 'porta aberta', 'soberania'], [
+    ['ap', 1, 18], ['ap', 3, 7, 8], ['mt', 16, 19], ['is', 22, 22]
+  ]),
+  e('cicatriz', 'Cicatriz', CAT.EMOCOES, ['feridas', 'cura', 'restauracao', 'chagas de cristo'], [
+    ['sl', 147, 3], ['is', 53, 5], ['jr', 30, 17], ['jo', 20, 27]
+  ]),
+  e('clareza', 'Clareza', CAT.CARATER, ['verdade', 'simplicidade', 'luz', 'discernimento'], [
+    ['sl', 119, 130], ['1co', 14, 8, 9], ['2co', 3, 12], ['cl', 4, 4]
+  ]),
+  e('coerencia', 'Coerência', CAT.CARATER, ['integridade', 'pratica', 'autenticidade', 'testemunho'], [
+    ['tg', 1, 22], ['1jo', 3, 18], ['mt', 7, 21], ['tt', 1, 16]
+  ]),
+  e('colera', 'Cólera', CAT.EMOCOES, ['ira', 'raiva', 'furia', 'descontrole'], [
+    ['cl', 3, 8], ['ef', 4, 31], ['pv', 29, 22], ['pv', 15, 18], ['tg', 1, 19, 20]
+  ]),
+  e('comercio', 'Comércio', CAT.VIDA, ['negocios', 'balanca justa', 'honestidade', 'trabalho'], [
+    ['pv', 11, 1], ['pv', 16, 11], ['lv', 19, 35, 36], ['pv', 31, 18], ['tg', 4, 13, 15]
+  ]),
+  e('comparacao', 'Comparação', CAT.EMOCOES, ['inveja', 'autoestima', 'identidade', 'contentamento'], [
+    ['gl', 6, 4], ['2co', 10, 12], ['jo', 21, 21, 22], ['1co', 12, 14, 18]
+  ]),
+  e('competicao', 'Competição', CAT.CARATER, ['rivalidade', 'inveja', 'ambicao', 'unidade'], [
+    ['gl', 5, 26], ['fp', 2, 3], ['ec', 4, 4], ['rm', 12, 10]
+  ]),
+  e('comportamento', 'Comportamento', CAT.CARATER, ['conduta', 'exemplo', 'santidade', 'testemunho'], [
+    ['1pe', 2, 12], ['1pe', 1, 15], ['fp', 1, 27], ['ef', 4, 1], ['pv', 20, 11]
+  ]),
+  e('compreensao', 'Compreensão', CAT.FAMILIA, ['entendimento', 'empatia', 'paciencia', 'sabedoria'], [
+    ['pv', 4, 7], ['1pe', 3, 7], ['pv', 17, 27], ['ef', 4, 2]
+  ]),
+  e('comunicacao', 'Comunicação', CAT.FAMILIA, ['dialogo', 'palavras', 'ouvir', 'edificar'], [
+    ['ef', 4, 29], ['cl', 4, 6], ['pv', 15, 1], ['tg', 1, 19], ['pv', 25, 11]
+  ]),
+  e('conforto', 'Conforto', CAT.EMOCOES, ['consolo', 'paz', 'amparo', 'esperanca'], [
+    ['2co', 1, 3, 4], ['sl', 23, 4], ['sl', 94, 19], ['is', 40, 1], ['is', 51, 12]
+  ]),
+  e('conquista', 'Conquista', CAT.CARATER, ['vitoria', 'esforco', 'proposito', 'confianca'], [
+    ['rm', 8, 37], ['js', 1, 8, 9], ['pv', 21, 31], ['sl', 60, 12]
+  ]),
+  e('conspiracao', 'Conspiração', CAT.VIDA, ['intriga', 'calunia', 'medo', 'confianca em deus'], [
+    ['is', 8, 12, 13], ['sl', 2, 1, 4], ['sl', 31, 13, 15], ['pv', 12, 20]
+  ]),
+  e('constrangimento', 'Constrangimento', CAT.EMOCOES, ['vergonha', 'honra', 'confianca'], [
+    ['rm', 10, 11], ['is', 54, 4], ['sl', 25, 3], ['1pe', 4, 16]
+  ]),
+  e('contemplacao', 'Contemplação', CAT.IGREJA, ['meditacao', 'adoracao', 'presenca', 'beleza'], [
+    ['sl', 27, 4], ['2co', 3, 18], ['sl', 8, 3, 4], ['sl', 145, 5]
+  ]),
+  e('conversa', 'Conversa', CAT.CARATER, ['palavras', 'fala', 'edificacao', 'prudencia'], [
+    ['cl', 4, 6], ['ef', 4, 29], ['ef', 5, 4], ['pv', 10, 19], ['1co', 15, 33]
+  ]),
+  e('conviccao', 'Convicção', CAT.DEUS, ['fe', 'certeza', 'consciencia', 'firmeza'], [
+    ['hb', 11, 1], ['rm', 8, 38, 39], ['rm', 14, 5], ['2tm', 1, 12]
+  ]),
+  e('convivio', 'Convívio', CAT.FAMILIA, ['comunhao', 'relacionamento', 'harmonia', 'amizade'], [
+    ['sl', 133, 1], ['rm', 12, 16, 18], ['ef', 4, 2, 3], ['hb', 10, 24, 25]
+  ]),
+  e('cooperacao', 'Cooperação', CAT.IGREJA, ['trabalho em equipe', 'unidade', 'corpo de cristo'], [
+    ['1co', 3, 9], ['ec', 4, 9], ['ef', 4, 16], ['fp', 1, 27]
+  ]),
+  e('coracao-quebrantado', 'Coração Quebrantado', CAT.EMOCOES, ['contricao', 'humildade', 'dor', 'arrependimento'], [
+    ['sl', 34, 18], ['sl', 51, 17], ['sl', 147, 3], ['is', 57, 15], ['is', 61, 1]
+  ]),
+  e('cortesia', 'Cortesia', CAT.CARATER, ['gentileza', 'educacao', 'respeito', 'amabilidade'], [
+    ['1pe', 3, 8], ['cl', 4, 6], ['tt', 3, 2], ['pv', 15, 1]
+  ]),
+  e('crescimento', 'Crescimento', CAT.IGREJA, ['maturidade', 'santificacao', 'graca', 'conhecimento'], [
+    ['2pe', 3, 18], ['ef', 4, 15], ['1pe', 2, 2], ['cl', 1, 10], ['1co', 3, 6, 7]
+  ]),
+  e('crime', 'Crime', CAT.VIDA, ['injustica', 'violencia', 'lei', 'justica'], [
+    ['rm', 13, 3, 4], ['ex', 20, 13, 15], ['1pe', 4, 15], ['pv', 21, 15]
+  ]),
+  e('crueldade', 'Crueldade', CAT.VIDA, ['violencia', 'maldade', 'compaixao', 'justica'], [
+    ['pv', 11, 17], ['pv', 12, 10], ['sl', 71, 4], ['am', 1, 3]
+  ]),
+  e('cultura', 'Cultura', CAT.VIDA, ['sociedade', 'sal e luz', 'discernimento', 'mundo'], [
+    ['rm', 12, 2], ['at', 17, 22, 28], ['1co', 9, 22], ['mt', 5, 13, 16]
+  ]),
+  e('dedicacao', 'Dedicação', CAT.CARATER, ['esforco', 'zelo', 'consagracao', 'excelencia'], [
+    ['cl', 3, 23], ['rm', 12, 11], ['ec', 9, 10], ['1co', 15, 58]
+  ]),
+  e('defesa', 'Defesa', CAT.EMOCOES, ['protecao', 'escudo', 'refugio', 'justica'], [
+    ['sl', 18, 2], ['sl', 59, 9], ['sl', 62, 2], ['is', 54, 17], ['pv', 31, 8, 9]
+  ]),
+  e('deleite', 'Deleite', CAT.EMOCOES, ['alegria em deus', 'prazer', 'palavra', 'salmo 37'], [
+    ['sl', 37, 4], ['sl', 1, 2], ['sl', 16, 11], ['is', 58, 14]
+  ]),
+  e('demora', 'Demora', CAT.EMOCOES, ['espera', 'paciencia', 'tempo de deus', 'promessa'], [
+    ['hc', 2, 3], ['2pe', 3, 9], ['sl', 40, 1], ['ec', 3, 11], ['is', 40, 31]
+  ]),
+  e('dependencia', 'Dependência', CAT.DEUS, ['confianca', 'humildade', 'videira', 'graca'], [
+    ['jo', 15, 5], ['pv', 3, 5, 6], ['2co', 12, 9], ['sl', 127, 1]
+  ]),
+  e('derrota', 'Derrota', CAT.EMOCOES, ['queda', 'levantar', 'recomeco', 'vitoria'], [
+    ['pv', 24, 16], ['mq', 7, 8], ['sl', 37, 24], ['2co', 4, 8, 9]
+  ]),
+  e('desafio', 'Desafio', CAT.EMOCOES, ['dificuldade', 'coragem', 'fe', 'superacao'], [
+    ['js', 1, 9], ['fp', 4, 13], ['is', 43, 2], ['rm', 8, 37]
+  ]),
+  e('desalento', 'Desalento', CAT.EMOCOES, ['desanimo', 'tristeza', 'cansaco', 'forca'], [
+    ['sl', 42, 5], ['is', 40, 29, 31], ['hb', 12, 3], ['gl', 6, 9]
+  ]),
+  e('desamparo', 'Desamparo', CAT.EMOCOES, ['abandono', 'solidao', 'orfao', 'socorro'], [
+    ['sl', 10, 14], ['sl', 27, 10], ['jo', 14, 18], ['hb', 13, 5, 6]
+  ]),
+  e('desapego', 'Desapego', CAT.CARATER, ['generosidade', 'riqueza', 'tesouro no ceu'], [
+    ['lc', 12, 33, 34], ['1tm', 6, 7, 8], ['mt', 6, 19, 21], ['fp', 3, 7, 8]
+  ]),
+  e('desconfianca', 'Desconfiança', CAT.EMOCOES, ['duvida', 'medo', 'prudencia', 'confianca'], [
+    ['sl', 118, 8], ['pv', 3, 5], ['jr', 17, 5, 7], ['1co', 13, 7]
+  ]),
+  e('descontrole', 'Descontrole', CAT.CARATER, ['ira', 'dominio proprio', 'impulsividade'], [
+    ['pv', 25, 28], ['pv', 16, 32], ['gl', 5, 22, 23], ['2tm', 1, 7]
+  ]),
+  e('desejo', 'Desejo', CAT.CARATER, ['coracao', 'vontade', 'tentacao', 'salmo 37'], [
+    ['sl', 37, 4], ['tg', 1, 14, 15], ['gl', 5, 16], ['1jo', 2, 16, 17]
+  ]),
+  e('desesperanca', 'Desesperança', CAT.EMOCOES, ['desespero', 'esperanca', 'consolo', 'futuro'], [
+    ['lm', 3, 21, 24], ['rm', 15, 13], ['sl', 42, 11], ['2co', 4, 8, 9]
+  ]),
+  e('desigualdade', 'Desigualdade', CAT.VIDA, ['justica', 'pobres', 'generosidade', 'equidade'], [
+    ['2co', 8, 13, 15], ['pv', 22, 2], ['tg', 2, 1, 5], ['dt', 15, 7, 11]
+  ]),
+  e('desilusao', 'Desilusão', CAT.EMOCOES, ['decepcao', 'esperanca', 'confianca em deus'], [
+    ['rm', 5, 5], ['sl', 118, 8, 9], ['sl', 62, 5, 6], ['is', 49, 23]
+  ]),
+  e('desistencia', 'Desistência', CAT.EMOCOES, ['desanimo', 'perseveranca', 'constancia', 'firmeza'], [
+    ['gl', 6, 9], ['hb', 10, 35, 36], ['hb', 12, 1, 3], ['lc', 9, 62]
+  ]),
+  e('deslealdade', 'Deslealdade', CAT.FAMILIA, ['traicao', 'infidelidade', 'lealdade'], [
+    ['ml', 2, 14, 16], ['pv', 11, 3], ['pv', 25, 19], ['sl', 55, 12, 14]
+  ]),
+  e('desonestidade', 'Desonestidade', CAT.CARATER, ['fraude', 'mentira', 'suborno', 'integridade'], [
+    ['pv', 11, 1], ['pv', 20, 23], ['ef', 4, 28], ['lc', 16, 10]
+  ]),
+  e('desonra', 'Desonra', CAT.CARATER, ['vergonha', 'honra', 'respeito'], [
+    ['pv', 18, 3], ['pv', 6, 33], ['rm', 2, 23], ['1co', 11, 14]
+  ]),
+  e('desordem', 'Desordem', CAT.IGREJA, ['confusao', 'ordem', 'paz', 'culto'], [
+    ['1co', 14, 33], ['1co', 14, 40], ['tg', 3, 16], ['2ts', 3, 6]
+  ]),
+  e('desperdicio', 'Desperdício', CAT.CARATER, ['mordomia', 'economia', 'prudencia', 'provisao'], [
+    ['pv', 21, 20], ['pv', 18, 9], ['jo', 6, 12], ['lc', 15, 13]
+  ]),
+  e('desprezo', 'Desprezo', CAT.EMOCOES, ['rejeicao', 'humilhacao', 'valor', 'respeito'], [
+    ['pv', 11, 12], ['pv', 14, 21], ['sl', 51, 17], ['1co', 1, 28], ['rm', 14, 10]
+  ]),
+  e('destemor', 'Destemor', CAT.EMOCOES, ['coragem', 'ousadia', 'confianca', 'medo'], [
+    ['sl', 27, 1], ['sl', 46, 1, 2], ['sl', 118, 6], ['pv', 28, 1]
+  ]),
+  e('destino', 'Destino', CAT.ETERNIDADE, ['eternidade', 'soberania', 'caminho', 'proposito'], [
+    ['sl', 31, 15], ['jr', 29, 11], ['mt', 7, 13, 14], ['pv', 16, 9]
+  ]),
+  e('desuniao', 'Desunião', CAT.IGREJA, ['divisao', 'contenda', 'unidade', 'igreja'], [
+    ['mc', 3, 24, 25], ['1co', 1, 10], ['ef', 4, 3], ['rm', 16, 17]
+  ]),
+  e('determinacao', 'Determinação', CAT.CARATER, ['firmeza', 'proposito', 'perseveranca', 'foco'], [
+    ['fp', 3, 13, 14], ['dn', 1, 8], ['1co', 15, 58], ['pv', 4, 25, 27]
+  ]),
+  e('dever', 'Dever', CAT.CARATER, ['obrigacao', 'responsabilidade', 'obediencia', 'eclesiastes'], [
+    ['ec', 12, 13], ['lc', 17, 10], ['rm', 13, 7], ['mq', 6, 8]
+  ]),
+  e('devocao', 'Devoção', CAT.IGREJA, ['consagracao', 'adoracao', 'amor a deus', 'fidelidade'], [
+    ['2co', 11, 3], ['1co', 7, 35], ['at', 2, 42], ['sl', 63, 1, 3]
+  ]),
+  e('dialogo', 'Diálogo', CAT.FAMILIA, ['conversa', 'ouvir', 'mansidao', 'reconciliacao'], [
+    ['pv', 15, 1], ['tg', 1, 19], ['pv', 18, 13], ['ef', 4, 15], ['cl', 4, 6]
+  ]),
+  e('dificuldade', 'Dificuldade', CAT.EMOCOES, ['luta', 'prova', 'tribulacao', 'socorro'], [
+    ['jo', 16, 33], ['sl', 46, 1], ['rm', 5, 3, 5], ['tg', 1, 2, 4]
+  ]),
+  e('discordia', 'Discórdia', CAT.CARATER, ['contenda', 'brigas', 'divisao', 'paz'], [
+    ['pv', 6, 16, 19], ['pv', 16, 28], ['pv', 17, 14], ['1co', 3, 3]
+  ]),
+  e('discricao', 'Discrição', CAT.CARATER, ['prudencia', 'sabedoria', 'segredos', 'sensatez'], [
+    ['pv', 11, 22], ['pv', 2, 11], ['pv', 11, 13], ['pv', 17, 27]
+  ]),
+  e('discriminacao', 'Discriminação', CAT.VIDA, ['preconceito', 'racismo', 'favoritismo', 'igualdade'], [
+    ['tg', 2, 1, 4], ['tg', 2, 9], ['gl', 3, 28], ['at', 10, 34, 35]
+  ]),
+  e('disputa', 'Disputa', CAT.CARATER, ['contenda', 'discussao', 'brigas', 'mansidao'], [
+    ['2tm', 2, 23, 24], ['fp', 2, 14], ['tt', 3, 9], ['pv', 20, 3]
+  ]),
+  e('distracao', 'Distração', CAT.IGREJA, ['foco', 'atencao', 'prioridade', 'marta'], [
+    ['lc', 10, 40, 42], ['hb', 12, 1, 2], ['1co', 7, 35], ['pv', 4, 25]
+  ]),
+  e('docilidade', 'Docilidade', CAT.CARATER, ['mansidao', 'humildade', 'ensino', 'brandura'], [
+    ['tg', 3, 17], ['tt', 3, 2], ['pv', 15, 1], ['mt', 11, 29]
+  ]),
+  e('docura', 'Doçura', CAT.CARATER, ['palavras doces', 'amabilidade', 'bondade', 'palavra'], [
+    ['pv', 16, 24], ['sl', 119, 103], ['pv', 16, 21], ['cl', 4, 6]
+  ]),
+  e('dureza', 'Dureza', CAT.DEUS, ['coracao duro', 'rebeldia', 'arrependimento', 'incredulidade'], [
+    ['hb', 3, 7, 8], ['hb', 3, 15], ['ez', 36, 26], ['pv', 28, 14], ['rm', 2, 5]
+  ]),
+  e('elogio', 'Elogio', CAT.CARATER, ['encorajamento', 'honra', 'vaidade', 'reconhecimento'], [
+    ['pv', 27, 2], ['pv', 27, 21], ['pv', 31, 30, 31], ['1co', 4, 5]
+  ]),
+  e('entusiasmo', 'Entusiasmo', CAT.IGREJA, ['fervor', 'zelo', 'alegria', 'servico'], [
+    ['rm', 12, 11], ['cl', 3, 23], ['sl', 100, 2], ['ne', 8, 10]
+  ]),
+  e('equidade', 'Equidade', CAT.VIDA, ['justica', 'imparcialidade', 'retidao'], [
+    ['sl', 98, 9], ['pv', 1, 3], ['pv', 2, 9], ['cl', 4, 1], ['mq', 6, 8]
+  ]),
+  e('erro', 'Erro', CAT.CARATER, ['pecado', 'falha', 'correcao', 'perdao'], [
+    ['sl', 19, 12], ['pv', 28, 13], ['tg', 5, 19, 20], ['1jo', 1, 9]
+  ]),
+  e('escolha', 'Escolha', CAT.CARATER, ['decisao', 'livre arbitrio', 'caminho', 'vida'], [
+    ['dt', 30, 19], ['js', 24, 15], ['pv', 3, 5, 6], ['mt', 7, 13, 14]
+  ]),
+  e('estabilidade', 'Estabilidade', CAT.EMOCOES, ['firmeza', 'rocha', 'constancia', 'paz'], [
+    ['is', 33, 6], ['sl', 112, 6, 7], ['mt', 7, 24, 25], ['sl', 125, 1]
+  ]),
+  e('exaltacao', 'Exaltação', CAT.DEUS, ['louvor', 'humildade', 'gloria', 'adoracao'], [
+    ['sl', 34, 3], ['sl', 99, 5], ['tg', 4, 10], ['1pe', 5, 6], ['fp', 2, 9]
+  ]),
+  e('excesso', 'Excesso', CAT.CARATER, ['moderacao', 'gula', 'embriaguez', 'dominio proprio'], [
+    ['pv', 25, 16], ['pv', 23, 20, 21], ['1co', 6, 12], ['ef', 5, 18], ['fp', 4, 5]
+  ]),
+  e('exilio', 'Exílio', CAT.PERSONAGENS, ['babilonia', 'estrangeiros', 'esperanca', 'peregrinos'], [
+    ['jr', 29, 7], ['jr', 29, 11], ['1pe', 2, 11], ['hb', 11, 13]
+  ]),
+  e('extorsao', 'Extorsão', CAT.VIDA, ['corrupcao', 'injustica', 'ganancia', 'honestidade'], [
+    ['lc', 3, 14], ['1co', 6, 10], ['ez', 22, 12], ['ec', 7, 7]
+  ]),
+  e('fadiga', 'Fadiga', CAT.EMOCOES, ['cansaco', 'exausto', 'descanso', 'forca'], [
+    ['is', 40, 29, 31], ['mt', 11, 28], ['sl', 68, 9], ['gl', 6, 9]
+  ]),
+  e('favor', 'Favor', CAT.DEUS, ['graca', 'bencao', 'misericordia', 'aprovacao'], [
+    ['sl', 5, 12], ['sl', 30, 5], ['pv', 3, 3, 4], ['lc', 2, 52], ['sl', 90, 17]
+  ]),
+  e('festa', 'Festa', CAT.FAMILIA, ['celebracao', 'alegria', 'comunhao', 'gratidao'], [
+    ['ne', 8, 10], ['ec', 3, 4], ['lc', 15, 23, 24], ['jo', 2, 1, 11]
+  ]),
+  e('fingimento', 'Fingimento', CAT.CARATER, ['hipocrisia', 'sinceridade', 'amor sem fingimento'], [
+    ['rm', 12, 9], ['2co', 6, 6], ['1tm', 1, 5], ['1pe', 2, 1]
+  ]),
+  e('fogo', 'Fogo', CAT.DEUS, ['espirito santo', 'purificacao', 'presenca', 'zelo'], [
+    ['hb', 12, 29], ['mt', 3, 11], ['at', 2, 3], ['1pe', 1, 7], ['ml', 3, 2, 3]
+  ]),
+  e('fonte', 'Fonte', CAT.DEUS, ['agua viva', 'vida', 'sabedoria', 'coracao'], [
+    ['sl', 36, 9], ['jr', 2, 13], ['jo', 4, 14], ['pv', 4, 23], ['pv', 14, 27]
+  ]),
+  e('fraternidade', 'Fraternidade', CAT.FAMILIA, ['irmaos', 'amor fraternal', 'unidade', 'igreja'], [
+    ['hb', 13, 1], ['1pe', 2, 17], ['1pe', 3, 8], ['rm', 12, 10], ['sl', 133, 1]
+  ]),
+  e('fraude', 'Fraude', CAT.VIDA, ['engano', 'corrupcao', 'desonestidade', 'justica'], [
+    ['lv', 19, 13], ['pv', 11, 1], ['pv', 20, 17], ['1ts', 4, 6], ['tg', 5, 4]
+  ]),
+  e('frustracao', 'Frustração', CAT.EMOCOES, ['decepcao', 'planos', 'esperanca', 'confianca'], [
+    ['pv', 13, 12], ['pv', 19, 21], ['rm', 8, 28], ['sl', 37, 5], ['is', 40, 31]
+  ]),
+  e('fruto', 'Fruto', CAT.IGREJA, ['frutificar', 'boas obras', 'permanecer', 'carater'], [
+    ['jo', 15, 5], ['jo', 15, 8], ['mt', 7, 16, 20], ['gl', 5, 22, 23], ['sl', 1, 3]
+  ]),
+  e('fuga', 'Fuga', CAT.CARATER, ['fugir do pecado', 'tentacao', 'refugio', 'pureza'], [
+    ['1co', 6, 18], ['1co', 10, 14], ['1tm', 6, 11], ['2tm', 2, 22]
+  ]),
+  e('geracao', 'Geração', CAT.FAMILIA, ['filhos', 'legado', 'fidelidade', 'familia'], [
+    ['sl', 78, 4], ['sl', 145, 4], ['sl', 100, 5], ['dt', 6, 6, 7], ['1pe', 2, 9]
+  ]),
+  e('gloria', 'Glória', CAT.DEUS, ['majestade', 'honra', 'louvor', 'eternidade'], [
+    ['sl', 19, 1], ['rm', 11, 36], ['2co', 4, 17], ['jo', 1, 14], ['ap', 5, 13]
+  ]),
+  e('grandeza', 'Grandeza', CAT.DEUS, ['humildade', 'servir', 'majestade de deus'], [
+    ['sl', 145, 3], ['mc', 10, 43, 45], ['mt', 18, 4], ['1cr', 29, 11]
+  ]),
+  e('guarda', 'Guarda', CAT.EMOCOES, ['protecao', 'cuidado', 'salmo 121', 'livramento'], [
+    ['sl', 121, 5, 8], ['sl', 91, 11], ['2ts', 3, 3], ['fp', 4, 7]
+  ]),
+  e('guia', 'Guia', CAT.DEUS, ['direcao', 'espirito santo', 'pastor', 'caminho'], [
+    ['sl', 23, 3], ['sl', 32, 8], ['sl', 48, 14], ['jo', 16, 13], ['pv', 3, 5, 6]
+  ]),
+  e('habilidade', 'Habilidade', CAT.CARATER, ['talentos', 'trabalho', 'excelencia', 'sabedoria'], [
+    ['ex', 31, 3], ['pv', 22, 29], ['ec', 9, 10], ['1pe', 4, 10]
+  ]),
+  e('ignorancia', 'Ignorância', CAT.CARATER, ['conhecimento', 'insensatez', 'sabedoria', 'arrependimento'], [
+    ['os', 4, 6], ['at', 17, 30], ['ef', 4, 18], ['1pe', 1, 14], ['pv', 19, 2]
+  ]),
+  e('ilusao', 'Ilusão', CAT.CARATER, ['engano', 'vaidade', 'verdade', 'riqueza'], [
+    ['mt', 13, 22], ['pv', 31, 30], ['gl', 6, 3], ['tg', 1, 22], ['jr', 17, 9]
+  ]),
+  e('imaturidade', 'Imaturidade', CAT.IGREJA, ['maturidade', 'crescimento', 'discernimento', 'fe'], [
+    ['1co', 13, 11], ['1co', 14, 20], ['ef', 4, 14], ['hb', 5, 12, 14]
+  ]),
+  e('imprudencia', 'Imprudência', CAT.CARATER, ['insensatez', 'prudencia', 'precipitacao', 'sabedoria'], [
+    ['pv', 14, 16], ['pv', 19, 2], ['pv', 22, 3], ['ef', 5, 15, 17]
+  ]),
+  e('impulsividade', 'Impulsividade', CAT.CARATER, ['pressa', 'dominio proprio', 'prudencia', 'calma'], [
+    ['pv', 14, 29], ['pv', 19, 2], ['pv', 29, 20], ['tg', 1, 19]
+  ]),
+  e('inconstancia', 'Inconstância', CAT.CARATER, ['duvida', 'firmeza', 'constancia', 'animo dobre'], [
+    ['tg', 1, 6, 8], ['ef', 4, 14], ['1co', 15, 58], ['hb', 10, 23]
+  ]),
+  e('indecisao', 'Indecisão', CAT.EMOCOES, ['decisoes', 'sabedoria', 'duvida', 'firmeza'], [
+    ['1rs', 18, 21], ['tg', 1, 5, 8], ['pv', 3, 5, 6], ['js', 24, 15]
+  ]),
+  e('indiferenca', 'Indiferença', CAT.VIDA, ['apatia', 'compaixao', 'proximo', 'morno'], [
+    ['pv', 21, 13], ['pv', 24, 11, 12], ['1jo', 3, 17], ['ap', 3, 15, 16]
+  ]),
+  e('indignacao', 'Indignação', CAT.EMOCOES, ['ira justa', 'justica', 'injustica', 'zelo'], [
+    ['ef', 4, 26], ['mc', 3, 5], ['jo', 2, 15, 17], ['sl', 97, 10]
+  ]),
+  e('infancia', 'Infância', CAT.FAMILIA, ['criancas', 'ensino', 'pureza', 'timoteo'], [
+    ['2tm', 3, 15], ['pv', 22, 6], ['mt', 18, 3, 5], ['mc', 10, 14, 16]
+  ]),
+  e('insensatez', 'Insensatez', CAT.CARATER, ['tolice', 'loucura', 'sabedoria', 'prudencia'], [
+    ['pv', 1, 7], ['pv', 12, 15], ['pv', 14, 1], ['ef', 5, 17], ['sl', 14, 1]
+  ]),
+  e('insulto', 'Insulto', CAT.CARATER, ['ofensa', 'xingamento', 'mansidao', 'perdao'], [
+    ['1pe', 3, 9], ['1pe', 2, 23], ['mt', 5, 11], ['mt', 5, 22], ['pv', 12, 16]
+  ]),
+  e('inteligencia', 'Inteligência', CAT.CARATER, ['sabedoria', 'entendimento', 'conhecimento', 'mente'], [
+    ['pv', 2, 6], ['pv', 9, 10], ['pv', 16, 16], ['2tm', 2, 7], ['cl', 1, 9]
+  ]),
+  e('intencao', 'Intenção', CAT.CARATER, ['motivacao', 'coracao', 'pureza', 'sinceridade'], [
+    ['hb', 4, 12], ['pv', 16, 2], ['1co', 4, 5], ['mt', 6, 1], ['1cr', 28, 9]
+  ]),
+  e('intrepidez', 'Intrepidez', CAT.IGREJA, ['ousadia', 'coragem', 'evangelismo', 'confianca'], [
+    ['at', 4, 13], ['at', 4, 29, 31], ['at', 28, 31], ['pv', 28, 1]
+  ]),
+  e('intriga', 'Intriga', CAT.CARATER, ['fofoca', 'contenda', 'mexerico', 'divisao'], [
+    ['pv', 16, 28], ['pv', 26, 20], ['pv', 6, 19], ['rm', 1, 29]
+  ]),
+  e('invocacao', 'Invocação', CAT.DEUS, ['clamar', 'chamar o nome', 'salvacao', 'oracao'], [
+    ['rm', 10, 13], ['jr', 33, 3], ['sl', 145, 18], ['sl', 50, 15], ['jl', 2, 32]
+  ]),
+  e('jactancia', 'Jactância', CAT.CARATER, ['orgulho', 'gabar-se', 'humildade', 'gloria'], [
+    ['jr', 9, 23, 24], ['1co', 1, 31], ['gl', 6, 14], ['tg', 4, 16], ['pv', 27, 2]
+  ]),
+  e('jardim', 'Jardim', CAT.DEUS, ['eden', 'getsemani', 'fruto', 'cuidado'], [
+    ['gn', 2, 8], ['is', 58, 11], ['jr', 31, 12], ['jo', 19, 41]
+  ]),
+  e('jornada', 'Jornada', CAT.DEUS, ['caminhada', 'peregrinacao', 'direcao', 'perseveranca'], [
+    ['sl', 84, 5, 7], ['sl', 119, 105], ['pv', 4, 18], ['hb', 12, 1, 2]
+  ]),
+  e('lamento', 'Lamento', CAT.EMOCOES, ['choro', 'tristeza', 'oracao', 'esperanca'], [
+    ['sl', 13, 1, 5], ['sl', 30, 11], ['lm', 3, 21, 24], ['sl', 62, 8]
+  ]),
+  e('lembranca', 'Lembrança', CAT.DEUS, ['memoria', 'gratidao', 'fidelidade', 'ceia'], [
+    ['sl', 103, 2], ['sl', 77, 11], ['lc', 22, 19], ['lm', 3, 21]
+  ]),
+  e('limites', 'Limites', CAT.CARATER, ['dominio proprio', 'prudencia', 'equilibrio', 'sabedoria'], [
+    ['pv', 25, 28], ['sl', 16, 6], ['pv', 22, 28], ['1co', 6, 12]
+  ]),
+  e('loucura', 'Loucura', CAT.DEUS, ['insensatez', 'cruz', 'sabedoria de deus'], [
+    ['1co', 1, 18], ['1co', 1, 25], ['1co', 3, 19], ['sl', 14, 1], ['pv', 12, 15]
+  ]),
+  e('luta', 'Luta', CAT.EMOCOES, ['batalha', 'perseveranca', 'adversidade', 'vitoria'], [
+    ['ef', 6, 12], ['2tm', 4, 7], ['hb', 12, 4], ['rm', 8, 37]
+  ]),
+  e('majestade', 'Majestade', CAT.DEUS, ['gloria', 'soberania', 'grandeza', 'adoracao'], [
+    ['sl', 93, 1], ['sl', 104, 1], ['sl', 145, 5], ['1cr', 29, 11], ['jd', 1, 25]
+  ]),
+  e('maldade', 'Maldade', CAT.CARATER, ['mal', 'iniquidade', 'pecado', 'justica'], [
+    ['sl', 34, 14], ['pv', 8, 13], ['rm', 12, 9], ['1co', 14, 20], ['1pe', 2, 1]
+  ]),
+  e('malicia', 'Malícia', CAT.CARATER, ['maldade', 'pureza', 'engano', 'coracao'], [
+    ['1pe', 2, 1], ['ef', 4, 31], ['cl', 3, 8], ['1co', 5, 8], ['1co', 14, 20]
+  ]),
+  e('maturidade', 'Maturidade', CAT.IGREJA, ['crescimento', 'sabedoria', 'perfeicao', 'fe'], [
+    ['ef', 4, 13, 15], ['hb', 5, 14], ['tg', 1, 4], ['1co', 14, 20], ['cl', 1, 28]
+  ]),
+  e('medo-da-morte', 'Medo da Morte', CAT.EMOCOES, ['morte', 'libertacao', 'esperanca', 'ressurreicao'], [
+    ['hb', 2, 14, 15], ['sl', 23, 4], ['1co', 15, 54, 57], ['fp', 1, 21], ['2tm', 1, 10]
+  ]),
+  e('memoria', 'Memória', CAT.CARATER, ['lembranca', 'gratidao', 'legado', 'justo'], [
+    ['pv', 10, 7], ['sl', 112, 6], ['sl', 103, 2], ['dt', 8, 2]
+  ]),
+  e('merito', 'Mérito', CAT.DEUS, ['graca', 'obras', 'salvacao', 'humildade'], [
+    ['ef', 2, 8, 9], ['tt', 3, 5], ['rm', 3, 23, 24], ['rm', 11, 6]
+  ]),
+  e('missao', 'Missão', CAT.IGREJA, ['proposito', 'grande comissao', 'chamado', 'evangelho'], [
+    ['mt', 28, 19, 20], ['jo', 20, 21], ['at', 1, 8], ['at', 20, 24]
+  ]),
+  e('misterio', 'Mistério', CAT.DEUS, ['revelacao', 'evangelho', 'cristo em vos', 'sabedoria'], [
+    ['cl', 1, 26, 27], ['ef', 3, 3, 6], ['1tm', 3, 16], ['dt', 29, 29]
+  ]),
+  e('morada', 'Morada', CAT.ETERNIDADE, ['ceu', 'casa do pai', 'habitacao', 'espirito santo'], [
+    ['jo', 14, 2, 3], ['jo', 14, 23], ['sl', 84, 1, 2], ['2co', 5, 1], ['ap', 21, 3]
+  ]),
+  e('mudanca', 'Mudança', CAT.CARATER, ['transformacao', 'arrependimento', 'renovacao'], [
+    ['rm', 12, 2], ['2co', 5, 17], ['2co', 3, 18], ['ef', 4, 22, 24]
+  ]),
+  e('mundo', 'Mundo', CAT.DEUS, ['amor de deus', 'mundanismo', 'vitoria', 'criacao'], [
+    ['jo', 3, 16], ['1jo', 2, 15, 17], ['jo', 16, 33], ['jo', 17, 15, 16], ['sl', 24, 1]
+  ]),
+  e('nascimento', 'Nascimento', CAT.VIDA, ['bebe', 'maternidade', 'filhos', 'novo nascimento'], [
+    ['sl', 139, 13, 16], ['sl', 127, 3], ['jo', 16, 21], ['jo', 3, 3]
+  ]),
+  e('negligencia', 'Negligência', CAT.CARATER, ['descuido', 'preguica', 'diligencia', 'responsabilidade'], [
+    ['jr', 48, 10], ['pv', 18, 9], ['pv', 24, 30, 34], ['hb', 2, 3], ['1tm', 4, 14]
+  ]),
+  e('noite', 'Noite', CAT.EMOCOES, ['insonia', 'escuridao', 'protecao', 'amanhecer'], [
+    ['sl', 30, 5], ['sl', 4, 8], ['sl', 121, 6], ['sl', 139, 11, 12], ['ap', 22, 5]
+  ]),
+  e('obstaculo', 'Obstáculo', CAT.EMOCOES, ['dificuldade', 'tropeco', 'fe', 'superacao'], [
+    ['sl', 18, 29], ['is', 45, 2], ['mc', 11, 23], ['hb', 12, 1]
+  ]),
+  e('ordem', 'Ordem', CAT.IGREJA, ['decencia', 'organizacao', 'culto', 'paz'], [
+    ['1co', 14, 33], ['1co', 14, 40], ['cl', 2, 5], ['tt', 1, 5]
+  ]),
+  e('orientacao', 'Orientação', CAT.CARATER, ['direcao', 'conselho', 'sabedoria', 'caminho'], [
+    ['sl', 32, 8], ['pv', 3, 5, 6], ['is', 30, 21], ['sl', 119, 105], ['pv', 11, 14]
+  ]),
+  e('orvalho', 'Orvalho', CAT.DEUS, ['bencao', 'frescor', 'unidade', 'renovacao'], [
+    ['sl', 133, 3], ['os', 14, 5], ['dt', 32, 2], ['pv', 19, 12]
+  ]),
+  e('ostentacao', 'Ostentação', CAT.CARATER, ['vaidade', 'soberba', 'riqueza', 'humildade'], [
+    ['1jo', 2, 16], ['mt', 6, 1, 4], ['1tm', 6, 17], ['pv', 13, 7]
+  ]),
+  e('ouro', 'Ouro', CAT.CARATER, ['prova da fe', 'riqueza', 'sabedoria', 'pureza'], [
+    ['1pe', 1, 7], ['pv', 16, 16], ['sl', 19, 10], ['jo_at', 23, 10], ['ap', 3, 18]
+  ]),
+  e('pacto', 'Pacto', CAT.DEUS, ['alianca', 'promessa', 'fidelidade', 'nova alianca'], [
+    ['jr', 31, 31, 33], ['hb', 8, 6], ['dt', 7, 9], ['gn', 9, 13]
+  ]),
+  e('perfeicao', 'Perfeição', CAT.DEUS, ['maturidade', 'santidade', 'amor', 'deus perfeito'], [
+    ['mt', 5, 48], ['cl', 3, 14], ['2tm', 3, 17], ['sl', 18, 30], ['fp', 3, 12]
+  ]),
+  e('persistencia', 'Persistência', CAT.CARATER, ['perseveranca', 'oracao', 'constancia', 'firmeza'], [
+    ['lc', 18, 1], ['gl', 6, 9], ['rm', 12, 12], ['cl', 4, 2]
+  ]),
+  e('pesar', 'Pesar', CAT.EMOCOES, ['tristeza', 'luto', 'arrependimento', 'consolo'], [
+    ['2co', 7, 10], ['sl', 31, 9, 10], ['sl', 34, 18], ['is', 53, 4]
+  ]),
+  e('peticao', 'Petição', CAT.IGREJA, ['oracao', 'pedido', 'suplica', 'confianca'], [
+    ['fp', 4, 6], ['1jo', 5, 14, 15], ['mt', 7, 7, 8], ['ef', 6, 18]
+  ]),
+  e('plenitude', 'Plenitude', CAT.DEUS, ['abundancia', 'cristo', 'alegria', 'espirito santo'], [
+    ['cl', 2, 9, 10], ['ef', 3, 19], ['jo', 1, 16], ['sl', 16, 11]
+  ]),
+  e('poder', 'Poder', CAT.DEUS, ['forca', 'espirito santo', 'evangelho', 'autoridade'], [
+    ['at', 1, 8], ['rm', 1, 16], ['2tm', 1, 7], ['ef', 3, 20], ['2co', 12, 9]
+  ]),
+  e('porta-estreita', 'Porta Estreita', CAT.DEUS, ['caminho estreito', 'salvacao', 'discipulado'], [
+    ['mt', 7, 13, 14], ['lc', 13, 24], ['jo', 10, 9], ['jo', 14, 6]
+  ]),
+  e('pranto', 'Pranto', CAT.EMOCOES, ['choro', 'luto', 'alegria', 'consolo'], [
+    ['sl', 30, 5], ['sl', 30, 11], ['is', 61, 3], ['ap', 21, 4], ['mt', 5, 4]
+  ]),
+  e('prazer', 'Prazer', CAT.CARATER, ['alegria', 'deleite', 'hedonismo', 'equilibrio'], [
+    ['sl', 16, 11], ['sl', 37, 4], ['2tm', 3, 4], ['pv', 21, 17], ['hb', 11, 25]
+  ]),
+  e('precipitacao', 'Precipitação', CAT.CARATER, ['pressa', 'impulsividade', 'paciencia', 'prudencia'], [
+    ['pv', 19, 2], ['pv', 21, 5], ['pv', 29, 20], ['ec', 5, 2]
+  ]),
+  e('presente', 'Presente', CAT.CARATER, ['hoje', 'agora', 'tempo', 'ansiedade'], [
+    ['sl', 118, 24], ['mt', 6, 34], ['2co', 6, 2], ['hb', 3, 13]
+  ]),
+  e('pressa', 'Pressa', CAT.CARATER, ['precipitacao', 'paciencia', 'calma', 'espera'], [
+    ['pv', 19, 2], ['pv', 21, 5], ['is', 28, 16], ['is', 52, 12]
+  ]),
+  e('prioridades', 'Prioridades', CAT.CARATER, ['reino de deus', 'escolhas', 'tesouro', 'foco'], [
+    ['mt', 6, 33], ['mt', 6, 21], ['lc', 10, 41, 42], ['cl', 3, 1, 2]
+  ]),
+  e('profissao', 'Profissão', CAT.CARATER, ['trabalho', 'carreira', 'vocacao', 'excelencia'], [
+    ['cl', 3, 23, 24], ['pv', 22, 29], ['ec', 9, 10], ['1co', 10, 31]
+  ]),
+  e('promessa', 'Promessa', CAT.DEUS, ['fidelidade', 'alianca', 'cumprimento', 'esperanca'], [
+    ['2co', 1, 20], ['hb', 10, 23], ['nm', 23, 19], ['js', 21, 45], ['2pe', 1, 4]
+  ]),
+  e('quietude', 'Quietude', CAT.EMOCOES, ['silencio', 'paz', 'descanso', 'confianca'], [
+    ['is', 30, 15], ['is', 32, 17], ['sl', 46, 10], ['sl', 131, 2], ['1ts', 4, 11]
+  ]),
+  e('razao', 'Razão', CAT.CARATER, ['mente', 'entendimento', 'sabedoria', 'apologetica'], [
+    ['is', 1, 18], ['mt', 22, 37], ['rm', 12, 1, 2], ['1pe', 3, 15]
+  ]),
+  e('reciprocidade', 'Reciprocidade', CAT.FAMILIA, ['regra de ouro', 'amor mutuo', 'generosidade'], [
+    ['mt', 7, 12], ['lc', 6, 31], ['lc', 6, 38], ['gl', 6, 7]
+  ]),
+  e('reconstrucao', 'Reconstrução', CAT.EMOCOES, ['restauracao', 'neemias', 'recomeco', 'esperanca'], [
+    ['ne', 2, 17, 18], ['is', 61, 4], ['is', 58, 12], ['am', 9, 11]
+  ]),
+  e('redes-sociais', 'Redes Sociais', CAT.CARATER, ['internet', 'palavras', 'olhos', 'fofoca', 'tempo'], [
+    ['pv', 10, 19], ['ef', 4, 29], ['fp', 4, 8], ['sl', 101, 3], ['ef', 5, 15, 16]
+  ]),
+  e('reflexao', 'Reflexão', CAT.CARATER, ['meditacao', 'exame', 'sabedoria', 'coracao'], [
+    ['sl', 1, 2], ['sl', 119, 15], ['fp', 4, 8], ['ag', 1, 5], ['lm', 3, 40]
+  ]),
+  e('regra-de-ouro', 'Regra de Ouro', CAT.VIDA, ['amor ao proximo', 'etica', 'respeito'], [
+    ['mt', 7, 12], ['lc', 6, 31], ['rm', 13, 8, 10], ['gl', 5, 14]
+  ]),
+  e('reino', 'Reino', CAT.DEUS, ['soberania', 'reino de deus', 'eterno', 'justica'], [
+    ['sl', 145, 13], ['dn', 2, 44], ['mt', 6, 33], ['rm', 14, 17], ['hb', 12, 28]
+  ]),
+  e('relacionamento', 'Relacionamento', CAT.FAMILIA, ['amizade', 'amor', 'comunhao', 'perdao'], [
+    ['jo', 13, 34, 35], ['ef', 4, 2, 3], ['ef', 4, 32], ['cl', 3, 12, 14], ['rm', 12, 10]
+  ]),
+  e('remedio', 'Remédio', CAT.CARATER, ['cura', 'alegria', 'medicina', 'palavra'], [
+    ['pv', 17, 22], ['pv', 4, 20, 22], ['pv', 12, 18], ['is', 38, 21], ['1tm', 5, 23]
+  ]),
+  e('rendicao', 'Rendição', CAT.DEUS, ['entrega', 'submissao', 'obediencia', 'sacrificio vivo'], [
+    ['rm', 12, 1], ['tg', 4, 7], ['lc', 22, 42], ['gl', 2, 20], ['pv', 3, 5, 6]
+  ]),
+  e('reprovacao', 'Reprovação', CAT.CARATER, ['disciplina', 'correcao', 'exame', 'aprovacao'], [
+    ['1co', 9, 27], ['2co', 13, 5], ['2tm', 2, 15], ['pv', 15, 32]
+  ]),
+  e('resiliencia', 'Resiliência', CAT.EMOCOES, ['perseveranca', 'superacao', 'firmeza', 'forca'], [
+    ['2co', 4, 8, 9], ['pv', 24, 16], ['rm', 5, 3, 5], ['tg', 1, 2, 4], ['fp', 4, 13]
+  ]),
+  e('restituicao', 'Restituição', CAT.VIDA, ['reparacao', 'justica', 'zaqueu', 'arrependimento'], [
+    ['lc', 19, 8], ['ex', 22, 1], ['nm', 5, 6, 7], ['lv', 6, 4, 5]
+  ]),
+  e('reuniao', 'Reunião', CAT.IGREJA, ['congregar', 'igreja', 'culto', 'comunhao'], [
+    ['hb', 10, 25], ['mt', 18, 20], ['at', 2, 42], ['1co', 14, 26]
+  ]),
+  e('rivalidade', 'Rivalidade', CAT.CARATER, ['competicao', 'contenda', 'inveja', 'humildade'], [
+    ['fp', 2, 3], ['gl', 5, 26], ['tg', 3, 14, 16], ['1co', 3, 3]
+  ]),
+  e('sabor', 'Sabor', CAT.IGREJA, ['sal', 'graca', 'palavras', 'testemunho'], [
+    ['mt', 5, 13], ['cl', 4, 6], ['sl', 34, 8], ['mc', 9, 50]
+  ]),
+  e('sabedoria-divina', 'Sabedoria Divina', CAT.DEUS, ['sabedoria do alto', 'pureza', 'paz', 'tiago 3'], [
+    ['tg', 3, 17], ['tg', 1, 5], ['1co', 1, 24], ['cl', 2, 2, 3], ['pv', 2, 6]
+  ]),
+  e('satisfacao', 'Satisfação', CAT.EMOCOES, ['contentamento', 'plenitude', 'alegria', 'suficiente'], [
+    ['sl', 107, 9], ['sl', 90, 14], ['fp', 4, 11, 12], ['jo', 6, 35], ['sl', 103, 5]
+  ]),
+  e('saudacao', 'Saudação', CAT.IGREJA, ['paz', 'graca', 'bencao', 'comunhao'], [
+    ['2co', 13, 14], ['nm', 6, 24, 26], ['rm', 1, 7], ['jo', 20, 19]
+  ]),
+  e('sede', 'Sede', CAT.DEUS, ['agua viva', 'busca por deus', 'deserto', 'salmo 42'], [
+    ['sl', 42, 1, 2], ['sl', 63, 1], ['is', 55, 1], ['jo', 7, 37, 38], ['ap', 22, 17]
+  ]),
+  e('seguranca', 'Segurança', CAT.EMOCOES, ['protecao', 'refugio', 'abrigo', 'confianca'], [
+    ['sl', 4, 8], ['sl', 91, 1, 4], ['pv', 18, 10], ['pv', 1, 33], ['rm', 8, 38, 39]
+  ]),
+  e('sensatez', 'Sensatez', CAT.CARATER, ['prudencia', 'equilibrio', 'sobriedade', 'sabedoria'], [
+    ['tt', 2, 6], ['tt', 2, 12], ['pv', 14, 15], ['1pe', 4, 7], ['ef', 5, 15]
+  ]),
+  e('sentimentos', 'Sentimentos', CAT.EMOCOES, ['emocoes', 'coracao', 'paz', 'equilibrio'], [
+    ['pv', 4, 23], ['jr', 17, 9], ['fp', 4, 6, 7], ['sl', 62, 8], ['sl', 42, 11]
+  ]),
+  e('separacao', 'Separação', CAT.FAMILIA, ['divorcio', 'santificacao', 'amor de deus', 'reconciliacao'], [
+    ['1co', 7, 10, 11], ['rm', 8, 35, 39], ['2co', 6, 17], ['mt', 19, 6]
+  ]),
+  e('simpatia', 'Simpatia', CAT.FAMILIA, ['amabilidade', 'empatia', 'compaixao', 'gentileza'], [
+    ['1pe', 3, 8], ['rm', 12, 15], ['pv', 15, 13], ['ef', 4, 32]
+  ]),
+  e('simplicidade', 'Simplicidade', CAT.CARATER, ['humildade', 'sinceridade', 'contentamento', 'pureza'], [
+    ['2co', 1, 12], ['2co', 11, 3], ['1tm', 6, 6, 8], ['mt', 10, 16], ['rm', 12, 8]
+  ]),
+  e('sobrecarga', 'Sobrecarga', CAT.EMOCOES, ['cansaco', 'estresse', 'fardo', 'descanso'], [
+    ['mt', 11, 28, 30], ['sl', 55, 22], ['sl', 68, 19], ['ex', 18, 17, 18], ['1pe', 5, 7]
+  ]),
+  e('sombra', 'Sombra', CAT.DEUS, ['protecao', 'abrigo', 'salmo 91', 'refugio'], [
+    ['sl', 91, 1], ['sl', 17, 8], ['sl', 121, 5], ['sl', 36, 7]
+  ]),
+  e('superacao', 'Superação', CAT.EMOCOES, ['vitoria', 'forca', 'resiliencia', 'fe'], [
+    ['fp', 4, 13], ['rm', 8, 37], ['1jo', 5, 4], ['2co', 4, 8, 9], ['is', 40, 31]
+  ]),
+  e('sustentacao', 'Sustentação', CAT.DEUS, ['sustento', 'amparo', 'forca', 'fidelidade'], [
+    ['sl', 55, 22], ['is', 41, 10], ['is', 46, 4], ['sl', 3, 5], ['hb', 1, 3]
+  ]),
+  e('teimosia', 'Teimosia', CAT.CARATER, ['rebeldia', 'orgulho', 'dureza', 'correcao'], [
+    ['1sm', 15, 23], ['pv', 29, 1], ['pv', 12, 1], ['rm', 2, 5]
+  ]),
+  e('tempestade', 'Tempestade', CAT.EMOCOES, ['crise', 'medo', 'paz', 'jesus acalma o mar'], [
+    ['mc', 4, 37, 41], ['sl', 107, 28, 30], ['na', 1, 3], ['mt', 7, 24, 25]
+  ]),
+  e('ternura', 'Ternura', CAT.FAMILIA, ['compaixao', 'afeto', 'bondade', 'misericordia'], [
+    ['ef', 4, 32], ['cl', 3, 12], ['sl', 103, 13], ['1ts', 2, 7], ['is', 49, 15]
+  ]),
+  e('terra', 'Terra', CAT.DEUS, ['criacao', 'mordomia', 'soberania', 'nova terra'], [
+    ['sl', 24, 1], ['gn', 1, 1], ['sl', 115, 16], ['mt', 5, 5], ['ap', 21, 1]
+  ]),
+  e('testamento', 'Testamento', CAT.DEUS, ['alianca', 'antigo testamento', 'novo testamento', 'heranca'], [
+    ['hb', 9, 15, 17], ['lc', 22, 20], ['2co', 3, 6], ['jr', 31, 31]
+  ]),
+  e('tolice', 'Tolice', CAT.CARATER, ['insensatez', 'estulticia', 'sabedoria', 'prudencia'], [
+    ['pv', 14, 8], ['pv', 15, 21], ['pv', 18, 2], ['ec', 10, 1], ['ef', 5, 15]
+  ]),
+  e('tormento', 'Tormento', CAT.EMOCOES, ['medo', 'angustia', 'paz', 'amor'], [
+    ['1jo', 4, 18], ['sl', 34, 4], ['ap', 14, 11], ['mt', 25, 46]
+  ]),
+  e('trabalhador', 'Trabalhador', CAT.CARATER, ['trabalho', 'salario', 'diligencia', 'dignidade'], [
+    ['lc', 10, 7], ['1tm', 5, 18], ['pv', 14, 23], ['2ts', 3, 10, 12], ['cl', 3, 23]
+  ]),
+  e('transgressao', 'Transgressão', CAT.DEUS, ['pecado', 'perdao', 'iniquidade', 'cruz'], [
+    ['sl', 32, 1], ['sl', 103, 12], ['is', 53, 5], ['rm', 4, 15], ['1jo', 3, 4]
+  ]),
+  e('triunfo', 'Triunfo', CAT.DEUS, ['vitoria', 'cristo', 'cruz', 'alegria'], [
+    ['2co', 2, 14], ['cl', 2, 15], ['1co', 15, 57], ['rm', 8, 37]
+  ]),
+  e('tropeco', 'Tropeço', CAT.CARATER, ['escandalo', 'queda', 'cuidado', 'amor ao proximo'], [
+    ['rm', 14, 13], ['1co', 8, 9], ['mt', 18, 6, 7], ['sl', 119, 165], ['jd', 1, 24]
+  ]),
+  e('ultimo-dia', 'Último Dia', CAT.ETERNIDADE, ['ressurreicao', 'juizo', 'vida eterna'], [
+    ['jo', 6, 39, 40], ['jo', 6, 44], ['jo', 11, 24], ['jo', 12, 48]
+  ]),
+  e('urgencia', 'Urgência', CAT.IGREJA, ['tempo', 'hoje', 'salvacao', 'vigilancia'], [
+    ['2co', 6, 2], ['rm', 13, 11, 12], ['ef', 5, 15, 16], ['jo', 9, 4]
+  ]),
+  e('valente', 'Valente', CAT.EMOCOES, ['coragem', 'forca', 'guerreiro', 'fe'], [
+    ['js', 1, 9], ['jz', 6, 12], ['sf', 3, 17], ['sl', 27, 14]
+  ]),
+  e('vale', 'Vale', CAT.EMOCOES, ['sombra da morte', 'prova', 'consolo', 'restauracao'], [
+    ['sl', 23, 4], ['sl', 84, 6], ['ez', 37, 1, 5], ['is', 40, 4]
+  ]),
+  e('vazio', 'Vazio', CAT.EMOCOES, ['sentido da vida', 'vaidade', 'plenitude', 'cristo'], [
+    ['ec', 1, 2], ['ec', 3, 11], ['jo', 10, 10], ['sl', 107, 9], ['cl', 2, 10]
+  ]),
+  e('vencedor', 'Vencedor', CAT.DEUS, ['vitoria', 'perseveranca', 'apocalipse', 'fe'], [
+    ['rm', 8, 37], ['1jo', 5, 4, 5], ['ap', 2, 7], ['ap', 3, 5], ['ap', 21, 7]
+  ]),
+  e('vento', 'Vento', CAT.DEUS, ['espirito', 'tempestade', 'soberania', 'pentecostes'], [
+    ['jo', 3, 8], ['at', 2, 2], ['mc', 4, 39, 41], ['ef', 4, 14], ['sl', 104, 3, 4]
+  ]),
+  e('vigor', 'Vigor', CAT.EMOCOES, ['forca', 'juventude', 'renovacao', 'energia'], [
+    ['is', 40, 29, 31], ['sl', 103, 5], ['sl', 92, 14], ['dt', 33, 25]
+  ]),
+  e('vingador', 'Vingador', CAT.DEUS, ['justica de deus', 'vinganca', 'retribuicao'], [
+    ['rm', 12, 19], ['hb', 10, 30], ['1ts', 4, 6], ['sl', 94, 1]
+  ]),
+  e('virgindade', 'Virgindade', CAT.FAMILIA, ['pureza', 'castidade', 'namoro', 'santidade'], [
+    ['1ts', 4, 3, 5], ['1co', 7, 34], ['2co', 11, 2], ['hb', 13, 4], ['is', 7, 14]
+  ]),
+  e('visao', 'Visão', CAT.IGREJA, ['proposito', 'direcao', 'fe', 'revelacao'], [
+    ['pv', 29, 18], ['hc', 2, 2, 3], ['2co', 5, 7], ['ef', 1, 18]
+  ]),
+  e('visita', 'Visita', CAT.IGREJA, ['hospitalidade', 'enfermos', 'presos', 'cuidado'], [
+    ['mt', 25, 36], ['tg', 1, 27], ['hb', 13, 2, 3], ['lc', 1, 68]
+  ]),
+  e('vontade', 'Vontade', CAT.DEUS, ['vontade de deus', 'obediencia', 'oracao', 'submissao'], [
+    ['mt', 6, 10], ['lc', 22, 42], ['rm', 12, 2], ['1jo', 2, 17], ['fp', 2, 13]
+  ]),
+  e('voz-de-deus', 'Voz de Deus', CAT.DEUS, ['ouvir a deus', 'ovelhas', 'palavra', 'direcao'], [
+    ['jo', 10, 27], ['sl', 29, 3, 5], ['hb', 3, 15], ['1rs', 19, 12], ['is', 30, 21]
+  ]),
+  e('vulgaridade', 'Vulgaridade', CAT.CARATER, ['palavroes', 'conversas torpes', 'pureza', 'fala'], [
+    ['ef', 5, 4], ['cl', 3, 8], ['ef', 4, 29], ['fp', 4, 8]
+  ]),
+  e('zeloso', 'Zeloso', CAT.IGREJA, ['zelo', 'fervor', 'boas obras', 'dedicacao'], [
+    ['tt', 2, 14], ['rm', 12, 11], ['ap', 3, 19], ['1pe', 3, 13]
+  ]),
+  e('zombar', 'Zombar', CAT.CARATER, ['escarnecedor', 'zombaria', 'respeito', 'sabedoria'], [
+    ['sl', 1, 1], ['gl', 6, 7], ['pv', 9, 7, 8], ['2pe', 3, 3, 4]
   ])
 ];
-

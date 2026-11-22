@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const rootDir = process.cwd();
 const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8'));
-const appVersion = pkg.version || '3.2.1';
+const appVersion = pkg.version || '3.3.2';
 const [major = 3, minor = 0, patch = 0] = appVersion.split('.').map((n) => parseInt(n, 10) || 0);
 const versionCode = major * 100 + minor * 10 + patch;
 

@@ -107,7 +107,7 @@ test('Dicionário Bíblico & Refúgio & Tira-Dúvidas: Todas as referências bí
 
   const rawCalls = (dictSrc.match(/\be\(\s*'/g) || []).length;
   assert.equal(entries.length, rawCalls, `Todas as chamadas e(...) devem ser parseadas (${entries.length} vs ${rawCalls})`);
-  assert.ok(entries.length >= 600, `Dicionário Bíblico deve ter ao menos 600 palavras/expressões (encontradas: ${entries.length})`);
+  assert.ok(entries.length >= 1100, `Dicionário Bíblico deve ter ao menos 1.100 palavras/expressões (encontradas: ${entries.length})`);
 
   const ids = entries.map((item) => item.id);
   assert.equal(ids.length, new Set(ids).size, 'Todos os IDs do Dicionário Bíblico devem ser únicos');
@@ -152,7 +152,7 @@ test('Dicionário Bíblico & Refúgio & Tira-Dúvidas: Todas as referências bí
     }
   }
 
-  // Garante verbetes essenciais solicitados com título conciso exato
+  // Garante verbetes essenciais solicitados e novos verbetes v3.3.2 com título conciso exato
   const byId = Object.fromEntries(entries.map((item) => [item.id, item.title]));
   const requiredEntries = [
     ['amor', 'Amor'],
@@ -160,7 +160,14 @@ test('Dicionário Bíblico & Refúgio & Tira-Dúvidas: Todas as referências bí
     ['aborto', 'Aborto'],
     ['morte', 'Morte'],
     ['vida-pos-morte', 'Vida Pós-Morte'],
-    ['casamento', 'Casamento']
+    ['casamento', 'Casamento'],
+    ['abraao', 'Abraão'],
+    ['davi', 'Davi'],
+    ['jerusalem', 'Jerusalém'],
+    ['calvario', 'Calvário'],
+    ['abba', 'Abba'],
+    ['bullying', 'Bullying'],
+    ['redes-sociais', 'Redes Sociais']
   ];
   for (const [reqId, reqTitle] of requiredEntries) {
     assert.equal(byId[reqId], reqTitle, `Dicionário Bíblico deve conter '${reqId}' com título exato '${reqTitle}'`);
@@ -213,20 +220,38 @@ test('Dicionário Bíblico & Refúgio & Tira-Dúvidas: Todas as referências bí
     }
   }
 
-  assert.ok(totalChecked > 3500, `Deve validar mais de 3.500 referências bíblicas (validadas: ${totalChecked})`);
+  assert.ok(totalChecked > 5500, `Deve validar mais de 5.500 referências bíblicas (validadas: ${totalChecked})`);
 });
 
-test('Arquitetura Multiplataforma: Site de Download (index.html), App (app.html) e configurações Android, iOS e Windows estão presentes', () => {
+test('Arquitetura Multiplataforma, Barra Inferior Profissional e Documentação Atualizada', () => {
+  const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8'));
   const indexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
   assert.ok(indexHtml.includes('Verbo-Vivo-Android.apk'), 'index.html deve ter download para Android (.APK)');
   assert.ok(indexHtml.includes('Verbo-Vivo-iOS.ipa'), 'index.html deve ter download para iPhone (.IPA)');
   assert.ok(indexHtml.includes('Verbo-Vivo-Windows-Setup.exe'), 'index.html deve ter download para Windows (.EXE)');
   assert.ok(indexHtml.includes('Dicionário Bíblico'), 'index.html deve apresentar o Dicionário Bíblico');
+  assert.ok(indexHtml.includes(pkg.version), `index.html deve exibir a versão atual ${pkg.version}`);
 
   const appHtml = fs.readFileSync(path.join(rootDir, 'app.html'), 'utf8');
   assert.ok(appHtml.includes('tab-dicionario'), 'app.html deve conter a aba Dicionário Bíblico');
   assert.ok(appHtml.includes('tab-marcacoes'), 'app.html deve conter a aba Minhas Marcações');
-  assert.ok(appHtml.includes('mobile-bottom-nav'), 'app.html deve conter navegação inferior mobile');
+  assert.ok(appHtml.includes('mobile-bottom-nav-inner'), 'app.html deve conter a barra inferior redesenhada');
+  assert.ok(appHtml.includes('mobile-nav-icon-pill'), 'app.html deve conter cápsulas de ícone na barra inferior');
+
+  const styleCss = fs.readFileSync(path.join(rootDir, 'src', 'style.css'), 'utf8');
+  assert.ok(styleCss.includes('.mobile-nav-icon-pill'), 'src/style.css deve estilizar cápsulas da barra inferior');
+  assert.ok(styleCss.includes('.mobile-nav-item.active::before'), 'src/style.css deve incluir indicador ativo na barra inferior');
+
+  const readme = fs.readFileSync(path.join(rootDir, 'README.md'), 'utf8');
+  const readmeLower = readme.toLowerCase();
+  assert.ok(readme.includes(pkg.version), `README.md deve refletir a versão atual ${pkg.version}`);
+  assert.equal(readmeLower.includes('devocional'), false, 'README.md não deve listar Devocional (removido)');
+  assert.equal(readmeLower.includes('planos de leitura'), false, 'README.md não deve listar Planos de Leitura (removido)');
+  assert.equal(readmeLower.includes('palavra pastoral'), false, 'README.md não deve listar Palavra Pastoral (removido)');
+  assert.equal(readmeLower.includes('altar de oração'), false, 'README.md não deve listar Altar de Oração (removido)');
+
+  const contributing = fs.readFileSync(path.join(rootDir, 'CONTRIBUTING.md'), 'utf8');
+  assert.equal(contributing.toLowerCase().includes('devocionais'), false, 'CONTRIBUTING.md não deve mencionar devocionais');
 
   assert.ok(fs.existsSync(path.join(rootDir, 'electron', 'main.cjs')), 'Configuração Electron Windows deve existir');
   assert.ok(fs.existsSync(path.join(rootDir, 'capacitor.config.json')), 'Configuração Capacitor Android/iOS deve existir');

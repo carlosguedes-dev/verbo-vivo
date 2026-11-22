@@ -68,7 +68,8 @@ export type DictionaryCategory =
   | 'Caráter & Vida Diária'
   | 'Deus, Cristo & Salvação'
   | 'Igreja & Vida Espiritual'
-  | 'Eternidade & Últimos Dias';
+  | 'Eternidade & Últimos Dias'
+  | 'Personagens & Lugares';
 
 /**
  * Verbete do Dicionário Bíblico.

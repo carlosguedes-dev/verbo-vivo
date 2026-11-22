@@ -179,17 +179,17 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.pkg.outputs.tag }}
-          name: "Verbo Vivo ${{ steps.pkg.outputs.tag }} — Dicionário Bíblico Ampliado (650 Palavras e Expressões)"
+          name: "Verbo Vivo ${{ steps.pkg.outputs.tag }} — Dicionário Bíblico (1.154 Palavras), Barra Inferior Redesenhada & README Atualizado"
           body: |
             ## Verbo Vivo ${{ steps.pkg.outputs.tag }} — Aplicativo Oficial Multiplataforma
 
             Nova versão do **Verbo Vivo** para **Android**, **iPhone (iOS)** e **Windows**, com as 3 traduções da Bíblia Sagrada (**ACF, NVI e ARA**) 100% offline.
 
             ### Principais novidades da versão ${{ steps.pkg.outputs.tag }}
-            - **Dicionário Bíblico reformulado e ampliado (650 palavras e expressões, A–Z)**: todos os verbetes agora são **palavras ou expressões concisas** (ex.: `Amor`, `Espírito Santo`, `Aborto`, `Morte`, `Vida Pós-Morte`, `Casamento`, `Perdão`, `Salvação`), nunca frases longas — respondidos **exclusivamente com versículos das Escrituras** na tradução ativa (`ACF`, `NVI` ou `ARA`).
-            - **Busca aprimorada no Dicionário**: suporte natural a expressões com ou sem hífen e acento (ex.: buscar `vida pos morte` encontra imediatamente `Vida Pós-Morte`) e busca por sinônimos.
-            - **Fidelidade e integridade bíblica**: mais de 3.500 passagens verificadas automaticamente nas 3 traduções (`ACF`, `NVI` e `ARA`).
-            - **Refúgio nas Escrituras, Tira-Dúvidas e Marcações**: experiência limpa, multiplataforma (Android, iPhone e Windows), 100% offline e sem anúncios.
+            - **Dicionário Bíblico ampliado para 1.154 palavras e expressões (A–Z)**: mais de **500 novos verbetes concisos** adicionados — incluindo a nova categoria **Personagens & Lugares** (Abraão, Davi, Moisés, Paulo, Pedro, Jerusalém, Calvário, Getsêmani, etc.), símbolos bíblicos, doutrina e temas do cotidiano — totalizando **5.621 passagens** respondidas **exclusivamente com versículos das Escrituras** na tradução ativa (`ACF`, `NVI` ou `ARA`).
+            - **Barra de navegação inferior redesenhada (Mobile & Tablet)**: novo acabamento nativo translúcido com elevação, indicador superior dourado, cápsula de destaque no item ativo, ícones duotone consistentes e contador refinado em **Marcações** (`Bíblia`, `Dicionário`, `Refúgio`, `Dúvidas` e `Marcações`).
+            - **Documentação atualizada**: `README.md` e `CONTRIBUTING.md` revisados para refletir com exatidão os módulos, números e arquitetura das versões 3.x.
+            - **Integridade validada automaticamente**: suíte de testes verificando 100% dos 66 livros, 1.154 verbetes e mais de 5.600 referências bíblicas nas 3 traduções.
 
             ### Arquivos para Download Direto
             - **Android (`.APK`)**: `Verbo-Vivo-Android.apk`

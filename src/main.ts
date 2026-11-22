@@ -310,9 +310,10 @@ class VerboVivoApp {
 
     const desktopBadge = document.getElementById('badge-saved-count');
     const mobileBadge = document.getElementById('mobile-badge-saved-count');
+    const badgeLabel = studiesCount > 99 ? '99+' : String(studiesCount);
     [desktopBadge, mobileBadge].forEach((badge) => {
       if (!badge) return;
-      badge.textContent = String(studiesCount);
+      badge.textContent = badgeLabel;
       badge.classList.toggle('hidden', studiesCount === 0);
     });
   }
@@ -979,7 +980,7 @@ class VerboVivoApp {
     const allEntries = getSortedDictionaryEntries();
     const statEl = document.getElementById('dict-total-stat');
     if (statEl) {
-      statEl.textContent = `${allEntries.length} palavras`;
+      statEl.textContent = `${allEntries.length.toLocaleString('pt-BR')} palavras`;
     }
 
     // Popular quick chips
@@ -1123,7 +1124,7 @@ class VerboVivoApp {
     const results = searchDictionary(this.currentDictQuery, this.currentDictCategory, this.currentDictLetter);
 
     if (metaEl) {
-      metaEl.textContent = `${results.length} ${results.length === 1 ? 'palavra encontrada' : 'palavras encontradas'}`;
+      metaEl.textContent = `${results.length.toLocaleString('pt-BR')} ${results.length === 1 ? 'palavra encontrada' : 'palavras encontradas'}`;
     }
 
     listEl.textContent = '';
@@ -1164,6 +1165,7 @@ class VerboVivoApp {
       void this.renderActiveDictionaryEntry();
     }
 
+    const frag = document.createDocumentFragment();
     for (const entry of results) {
       const isSelected = entry.id === this.activeDictEntryId;
       const btn = document.createElement('button');
@@ -1195,8 +1197,9 @@ class VerboVivoApp {
         void this.renderActiveDictionaryEntry();
       });
 
-      listEl.appendChild(btn);
+      frag.appendChild(btn);
     }
+    listEl.replaceChildren(frag);
   }
 
   private async renderActiveDictionaryEntry(): Promise<void> {

@@ -14,7 +14,7 @@
     <title>Verbo Vivo | Bíblia Sagrada, Dicionário Bíblico & Refúgio</title>
     <meta
       name="description"
-      content="Aplicativo cristão Verbo Vivo: Bíblia Sagrada completa offline nas 3 traduções (ACF, NVI e ARA), Dicionário Bíblico com 650 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações."
+      content="Aplicativo cristão Verbo Vivo: Bíblia Sagrada completa offline nas 3 traduções (ACF, NVI e ARA), Dicionário Bíblico com 1.154 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações."
     />
 
     <!-- Open Graph / Social Preview -->
@@ -25,7 +25,7 @@
     <meta property="og:title" content="Verbo Vivo | Bíblia Sagrada & Dicionário Bíblico" />
     <meta
       property="og:description"
-      content="Bíblia Sagrada offline nas 3 traduções (ACF, NVI, ARA), Dicionário Bíblico com 650 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras e Marcações."
+      content="Bíblia Sagrada offline nas 3 traduções (ACF, NVI, ARA), Dicionário Bíblico com 1.154 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras e Marcações."
     />
     <meta property="og:image" content="https://carlosguedes-dev.github.io/verbo-vivo/og-image.png" />
     <meta property="og:image:type" content="image/png" />
@@ -67,37 +67,37 @@
         <nav class="main-nav" aria-label="Navegação Principal">
           <button type="button" class="nav-tab active" data-tab="biblia" aria-current="page">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path class="icon-fill" d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-              <line x1="12" y1="6" x2="12" y2="12"></line>
-              <line x1="9.5" y1="8.5" x2="14.5" y2="8.5"></line>
+              <line x1="12" y1="6.5" x2="12" y2="12.5"></line>
+              <line x1="9.5" y1="9" x2="14.5" y2="9"></line>
             </svg>
             <span>Bíblia</span>
           </button>
           <button type="button" class="nav-tab" data-tab="dicionario">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              <path class="icon-fill" d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"></path>
+              <path class="icon-fill" d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"></path>
             </svg>
             <span>Dicionário</span>
           </button>
           <button type="button" class="nav-tab" data-tab="refugio">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path class="icon-fill" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
             <span>Refúgio</span>
           </button>
           <button type="button" class="nav-tab" data-tab="tira-duvidas">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              <circle class="icon-fill" cx="12" cy="12" r="9.5"></circle>
+              <path d="M9.2 9.1a2.9 2.9 0 0 1 5.6 1c0 1.9-2.8 2.8-2.8 2.8"></path>
+              <circle cx="12" cy="16.8" r="0.6" fill="currentColor"></circle>
             </svg>
             <span>Tira-Dúvidas</span>
           </button>
           <button type="button" class="nav-tab" data-tab="marcacoes">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              <path class="icon-fill" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
             </svg>
             <span>Marcações</span>
             <span id="badge-saved-count" class="nav-counter hidden">0</span>
@@ -354,7 +354,7 @@
               Pesquise palavras e expressões de A a Z — como amor, espírito santo, aborto, morte ou vida pós-morte — respondidas exclusivamente com versículos das Escrituras.
             </p>
           </div>
-          <div class="section-stat-chip" id="dict-total-stat">650 palavras</div>
+          <div class="section-stat-chip" id="dict-total-stat">1.154 palavras</div>
         </header>
 
         <div class="dict-controls">
@@ -531,45 +531,55 @@
 
     <!-- Mobile / Tablet Bottom Navigation Bar -->
     <nav class="mobile-bottom-nav" aria-label="Navegação Inferior">
-      <button type="button" class="mobile-nav-item active" data-tab="biblia" aria-current="page">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-          <line x1="12" y1="6" x2="12" y2="12"></line>
-          <line x1="9.5" y1="8.5" x2="14.5" y2="8.5"></line>
-        </svg>
-        <span>Bíblia</span>
-      </button>
-      <button type="button" class="mobile-nav-item" data-tab="dicionario">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-        </svg>
-        <span>Dicionário</span>
-      </button>
-      <button type="button" class="mobile-nav-item" data-tab="refugio">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-        </svg>
-        <span>Refúgio</span>
-      </button>
-      <button type="button" class="mobile-nav-item" data-tab="tira-duvidas">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-          <line x1="12" y1="17" x2="12.01" y2="17"></line>
-        </svg>
-        <span>Dúvidas</span>
-      </button>
-      <button type="button" class="mobile-nav-item" data-tab="marcacoes">
-        <span class="mobile-nav-icon-wrap">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-          </svg>
-          <span id="mobile-badge-saved-count" class="mobile-nav-badge hidden">0</span>
-        </span>
-        <span>Marcações</span>
-      </button>
+      <div class="mobile-bottom-nav-inner">
+        <button type="button" class="mobile-nav-item active" data-tab="biblia" aria-current="page">
+          <span class="mobile-nav-icon-pill">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path class="icon-fill" d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <line x1="12" y1="6.5" x2="12" y2="12.5"></line>
+              <line x1="9.5" y1="9" x2="14.5" y2="9"></line>
+            </svg>
+          </span>
+          <span class="mobile-nav-label">Bíblia</span>
+        </button>
+        <button type="button" class="mobile-nav-item" data-tab="dicionario">
+          <span class="mobile-nav-icon-pill">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path class="icon-fill" d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"></path>
+              <path class="icon-fill" d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+          </span>
+          <span class="mobile-nav-label">Dicionário</span>
+        </button>
+        <button type="button" class="mobile-nav-item" data-tab="refugio">
+          <span class="mobile-nav-icon-pill">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path class="icon-fill" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </span>
+          <span class="mobile-nav-label">Refúgio</span>
+        </button>
+        <button type="button" class="mobile-nav-item" data-tab="tira-duvidas" aria-label="Tira-Dúvidas">
+          <span class="mobile-nav-icon-pill">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle class="icon-fill" cx="12" cy="12" r="9.5"></circle>
+              <path d="M9.2 9.1a2.9 2.9 0 0 1 5.6 1c0 1.9-2.8 2.8-2.8 2.8"></path>
+              <circle cx="12" cy="16.8" r="0.6" fill="currentColor"></circle>
+            </svg>
+          </span>
+          <span class="mobile-nav-label">Dúvidas</span>
+        </button>
+        <button type="button" class="mobile-nav-item" data-tab="marcacoes">
+          <span class="mobile-nav-icon-pill">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path class="icon-fill" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span id="mobile-badge-saved-count" class="mobile-nav-badge hidden">0</span>
+          </span>
+          <span class="mobile-nav-label">Marcações</span>
+        </button>
+      </div>
     </nav>
 
     <!-- Quiet Footer -->

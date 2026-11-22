@@ -1,450 +1,438 @@
 <!doctype html>
 <html lang="pt-BR" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" id="meta-theme-color" content="#111317" />
-    <title>Verbo Vivo | Aplicativo Oficial para Android, iPhone e Windows</title>
-    <meta
-      name="description"
-      content="Baixe o aplicativo oficial Verbo Vivo para Android (.APK), iPhone (.IPA / iOS) e Windows (.EXE). Bíblia Sagrada offline nas 3 traduções (ACF, NVI, ARA), Dicionário Bíblico com 650 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações."
-    />
-    <link rel="canonical" href="https://carlosguedes-dev.github.io/verbo-vivo/" />
 
-    <!-- Open Graph / Social Preview -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Verbo Vivo" />
-    <meta property="og:locale" content="pt_BR" />
-    <meta property="og:url" content="https://carlosguedes-dev.github.io/verbo-vivo/" />
-    <meta property="og:title" content="Verbo Vivo — Baixar App Oficial (Android, iPhone e Windows)" />
-    <meta
-      property="og:description"
-      content="Bíblia Sagrada 100% offline nas 3 traduções (ACF, NVI e ARA), Dicionário Bíblico com 650 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras e Marcações."
-    />
-    <meta property="og:image" content="https://carlosguedes-dev.github.io/verbo-vivo/og-image.png" />
-    <meta property="og:image:secure_url" content="https://carlosguedes-dev.github.io/verbo-vivo/og-image.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="Verbo Vivo — Aplicativo Oficial para Android, iPhone (iOS) e Windows com Bíblia Sagrada (ACF, NVI e ARA), Dicionário Bíblico e Refúgio nas Escrituras"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" id="meta-theme-color" content="#111317" />
+  <title>Verbo Vivo | Aplicativo Oficial para Android, iPhone e Windows</title>
+  <meta name="description"
+    content="Baixe o aplicativo oficial Verbo Vivo para Android (.APK), iPhone (.IPA / iOS) e Windows (.EXE). Bíblia Sagrada offline nas 3 traduções (ACF, NVI, ARA), Dicionário Bíblico com 1.154 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras, Tira-Dúvidas e Marcações." />
+  <link rel="canonical" href="https://carlosguedes-dev.github.io/verbo-vivo/" />
 
-    <!-- Twitter / X Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Verbo Vivo — Baixar App Oficial (Android, iPhone e Windows)" />
-    <meta
-      name="twitter:description"
-      content="Baixe grátis para Android (.APK), iPhone (.IPA / WebApp) e Windows (.EXE). Bíblia Sagrada offline (ACF, NVI, ARA), Dicionário Bíblico com 650 palavras e Refúgio nas Escrituras."
-    />
-    <meta name="twitter:image" content="https://carlosguedes-dev.github.io/verbo-vivo/og-image.png" />
-    <meta
-      name="twitter:image:alt"
-      content="Verbo Vivo — Aplicativo Oficial para Android, iPhone (iOS) e Windows"
-    />
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Verbo Vivo" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://carlosguedes-dev.github.io/verbo-vivo/" />
+  <meta property="og:title" content="Verbo Vivo — Baixar App Oficial (Android, iPhone e Windows)" />
+  <meta property="og:description"
+    content="Bíblia Sagrada 100% offline nas 3 traduções (ACF, NVI e ARA), Dicionário Bíblico com 1.154 palavras e expressões respondidas apenas com versículos, Refúgio nas Escrituras e Marcações." />
+  <meta property="og:image" content="https://carlosguedes-dev.github.io/verbo-vivo/og-image.png" />
+  <meta property="og:image:secure_url" content="https://carlosguedes-dev.github.io/verbo-vivo/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt"
+    content="Verbo Vivo — Aplicativo Oficial para Android, iPhone (iOS) e Windows com Bíblia Sagrada (ACF, NVI e ARA), Dicionário Bíblico e Refúgio nas Escrituras" />
 
-    <!-- App Icons & Favicons -->
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
-    <link rel="shortcut icon" href="./favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
-    <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="download-page">
-    <!-- Clean Header -->
-    <header class="site-header">
-      <div class="container header-inner">
-        <a href="#downloads" class="brand" id="brand-home">
-          <div class="brand-emblem" aria-hidden="true">
-            <img src="./favicon.svg" alt="" width="34" height="34" class="brand-emblem-img" />
-          </div>
-          <div class="brand-text-group">
-            <span class="brand-title">Verbo Vivo</span>
-            <span class="brand-sub">Versão 3.2.1</span>
-          </div>
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Verbo Vivo — Baixar App Oficial (Android, iPhone e Windows)" />
+  <meta name="twitter:description"
+    content="Baixe grátis para Android (.APK), iPhone (.IPA / WebApp) e Windows (.EXE). Bíblia Sagrada offline (ACF, NVI, ARA), Dicionário Bíblico com 1.154 palavras e Refúgio nas Escrituras." />
+  <meta name="twitter:image" content="https://carlosguedes-dev.github.io/verbo-vivo/og-image.png" />
+  <meta name="twitter:image:alt" content="Verbo Vivo — Aplicativo Oficial para Android, iPhone (iOS) e Windows" />
+
+  <!-- App Icons & Favicons -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
+  <link rel="shortcut icon" href="./favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body class="download-page">
+  <!-- Clean Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#downloads" class="brand" id="brand-home">
+        <div class="brand-emblem" aria-hidden="true">
+          <img src="./favicon.svg" alt="" width="34" height="34" class="brand-emblem-img" />
+        </div>
+        <div class="brand-text-group">
+          <span class="brand-title">Verbo Vivo</span>
+          <span class="brand-sub">Versão 3.3.2</span>
+        </div>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegação da Página de Download">
+        <button type="button" class="nav-tab active" data-section="downloads">Downloads</button>
+        <button type="button" class="nav-tab" data-section="recursos">Recursos</button>
+        <button type="button" class="nav-tab" data-section="instalacao">Como Instalar</button>
+      </nav>
+
+      <div class="header-actions">
+        <a href="./app.html" class="btn-tool-pill"
+          style="text-decoration: none; display: inline-flex; align-items: center;">
+          Abrir WebApp
         </a>
+        <button type="button" id="btn-theme-toggle" class="btn-theme" title="Alternar entre Modo Escuro e Modo Claro"
+          aria-label="Alternar tema">
+          <svg id="theme-icon-sun" class="theme-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="theme-icon-moon" class="theme-svg hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <span id="theme-label" class="theme-label-text">Claro</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-        <nav class="main-nav" aria-label="Navegação da Página de Download">
-          <button type="button" class="nav-tab active" data-section="downloads">Downloads</button>
-          <button type="button" class="nav-tab" data-section="recursos">Recursos</button>
-          <button type="button" class="nav-tab" data-section="instalacao">Como Instalar</button>
-        </nav>
-
-        <div class="header-actions">
-          <a href="./app.html" class="btn-tool-pill" style="text-decoration: none; display: inline-flex; align-items: center;">
-            Abrir WebApp
+  <!-- Editorial Split Hero -->
+  <section class="download-hero">
+    <div class="container download-hero-grid">
+      <div>
+        <span id="detected-os-badge" class="hero-kicker">Android • iPhone (iOS) • Windows • 100% Offline</span>
+        <h1 class="hero-title">
+          A Palavra de Deus, <span class="accent-italic">no seu dispositivo.</span>
+        </h1>
+        <p class="hero-lead">
+          Leitura fiel das Escrituras nas traduções ACF, NVI e ARA sem precisar de internet, acompanhada de Dicionário
+          Bíblico com 1.154 palavras e expressões respondidas exclusivamente com versículos, Refúgio nas Escrituras e
+          Marcações pessoais.
+        </p>
+        <div class="hero-cta-row">
+          <a href="./app.html" class="btn-download-primary">Abrir aplicativo no navegador</a>
+          <a href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest" target="_blank"
+            rel="noopener noreferrer" class="btn-download-secondary">
+            Ver lançamento v3.3.2 no GitHub
           </a>
-          <button
-            type="button"
-            id="btn-theme-toggle"
-            class="btn-theme"
-            title="Alternar entre Modo Escuro e Modo Claro"
-            aria-label="Alternar tema"
-          >
-            <svg id="theme-icon-sun" class="theme-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg id="theme-icon-moon" class="theme-svg hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-            <span id="theme-label" class="theme-label-text">Claro</span>
-          </button>
         </div>
       </div>
-    </header>
 
-    <!-- Editorial Split Hero -->
-    <section class="download-hero">
-      <div class="container download-hero-grid">
-        <div>
-          <span id="detected-os-badge" class="hero-kicker">Android • iPhone (iOS) • Windows • 100% Offline</span>
-          <h1 class="hero-title">
-            A Palavra de Deus, <span class="accent-italic">no seu dispositivo.</span>
-          </h1>
-          <p class="hero-lead">
-            Leitura fiel das Escrituras nas traduções ACF, NVI e ARA sem precisar de internet, acompanhada de Dicionário Bíblico com 650 palavras e expressões respondidas exclusivamente com versículos, Refúgio nas Escrituras e Marcações pessoais.
-          </p>
-          <div class="hero-cta-row">
-            <a href="./app.html" class="btn-download-primary">Abrir aplicativo no navegador</a>
-            <a
-              href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-download-secondary"
-            >
-              Ver lançamento v3.2.1 no GitHub
-            </a>
-          </div>
+      <aside class="hero-scripture-card" aria-label="Versículo em destaque">
+        <blockquote id="hero-featured-quote" class="hero-quote-text">
+          "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."
+        </blockquote>
+        <div class="hero-quote-meta">
+          <span id="hero-featured-ref" class="hero-quote-ref">Salmos 119:105</span>
+          <button type="button" id="btn-random-promise" class="btn-link-subtle">
+            Outro versículo
+          </button>
         </div>
+      </aside>
+    </div>
+  </section>
 
-        <aside class="hero-scripture-card" aria-label="Versículo em destaque">
-          <blockquote id="hero-featured-quote" class="hero-quote-text">
-            "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."
-          </blockquote>
-          <div class="hero-quote-meta">
-            <span id="hero-featured-ref" class="hero-quote-ref">Salmos 119:105</span>
-            <button type="button" id="btn-random-promise" class="btn-link-subtle">
-              Outro versículo
+  <!-- Main Download Workspace -->
+  <main class="main-workspace container">
+    <!-- SECTION 1: DOWNLOADS -->
+    <section id="section-downloads" class="tab-panel active" aria-labelledby="heading-downloads">
+      <header class="section-header">
+        <div>
+          <h2 id="heading-downloads" class="page-title">Baixar Verbo Vivo</h2>
+          <p class="page-desc">
+            Gratuito, sem anúncios e 100% offline com os 66 livros da Bíblia em ACF, NVI e ARA embarcados no aplicativo.
+          </p>
+        </div>
+        <span class="section-stat-chip">Versão 3.3.2</span>
+      </header>
+
+      <div class="download-platforms-grid">
+        <!-- CARD 1: ANDROID -->
+        <article id="card-platform-android" class="platform-card">
+          <div class="platform-card-top">
+            <div class="platform-header-row">
+              <div class="platform-icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+              </div>
+              <span id="badge-android" class="platform-badge">Android 8.0+ • .APK</span>
+            </div>
+
+            <h3 class="platform-title">Android</h3>
+            <p class="platform-desc">
+              Pacote oficial instalável para celulares e tablets Android, com toda a Bíblia (ACF, NVI e ARA) e o
+              Dicionário Bíblico funcionando sem internet.
+            </p>
+
+            <ul class="platform-specs-list">
+              <li>Arquivo: <strong>Verbo-Vivo-Android.apk</strong></li>
+              <li>Bíblia Completa Offline (66 Livros • 3 Traduções)</li>
+              <li>Dicionário Bíblico, Refúgio, Tira-Dúvidas e Marcações</li>
+            </ul>
+          </div>
+
+          <div class="platform-actions">
+            <a href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-Android.apk"
+              class="btn-download-primary" download="Verbo-Vivo-Android.apk">
+              Baixar para Android (.APK)
+            </a>
+            <button type="button" class="btn-download-secondary" data-go-install="android">
+              Ver instruções de instalação
             </button>
           </div>
-        </aside>
+        </article>
+
+        <!-- CARD 2: IPHONE / IOS -->
+        <article id="card-platform-ios" class="platform-card">
+          <div class="platform-card-top">
+            <div class="platform-header-row">
+              <div class="platform-icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="6" y="2" width="12" height="20" rx="3"></rect>
+                  <line x1="10" y1="5" x2="14" y2="5"></line>
+                  <circle cx="12" cy="18" r="1"></circle>
+                </svg>
+              </div>
+              <span id="badge-ios" class="platform-badge">iPhone & iPad • iOS 15+</span>
+            </div>
+
+            <h3 class="platform-title">iPhone (iOS)</h3>
+            <p class="platform-desc">
+              Disponível como pacote <strong>.IPA</strong> (para instalação via AltStore / Sideloadly) ou instalação
+              direta na Tela de Início do Safari com suporte offline.
+            </p>
+
+            <ul class="platform-specs-list">
+              <li>Arquivo: <strong>Verbo-Vivo-iOS.ipa</strong></li>
+              <li>Compatível com Tela de Início do iOS (sem computador)</li>
+              <li>Adaptação nativa à barra superior e modo claro/escuro</li>
+            </ul>
+          </div>
+
+          <div class="platform-actions">
+            <a href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-iOS.ipa"
+              class="btn-download-primary" download="Verbo-Vivo-iOS.ipa">
+              Baixar para iPhone (.IPA)
+            </a>
+            <a href="./app.html" class="btn-download-secondary">
+              Instalar direto na Tela de Início (iOS)
+            </a>
+          </div>
+        </article>
+
+        <!-- CARD 3: WINDOWS -->
+        <article id="card-platform-windows" class="platform-card">
+          <div class="platform-card-top">
+            <div class="platform-header-row">
+              <div class="platform-icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+              </div>
+              <span id="badge-windows" class="platform-badge">Windows 10 / 11 (64-bit)</span>
+            </div>
+
+            <h3 class="platform-title">Windows</h3>
+            <p class="platform-desc">
+              Aplicativo desktop para leitura e estudo das Escrituras no computador, com comparação instantânea de
+              traduções, busca rápida e anotações.
+            </p>
+
+            <ul class="platform-specs-list">
+              <li>Instalador: <strong>Verbo-Vivo-Windows-Setup.exe</strong></li>
+              <li>Portátil: <strong>Verbo-Vivo-Windows-Portable.exe</strong></li>
+              <li>Execução 100% offline sem anúncios</li>
+            </ul>
+          </div>
+
+          <div class="platform-actions">
+            <a href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-Windows-Setup.exe"
+              class="btn-download-primary" download="Verbo-Vivo-Windows-Setup.exe">
+              Baixar Instalador Windows (.EXE)
+            </a>
+            <a href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-Windows-Portable.exe"
+              class="btn-download-secondary" download="Verbo-Vivo-Windows-Portable.exe">
+              Baixar Versão Portátil (Sem Instalação)
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <aside class="drawer-panel">
+        <div class="drawer-header">
+          <div>
+            <span class="meta-kicker">Código aberto e privacidade</span>
+            <h3 class="drawer-title">Downloads oficiais no GitHub Releases</h3>
+          </div>
+          <div class="overview-meta-right">
+            <span class="meta-chip">Versão: <strong>3.3.2</strong></span>
+            <span class="meta-chip">Licença: <strong>MIT</strong></span>
+            <span class="meta-chip">Anúncios: <strong>Nenhum</strong></span>
+          </div>
+        </div>
+        <div class="overview-body-grid">
+          <div class="overview-col">
+            <h4>100% Offline e Privado</h4>
+            <p>
+              Todos os 66 livros canônicos, 1.189 capítulos e mais de 31.100 versículos nas traduções ACF, NVI e ARA vêm
+              integrados no aplicativo. Seus grifos e anotações ficam armazenados exclusivamente no seu dispositivo.
+            </p>
+          </div>
+          <div class="overview-col overview-col-accent">
+            <h4>Fidelidade às Escrituras</h4>
+            <p>
+              Os versículos exibidos no Dicionário Bíblico, no Refúgio e nas referências são carregados diretamente do
+              texto integral das traduções ACF, NVI e ARA, sem comentários desnecessários.
+            </p>
+          </div>
+        </div>
+        <div class="overview-key-verse">
+          <strong>Todos os pacotes e histórico de versões:</strong>
+          <a href="https://github.com/carlosguedes-dev/verbo-vivo/releases" target="_blank" rel="noopener noreferrer"
+            class="btn-link-subtle" style="margin-left: 0.4rem;">
+            Acessar GitHub Releases →
+          </a>
+        </div>
+      </aside>
+    </section>
+
+    <!-- SECTION 2: RECURSOS -->
+    <section id="section-recursos" class="tab-panel" aria-labelledby="heading-recursos">
+      <header class="section-header">
+        <div>
+          <h2 id="heading-recursos" class="page-title">O que há no Verbo Vivo</h2>
+          <p class="page-desc">
+            Cinco áreas diretas, autoexplicativas e centradas nas Escrituras Sagradas.
+          </p>
+        </div>
+      </header>
+
+      <div class="features-grid">
+        <article class="feature-card">
+          <span class="meta-kicker">Escrituras</span>
+          <h3>Bíblia Sagrada (ACF, NVI e ARA)</h3>
+          <p>
+            Leitura limpa dos 66 livros canônicos com seletor visual de livros e capítulos, comparador simultâneo entre
+            as 3 traduções, resumo histórico de cada livro, busca global e marca-texto em 4 cores.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <span class="meta-kicker">Consulta de A a Z</span>
+          <h3>Dicionário Bíblico</h3>
+          <p>
+            1.154 palavras e expressões da fé, da vida, personagens e lugares bíblicos — como amor, espírito santo,
+            aborto, casamento, morte e vida pós-morte — respondidas exclusivamente com versículos da Bíblia.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <span class="meta-kicker">Salmos 46:1</span>
+          <h3>Refúgio nas Escrituras</h3>
+          <p>
+            Acesso imediato a versículos bíblicos para momentos de ansiedade, cansaço, arrependimento, luto, solidão,
+            decisões difíceis, tentação, enfermidade e gratidão.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <span class="meta-kicker">Atos 17:11</span>
+          <h3>Tira-Dúvidas Bíblico</h3>
+          <p>
+            Estudos objetivos sobre salvação, vida cristã, doutrina, apologética, família e eternidade, acompanhados de
+            passagens clicáveis que abrem direto no capítulo.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <span class="meta-kicker">Estudo Pessoal</span>
+          <h3>Minhas Marcações</h3>
+          <p>
+            Organize todos os versículos que você grifou (Promessa, Doutrina, Sabedoria, Adoração) e suas anotações
+            pessoais com busca e filtros locais no seu aparelho.
+          </p>
+        </article>
       </div>
     </section>
 
-    <!-- Main Download Workspace -->
-    <main class="main-workspace container">
-      <!-- SECTION 1: DOWNLOADS -->
-      <section id="section-downloads" class="tab-panel active" aria-labelledby="heading-downloads">
-        <header class="section-header">
-          <div>
-            <h2 id="heading-downloads" class="page-title">Baixar Verbo Vivo</h2>
-            <p class="page-desc">
-              Gratuito, sem anúncios e 100% offline com os 66 livros da Bíblia em ACF, NVI e ARA embarcados no aplicativo.
-            </p>
-          </div>
-          <span class="section-stat-chip">Versão 3.2.1</span>
-        </header>
-
-        <div class="download-platforms-grid">
-          <!-- CARD 1: ANDROID -->
-          <article id="card-platform-android" class="platform-card">
-            <div class="platform-card-top">
-              <div class="platform-header-row">
-                <div class="platform-icon-box" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                  </svg>
-                </div>
-                <span id="badge-android" class="platform-badge">Android 8.0+ • .APK</span>
-              </div>
-
-              <h3 class="platform-title">Android</h3>
-              <p class="platform-desc">
-                Pacote oficial instalável para celulares e tablets Android, com toda a Bíblia (ACF, NVI e ARA) e o Dicionário Bíblico funcionando sem internet.
-              </p>
-
-              <ul class="platform-specs-list">
-                <li>Arquivo: <strong>Verbo-Vivo-Android.apk</strong></li>
-                <li>Bíblia Completa Offline (66 Livros • 3 Traduções)</li>
-                <li>Dicionário Bíblico, Refúgio, Tira-Dúvidas e Marcações</li>
-              </ul>
-            </div>
-
-            <div class="platform-actions">
-              <a
-                href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-Android.apk"
-                class="btn-download-primary"
-                download="Verbo-Vivo-Android.apk"
-              >
-                Baixar para Android (.APK)
-              </a>
-              <button type="button" class="btn-download-secondary" data-go-install="android">
-                Ver instruções de instalação
-              </button>
-            </div>
-          </article>
-
-          <!-- CARD 2: IPHONE / IOS -->
-          <article id="card-platform-ios" class="platform-card">
-            <div class="platform-card-top">
-              <div class="platform-header-row">
-                <div class="platform-icon-box" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="6" y="2" width="12" height="20" rx="3"></rect>
-                    <line x1="10" y1="5" x2="14" y2="5"></line>
-                    <circle cx="12" cy="18" r="1"></circle>
-                  </svg>
-                </div>
-                <span id="badge-ios" class="platform-badge">iPhone & iPad • iOS 15+</span>
-              </div>
-
-              <h3 class="platform-title">iPhone (iOS)</h3>
-              <p class="platform-desc">
-                Disponível como pacote <strong>.IPA</strong> (para instalação via AltStore / Sideloadly) ou instalação direta na Tela de Início do Safari com suporte offline.
-              </p>
-
-              <ul class="platform-specs-list">
-                <li>Arquivo: <strong>Verbo-Vivo-iOS.ipa</strong></li>
-                <li>Compatível com Tela de Início do iOS (sem computador)</li>
-                <li>Adaptação nativa à barra superior e modo claro/escuro</li>
-              </ul>
-            </div>
-
-            <div class="platform-actions">
-              <a
-                href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-iOS.ipa"
-                class="btn-download-primary"
-                download="Verbo-Vivo-iOS.ipa"
-              >
-                Baixar para iPhone (.IPA)
-              </a>
-              <a href="./app.html" class="btn-download-secondary">
-                Instalar direto na Tela de Início (iOS)
-              </a>
-            </div>
-          </article>
-
-          <!-- CARD 3: WINDOWS -->
-          <article id="card-platform-windows" class="platform-card">
-            <div class="platform-card-top">
-              <div class="platform-header-row">
-                <div class="platform-icon-box" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                  </svg>
-                </div>
-                <span id="badge-windows" class="platform-badge">Windows 10 / 11 (64-bit)</span>
-              </div>
-
-              <h3 class="platform-title">Windows</h3>
-              <p class="platform-desc">
-                Aplicativo desktop para leitura e estudo das Escrituras no computador, com comparação instantânea de traduções, busca rápida e anotações.
-              </p>
-
-              <ul class="platform-specs-list">
-                <li>Instalador: <strong>Verbo-Vivo-Windows-Setup.exe</strong></li>
-                <li>Portátil: <strong>Verbo-Vivo-Windows-Portable.exe</strong></li>
-                <li>Execução 100% offline sem anúncios</li>
-              </ul>
-            </div>
-
-            <div class="platform-actions">
-              <a
-                href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-Windows-Setup.exe"
-                class="btn-download-primary"
-                download="Verbo-Vivo-Windows-Setup.exe"
-              >
-                Baixar Instalador Windows (.EXE)
-              </a>
-              <a
-                href="https://github.com/carlosguedes-dev/verbo-vivo/releases/latest/download/Verbo-Vivo-Windows-Portable.exe"
-                class="btn-download-secondary"
-                download="Verbo-Vivo-Windows-Portable.exe"
-              >
-                Baixar Versão Portátil (Sem Instalação)
-              </a>
-            </div>
-          </article>
-        </div>
-
-        <aside class="drawer-panel">
-          <div class="drawer-header">
-            <div>
-              <span class="meta-kicker">Código aberto e privacidade</span>
-              <h3 class="drawer-title">Downloads oficiais no GitHub Releases</h3>
-            </div>
-            <div class="overview-meta-right">
-              <span class="meta-chip">Versão: <strong>3.2.1</strong></span>
-              <span class="meta-chip">Licença: <strong>MIT</strong></span>
-              <span class="meta-chip">Anúncios: <strong>Nenhum</strong></span>
-            </div>
-          </div>
-          <div class="overview-body-grid">
-            <div class="overview-col">
-              <h4>100% Offline e Privado</h4>
-              <p>
-                Todos os 66 livros canônicos, 1.189 capítulos e mais de 31.100 versículos nas traduções ACF, NVI e ARA vêm integrados no aplicativo. Seus grifos e anotações ficam armazenados exclusivamente no seu dispositivo.
-              </p>
-            </div>
-            <div class="overview-col overview-col-accent">
-              <h4>Fidelidade às Escrituras</h4>
-              <p>
-                Os versículos exibidos no Dicionário Bíblico, no Refúgio e nas referências são carregados diretamente do texto integral das traduções ACF, NVI e ARA, sem comentários desnecessários.
-              </p>
-            </div>
-          </div>
-          <div class="overview-key-verse">
-            <strong>Todos os pacotes e histórico de versões:</strong>
-            <a
-              href="https://github.com/carlosguedes-dev/verbo-vivo/releases"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-link-subtle"
-              style="margin-left: 0.4rem;"
-            >
-              Acessar GitHub Releases →
-            </a>
-          </div>
-        </aside>
-      </section>
-
-      <!-- SECTION 2: RECURSOS -->
-      <section id="section-recursos" class="tab-panel" aria-labelledby="heading-recursos">
-        <header class="section-header">
-          <div>
-            <h2 id="heading-recursos" class="page-title">O que há no Verbo Vivo</h2>
-            <p class="page-desc">
-              Cinco áreas diretas, autoexplicativas e centradas nas Escrituras Sagradas.
-            </p>
-          </div>
-        </header>
-
-        <div class="features-grid">
-          <article class="feature-card">
-            <span class="meta-kicker">Escrituras</span>
-            <h3>Bíblia Sagrada (ACF, NVI e ARA)</h3>
-            <p>
-              Leitura limpa dos 66 livros canônicos com seletor visual de livros e capítulos, comparador simultâneo entre as 3 traduções, resumo histórico de cada livro, busca global e marca-texto em 4 cores.
-            </p>
-          </article>
-
-          <article class="feature-card">
-            <span class="meta-kicker">Consulta de A a Z</span>
-            <h3>Dicionário Bíblico</h3>
-            <p>
-              650 palavras e expressões da fé e da vida — como amor, espírito santo, aborto, casamento, morte e vida pós-morte — organizadas de A a Z e respondidas exclusivamente com versículos da Bíblia.
-            </p>
-          </article>
-
-          <article class="feature-card">
-            <span class="meta-kicker">Salmos 46:1</span>
-            <h3>Refúgio nas Escrituras</h3>
-            <p>
-              Acesso imediato a versículos bíblicos para momentos de ansiedade, cansaço, arrependimento, luto, solidão, decisões difíceis, tentação, enfermidade e gratidão.
-            </p>
-          </article>
-
-          <article class="feature-card">
-            <span class="meta-kicker">Atos 17:11</span>
-            <h3>Tira-Dúvidas Bíblico</h3>
-            <p>
-              Estudos objetivos sobre salvação, vida cristã, doutrina, apologética, família e eternidade, acompanhados de passagens clicáveis que abrem direto no capítulo.
-            </p>
-          </article>
-
-          <article class="feature-card">
-            <span class="meta-kicker">Estudo Pessoal</span>
-            <h3>Minhas Marcações</h3>
-            <p>
-              Organize todos os versículos que você grifou (Promessa, Doutrina, Sabedoria, Adoração) e suas anotações pessoais com busca e filtros locais no seu aparelho.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <!-- SECTION 3: COMO INSTALAR -->
-      <section id="section-instalacao" class="tab-panel" aria-labelledby="heading-instalacao">
-        <header class="section-header">
-          <div>
-            <h2 id="heading-instalacao" class="page-title">Como instalar no seu dispositivo</h2>
-            <p class="page-desc">
-              Passo a passo direto para Android, iPhone (iOS) e Windows.
-            </p>
-          </div>
-        </header>
-
-        <div class="install-steps-grid">
-          <div class="clean-panel">
-            <span class="meta-kicker">Android</span>
-            <h3 class="panel-heading">Instalando no Android (.APK)</h3>
-            <ol class="install-list">
-              <li>Toque em <strong>Baixar para Android (.APK)</strong> para baixar o arquivo <code>Verbo-Vivo-Android.apk</code>.</li>
-              <li>Abra o arquivo na barra de notificações ou na pasta <em>Downloads</em> do aparelho.</li>
-              <li>Caso o Android peça permissão para instalar do navegador, autorize e toque em <strong>Instalar</strong>.</li>
-              <li>O aplicativo ficará disponível na sua tela inicial funcionando 100% offline.</li>
-            </ol>
-          </div>
-
-          <div class="clean-panel">
-            <span class="meta-kicker">iPhone e iPad</span>
-            <h3 class="panel-heading">Instalando no iPhone (iOS)</h3>
-            <ol class="install-list">
-              <li><strong>Pelo Safari (mais rápido):</strong> toque em <em>Instalar direto na Tela de Início</em>, depois no botão <strong>Compartilhar</strong> do Safari e escolha <strong>Adicionar à Tela de Início</strong>.</li>
-              <li><strong>Arquivo .IPA:</strong> baixe <code>Verbo-Vivo-iOS.ipa</code> e instale via <em>AltStore</em> ou <em>Sideloadly</em>.</li>
-              <li>Abra o Verbo Vivo pela tela inicial em tela cheia e sem precisar de internet.</li>
-            </ol>
-          </div>
-
-          <div class="clean-panel">
-            <span class="meta-kicker">Windows 10 e 11</span>
-            <h3 class="panel-heading">Instalando no Windows (.EXE)</h3>
-            <ol class="install-list">
-              <li>Clique em <strong>Baixar Instalador Windows (.EXE)</strong> ou escolha a <strong>Versão Portátil</strong>.</li>
-              <li>Execute <code>Verbo-Vivo-Windows-Setup.exe</code> (caso o SmartScreen exiba aviso de editor independente, clique em <em>Mais informações → Executar assim mesmo</em>).</li>
-              <li>Um atalho será criado na Área de Trabalho e no Menu Iniciar pronto para uso offline.</li>
-            </ol>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- Quiet Footer -->
-    <footer class="site-footer">
-      <div class="container footer-row">
+    <!-- SECTION 3: COMO INSTALAR -->
+    <section id="section-instalacao" class="tab-panel" aria-labelledby="heading-instalacao">
+      <header class="section-header">
         <div>
-          <strong class="footer-brand">Verbo Vivo</strong>
-          <span class="footer-motto">Hebreus 4:12 • Aplicativo Oficial para Android, iPhone e Windows</span>
+          <h2 id="heading-instalacao" class="page-title">Como instalar no seu dispositivo</h2>
+          <p class="page-desc">
+            Passo a passo direto para Android, iPhone (iOS) e Windows.
+          </p>
         </div>
-        <div class="footer-right">
-          Desenvolvido por
-          <a href="https://github.com/carlosguedes-dev" target="_blank" rel="noopener noreferrer">Carlos Guedes</a>
+      </header>
+
+      <div class="install-steps-grid">
+        <div class="clean-panel">
+          <span class="meta-kicker">Android</span>
+          <h3 class="panel-heading">Instalando no Android (.APK)</h3>
+          <ol class="install-list">
+            <li>Toque em <strong>Baixar para Android (.APK)</strong> para baixar o arquivo
+              <code>Verbo-Vivo-Android.apk</code>.</li>
+            <li>Abra o arquivo na barra de notificações ou na pasta <em>Downloads</em> do aparelho.</li>
+            <li>Caso o Android peça permissão para instalar do navegador, autorize e toque em <strong>Instalar</strong>.
+            </li>
+            <li>O aplicativo ficará disponível na sua tela inicial funcionando 100% offline.</li>
+          </ol>
+        </div>
+
+        <div class="clean-panel">
+          <span class="meta-kicker">iPhone e iPad</span>
+          <h3 class="panel-heading">Instalando no iPhone (iOS)</h3>
+          <ol class="install-list">
+            <li><strong>Pelo Safari (mais rápido):</strong> toque em <em>Instalar direto na Tela de Início</em>, depois
+              no botão <strong>Compartilhar</strong> do Safari e escolha <strong>Adicionar à Tela de Início</strong>.
+            </li>
+            <li><strong>Arquivo .IPA:</strong> baixe <code>Verbo-Vivo-iOS.ipa</code> e instale via <em>AltStore</em> ou
+              <em>Sideloadly</em>.</li>
+            <li>Abra o Verbo Vivo pela tela inicial em tela cheia e sem precisar de internet.</li>
+          </ol>
+        </div>
+
+        <div class="clean-panel">
+          <span class="meta-kicker">Windows 10 e 11</span>
+          <h3 class="panel-heading">Instalando no Windows (.EXE)</h3>
+          <ol class="install-list">
+            <li>Clique em <strong>Baixar Instalador Windows (.EXE)</strong> ou escolha a <strong>Versão
+                Portátil</strong>.</li>
+            <li>Execute <code>Verbo-Vivo-Windows-Setup.exe</code> (caso o SmartScreen exiba aviso de editor
+              independente, clique em <em>Mais informações → Executar assim mesmo</em>).</li>
+            <li>Um atalho será criado na Área de Trabalho e no Menu Iniciar pronto para uso offline.</li>
+          </ol>
         </div>
       </div>
-    </footer>
+    </section>
+  </main>
 
-    <script type="module" src="/src/download.ts"></script>
-  </body>
+  <!-- Quiet Footer -->
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div>
+        <strong class="footer-brand">Verbo Vivo</strong>
+        <span class="footer-motto">Hebreus 4:12 • Aplicativo Oficial para Android, iPhone e Windows</span>
+      </div>
+      <div class="footer-right">
+        Desenvolvido por
+        <a href="https://github.com/carlosguedes-dev" target="_blank" rel="noopener noreferrer">Carlos Guedes</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/download.ts"></script>
+</body>
+
 </html>
